@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>OFF DAVOS — Davos, while WEF is happening to it</title>
+<meta name="description" content="Independent live info for WEF week in Davos: weather, trains, ski conditions, who's where, and how Switzerland actually works.">
+<meta property="og:title" content="OFF DAVOS">
+<meta property="og:description" content="We don't explain WEF. We explain Davos while WEF is happening to it.">
+<meta name="theme-color" content="#F5C400">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F5C400'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='900' font-size='13' text-anchor='middle' fill='%23151515'%3EOFF%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <a class="mark" href="#top" aria-label="OFF DAVOS home"><b>OFF</b>DAVOS</a>
+    <nav aria-label="Sections">
+      <a class="live" href="#live"><span class="dot" aria-hidden="true"></span>Live</a>
+      <a href="#map">Map</a>
+      <a href="#survive">Survive CH</a>
+      <a href="#stories">Stories</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <p class="proto"><strong>Prototype.</strong> Weather, departures and ski conditions are live. The rest is example content.</p>
+
+
+  <!-- LIVE -->
+  <section id="live" aria-labelledby="live-h">
+    <div class="sechead">
+      <h2 id="live-h">Live</h2>
+      <p>The reason to open OFF DAVOS every morning. Everything carries a status, a source and a time.</p>
+    </div>
+
+    <div class="livegrid">
+      <div class="panel span8">
+        <h3>What changed today <span class="label tab" id="today">Tue · example</span></h3>
+        <div class="feed" id="feed"></div>
+        <div class="legend">
+          <span><span class="badge b-known">KNOWN</span>confirmed by an official source</span>
+          <span><span class="badge b-think">WE THINK</span>seen by us, not yet official</span>
+          <span><span class="badge b-unconf">NOT YET CONFIRMED</span>reported, unchecked</span>
+        </div>
+      </div>
+
+      <div class="panel span4">
+        <h3>Davos <span class="label"><span class="livetag" id="wx-tag">loading</span> 1,560 m</span></h3>
+        <div class="wx">
+          <div class="temp tab" id="wx-temp">–</div>
+          <div style="padding-bottom:8px"><span id="wx-desc">Checking the sky…</span><br><span class="label" id="wx-feels"></span></div>
+        </div>
+        <dl class="wxrows tab">
+          <dt>Today</dt><dd id="wx-range">–</dd>
+          <dt>Wind</dt><dd id="wx-wind">–</dd>
+          <dt>New snow today</dt><dd id="wx-snow">–</dd>
+          <dt>Tomorrow</dt><dd id="wx-tmrw">–</dd>
+          <dt>Sunset</dt><dd id="wx-sunset">–</dd>
+        </dl>
+        <p class="note" id="wx-note">Shoes with grip beat shoes that match the suit.</p>
+        <p class="src-line" id="wx-src">Source: Open-Meteo (MeteoSwiss models)</p>
+      </div>
+
+      <div class="panel span7">
+        <h3>Departures <span class="label"><span class="livetag" id="dep-tag">loading</span> Davos Platz</span></h3>
+        <div class="boardwrap">
+          <table class="board">
+            <thead><tr><th>Time</th><th>Line</th><th>To</th><th>Pl.</th></tr></thead>
+            <tbody id="dep-body"><tr><td colspan="4" class="empty">Asking the timetable…</td></tr></tbody>
+          </table>
+        </div>
+        <p class="src-line" id="dep-src">Source: Swiss public transport timetable (transport.opendata.ch)</p>
+        <p class="note">Check the coach number, not just the train. Some trains split on the way, and only one half comes to Davos.</p>
+      </div>
+
+      <div class="panel span5">
+        <h3>Best skiing today <span class="label"><span class="livetag" id="ski-tag">loading</span></span></h3>
+        <p class="pick" id="ski-pick">Comparing the slopes…</p>
+        <div class="mtn" id="ski-body"></div>
+        <p class="src-line" id="ski-src">Based on weather-model data for each area's upper slopes (Open-Meteo), not on lift reports. Check which lifts are open on <a href="https://www.davos.ch" target="_blank" rel="noopener">davos.ch</a> before you go.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section id="map" aria-labelledby="map-h">
+    <div class="sechead">
+      <h2 id="map-h">Map</h2>
+      <p>Pick a topic. See who is talking about it and where. Then go to their own site for the program.</p>
+    </div>
+    <p class="chain" aria-label="How the map works"><span>Topic</span><span>→</span><span>Who's here</span><span>→</span><span>Where</span><span>→</span><span>Official site</span></p>
+
+    <div class="chips" id="chips" role="group" aria-label="Filter by topic"></div>
+
+    <div class="maprow">
+      <div class="mapbox">
+        <svg id="svg" viewBox="0 0 800 470" role="img" aria-label="Schematic map of Davos from Davos Platz in the southwest to Davos Dorf in the northeast">
+          <rect width="800" height="470" fill="var(--snow)"/>
+          <!-- slopes either side of the valley -->
+          <path d="M0 0 H800 V60 C640 40 520 90 420 110 C300 140 160 200 0 250 Z" fill="var(--terrain)"/>
+          <path d="M0 470 H800 V300 C680 300 560 330 470 370 C360 410 200 440 0 455 Z" fill="var(--terrain)"/>
+          <g fill="none" stroke="var(--line)" stroke-width="1">
+            <path d="M0 210 C160 165 300 110 420 85 C520 65 640 25 800 30"/>
+            <path d="M0 170 C160 125 300 75 420 55 C520 40 640 5 800 5"/>
+            <path d="M0 462 C200 445 360 410 470 380 C560 345 680 315 800 315"/>
+          </g>
+          <!-- lake -->
+          <path d="M655 70 C700 55 760 60 775 95 C785 125 745 150 705 145 C670 140 640 110 655 70 Z" fill="var(--water)"/>
+          <text x="712" y="108" font-family="IBM Plex Sans, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle" font-style="italic">Davosersee</text>
+          <!-- railway -->
+          <path d="M40 430 C180 395 300 360 400 320 C500 280 590 235 640 190 C665 165 690 150 720 150" fill="none" stroke="var(--rail)" stroke-width="3" stroke-dasharray="10 6"/>
+          <!-- Talstrasse -->
+          <path d="M60 395 C200 360 320 320 420 280 C520 240 590 205 650 175" fill="none" stroke="var(--road)" stroke-width="7"/>
+          <!-- Promenade -->
+          <path d="M70 360 C210 320 330 270 430 235 C530 200 600 165 660 135" fill="none" stroke="var(--road)" stroke-width="9"/>
+          <path d="M70 360 C210 320 330 270 430 235 C530 200 600 165 660 135" fill="none" stroke="var(--line)" stroke-width="1"/>
+          <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)" letter-spacing="1">
+            <text transform="translate(250 304) rotate(-19)">PROMENADE</text>
+            <text transform="translate(285 345) rotate(-20)">TALSTRASSE</text>
+          </g>
+          <!-- stations -->
+          <g font-family="IBM Plex Sans, sans-serif" font-size="11" fill="var(--ink)">
+            <rect x="172" y="378" width="12" height="12" fill="var(--ink)"/><text x="190" y="400">Bhf Davos Platz</text>
+            <rect x="618" y="198" width="12" height="12" fill="var(--ink)"/><text x="560" y="225">Bhf Davos Dorf</text>
+          </g>
+          <!-- district names -->
+          <g font-family="Big Shoulders Display, Arial Narrow, sans-serif" font-weight="900" font-size="34" fill="var(--ink)" opacity=".85">
+            <text x="40" y="300">DAVOS PLATZ</text>
+            <text x="560" y="300">DAVOS DORF</text>
+          </g>
+          <!-- congress centre -->
+          <g>
+            <rect x="372" y="236" width="38" height="22" fill="none" stroke="var(--ink)" stroke-width="2"/>
+            <text x="391" y="226" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink)" text-anchor="middle">CONGRESS CENTRE</text>
+            <text x="391" y="272" font-family="IBM Plex Sans, sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">WEF venue · badge only</text>
+          </g>
+          <!-- mountain access -->
+          <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">
+            <text x="555" y="58" id="lbl-parsenn">↑ PARSENN</text>
+            <text x="190" y="150">↑ SCHATZALP</text>
+            <text x="150" y="458" id="lbl-jakobshorn">↓ JAKOBSHORN</text>
+            <text x="680" y="250" id="lbl-pischa">→ PISCHA</text>
+            <text x="16" y="440" id="lbl-rinerhorn">↓ RINERHORN</text>
+            <text x="640" y="22" id="lbl-madrisa">↗ MADRISA (KLOSTERS)</text>
+          </g>
+          <!-- scale -->
+          <g transform="translate(560 440)">
+            <line x1="0" y1="0" x2="80" y2="0" stroke="var(--ink)" stroke-width="2"/>
+            <line x1="0" y1="-4" x2="0" y2="4" stroke="var(--ink)" stroke-width="2"/>
+            <line x1="80" y1="-4" x2="80" y2="4" stroke="var(--ink)" stroke-width="2"/>
+            <text x="90" y="4" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink)">≈ 500 m · schematic</text>
+          </g>
+          <g id="pins"></g>
+        </svg>
+        <div class="maptools">
+          <label for="localToggle"><input type="checkbox" id="localToggle" checked> Show local picks</label>
+          <span id="count" class="tab"></span>
+        </div>
+      </div>
+
+      <div class="list" id="list" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- SURVIVE CH -->
+  <section id="survive" aria-labelledby="survive-h">
+    <div class="sechead">
+      <h2 id="survive-h">Survive CH</h2>
+      <p>Switzerland in six rules. Read it on the train up.</p>
+    </div>
+    <div class="know">
+      <div class="k"><span class="label">01 · Time</span><h3>08:21 means 08:21.</h3><p>Swiss trains leave on the minute. Your meeting may run late. The train will not wait for it.</p></div>
+      <div class="k"><span class="label">02 · Trains</span><h3>Your train may split in half.</h3><p>Being on the right train is not enough. You need the right half of it.</p><a href="#s-train">How it works →</a></div>
+      <div class="k"><span class="label">03 · Geography</span><h3>Davos Platz ≠ Davos Dorf.</h3><p>Same Davos, two stations, opposite ends of town. Book the wrong one and you get a walk in the snow.</p><a href="#map">See the map →</a></div>
+      <div class="k"><span class="label">04 · Plugs</span><h3>Your charger may not fit.</h3><p>Swiss sockets take slim two-pin EU plugs, but not the chunky round German ones. Bring an adapter. Everyone else forgot theirs.</p></div>
+      <div class="k"><span class="label">05 · Water</span><h3>Tap water is free and excellent.</h3><p>Drink plenty of it. At 1,560 m, the second glass of wine counts like the third.</p></div>
+      <div class="k"><span class="label">06 · Language</span><h3>Say "Grüezi".</h3><p>That's hello. Everyone here speaks English, but greeting people in the local word gets you a lot further.</p></div>
+    </div>
+  </section>
+
+  <!-- STORIES -->
+  <section id="stories" aria-labelledby="stories-h">
+    <div class="sechead">
+      <h2 id="stories-h">Stories</h2>
+      <p>Few stories. Each one tells you how something actually works.</p>
+    </div>
+
+
+    <div class="notes">
+      <article class="story" id="s-590">
+        <div class="tell">
+          <span class="label">Money / Local reality</span>
+          <h3>The most expensive CHF 5.90 in Davos.</h3>
+          <p>It is the smallest number on your hotel bill, and the one nobody reads. It is also the one that gets you a free bus.</p>
+        </div>
+        <div class="how">
+          <span class="label">How it works</span>
+          <ul>
+            <li><b>The Gästetaxe (Kurtaxe).</b> Every overnight guest aged 12 and over pays CHF 5.90 per night in a hotel or holiday rental. Group lodgings and youth hostels: CHF 4.00. Children 6 to 11 pay nothing but are still registered.</li>
+            <li><b>What you get back.</b> Hotel and holiday-rental guests receive the Davos Klosters Premium Card. Ask for it at check-in.</li>
+            <li><b>The free bus.</b> With the card, local buses are free within the defined fare zones. Side valleys (Dischma, Clavadel, Monstein, Sertig, Wiesen) only count if you stay there.</li>
+            <li><b>Not included.</b> The train between Davos and Klosters is not listed as part of the card.</li>
+          </ul>
+          <p class="srcs">Sources: <a href="https://www.dkinfo.ch/gaestetaxen-davos/ich-bin-dauermieter-in-einer-ferienwohnung/und-ich-vermiete-meine-wohnung/feriengaeste-wochenweise-kommerzielle-vermietung/" target="_blank" rel="noopener">Davos guest tax rates</a> · <a href="https://www.davos.ch/en/information/guest-information/guest-card" target="_blank" rel="noopener">davos.ch guest card</a></p>
+        </div>
+      </article>
+      <article class="story" id="s-train">
+        <div class="tell">
+          <span class="label">Getting there / Trains</span>
+          <h3>Your train may split in half.</h3>
+          <p>You can do everything right, board the right train at the right minute, and still wake up on the way to St. Moritz.</p>
+        </div>
+        <div class="how">
+          <span class="label">How it works</span>
+          <ul>
+            <li><b>Since December 2022</b> the Rhaetian Railway runs some trains from Landquart as two or more units coupled together.</li>
+            <li><b>At Klosters Platz the train splits.</b> One part continues to Davos, the other to St. Moritz.</li>
+            <li><b>Find your half.</b> The destination is written on the driver's cab and on the doors, and screens next to the doors show it too. Board the part that says Davos Platz.</li>
+            <li><b>The warning sign.</b> A symbol of one point with two arrows splitting off marks these trains in the SBB app and at stations. If you see it, check your carriage.</li>
+          </ul>
+          <p class="srcs">Source: <a href="https://www.rhb.ch/de/aktuelles/blog/achtung-fertig-fluegeln/" target="_blank" rel="noopener">Rhaetian Railway (RhB)</a></p>
+        </div>
+      </article>
+    </div>
+    <p class="quote">Same people.<br>Different altitude.</p>
+  </section>
+
+  <footer>
+    <div class="rule">Useful first.<br>Funny second.<br>Bullshit never.</div>
+    <div>
+      <p>Independent. Not affiliated with the World Economic Forum. Partner entries are always labelled. Imprint · Privacy (Swiss nDSG) · Corrections: tell us and we fix it, with a timestamp.</p>
+    </div>
+  </footer>
+</main>
+<script src="js/app.js"></script>
+</body>
+</html>
