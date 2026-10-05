@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" style="background:#221D19;">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SOS · OFF DAVOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700;0,6..72,800;1,6..72,400;1,6..72,500;1,6..72,600&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+<section class="contact-strip" id="sos" style="min-height:60vh; background: var(--yellow); color: var(--on-yellow);">
+  <div class="wrap" style="display:flex; flex-direction:column; gap:28px;">
+    <p class="label-dim" style="color: var(--on-yellow);">SOS</p>
+    <h2 class="display-2">If it is going wrong, <em style="font-weight:500;">call first.</em></h2>
+    <div class="footer-sos" style="max-width: 720px;">
+      <div><b>117</b><span style="color: var(--on-yellow);">Police</span></div>
+      <div><b>144</b><span style="color: var(--on-yellow);">Ambulance / Rescue</span></div>
+      <div><b>118</b><span style="color: var(--on-yellow);">Fire</span></div>
+      <div><b>1414</b><span style="color: var(--on-yellow);">Rega air rescue</span></div>
+      <div><b>112</b><span style="color: var(--on-yellow);">European emergency</span></div>
+    </div>
+    <p style="font-family: var(--font-ui); font-size: 14px;">Avalanche bulletin (not an emergency number): White Risk app or <a href="https://www.slf.ch/en/">slf.ch</a></p>
+  </div>
+</section>
+</main>
+<div id="site-footer"></div>
+<div id="site-tabbar"></div>
+<script src="../components.js"></script>
+<script>OffDavos.renderChrome({ basePath: "../", activePath: "sos", variant: "dark" });</script>
+</body>
+</html>
