@@ -1,20 +1,16 @@
 /* OFF DAVOS shared chrome: header, footer, mobile tab bar, copy buttons, Box 01 form. */
 (function () {
-  // Top menu: Live · Map · Guide · Stories. Ski and SOS are Guide sub-chapters (10 Oct 2026).
   var NAV = [
-    { href: 'index.html#live', label: 'Live', key: 'live' },
+    { href: 'index.html', label: 'Live', key: 'live' },
     { href: 'index.html#map', label: 'Map', key: 'map' },
     { href: 'guide/index.html', label: 'Guide', key: 'guide' },
+    { href: 'ski/index.html', label: 'Ski', key: 'ski' },
     { href: 'stories/index.html', label: 'Stories', key: 'stories' }
   ];
 
-  // Pages that belong to the Guide light up "Guide" in the menu.
-  var PARENT = { ski: 'guide', sos: 'guide' };
-
-  function links(base, active) {
-    var current = PARENT[active] || active;
+  function links(base, active, cls) {
     return NAV.map(function (n) {
-      var cur = current === n.key ? ' aria-current="page"' : '';
+      var cur = active === n.key ? ' aria-current="page"' : '';
       return '<a href="' + base + n.href + '"' + cur + '>' + n.label + '</a>';
     }).join('');
   }
@@ -34,15 +30,19 @@
 
     var footer = document.getElementById('site-footer');
     if (footer) {
-      // Emergency numbers live only on the SOS page. The footer just points there.
       footer.innerHTML =
         '<footer class="site-footer"><div class="wrap">' +
         '<div class="footer-grid">' +
         '<div><p class="footer-word">OFF DAVOS</p><p class="footer-tag">Same people. Different altitude.</p></div>' +
-        '<div><p class="label-dim" style="margin-bottom:16px;">If it is going wrong</p>' +
-        '<p><a href="' + base + 'sos/index.html">Emergency numbers → SOS</a></p>' +
-        '</div></div>' +
-        '<div class="footer-legal"><span>Independent. Not affiliated with or endorsed by the World Economic Forum.</span><span>© OFF DAVOS</span></div>' +
+        '<div><p class="label-dim" style="margin-bottom:16px;">If it is going wrong, call first</p>' +
+        '<div class="footer-sos">' +
+        '<div><b>117</b><span>Police</span></div>' +
+        '<div><b>144</b><span>Ambulance</span></div>' +
+        '<div><b>118</b><span>Fire</span></div>' +
+        '<div><b>1414</b><span>Rega air rescue</span></div>' +
+        '<div><b>112</b><span>European emergency</span></div>' +
+        '</div><p style="margin-top:12px;"><a href="' + base + 'sos/index.html">SOS page →</a></p></div></div>' +
+        '<div class="footer-legal"><span><a href="' + base + 'about/index.html">About</a> · Independent. Not affiliated with or endorsed by the World Economic Forum.</span><span>© OFF DAVOS</span></div>' +
         '</div></footer>';
     }
 

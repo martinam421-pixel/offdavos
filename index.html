@@ -1,61 +1,546 @@
 <!doctype html>
-<html lang="en" style="background:#221D19;">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>DAVOS HAS TWO TRAIN STATIONS. EXCEPT DURING WEF. · OFF DAVOS</title>
+<title>OFF DAVOS — Live Davos, Map & Guide</title>
+<meta name="description" content="Independent live information, practical Davos guidance, skiing conditions and a map for WEF week. Useful first. Funny second. Bullshit never.">
+<meta name="theme-color" content="#F5C400">
+<meta property="og:title" content="OFF DAVOS">
+<meta property="og:description" content="Live Davos. What changed, weather, trains, skiing and who is where.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://off-davos.com/">
+<link rel="canonical" href="https://off-davos.com/">
+
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700;0,6..72,800;1,6..72,400;1,6..72,500;1,6..72,600&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Accent borrowed from Swiss hiking signposts: yellow with black type. */
+:root{
+  --bg:#EDF0EF; --surface:#FFFFFF; --ink:#13202B; --muted:#5A6770; --line:#D2D8D9;
+  --sign:#F5C400; --sign-ink:#151515; --snow:#F8FAFA; --terrain:#DDE4E2; --water:#BFD3DC; --road:#FFFFFF; --rail:#6C7880;
+  --known:#2E7D4F; --think:#A86B00; --unconf:#8A3A3A;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E151B; --surface:#16212A; --ink:#E7EDEF; --muted:#93A2AA; --line:#2A3945;
+  --snow:#121C24; --terrain:#1B2832; --water:#22404F; --road:#34444F; --rail:#7E8B93;
+  --known:#5FBF86; --think:#E2A63A; --unconf:#E08484; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E151B; --surface:#16212A; --ink:#E7EDEF; --muted:#93A2AA; --line:#2A3945;
+  --snow:#121C24; --terrain:#1B2832; --water:#22404F; --road:#34444F; --rail:#7E8B93;
+  --known:#5FBF86; --think:#E2A63A; --unconf:#E08484; color-scheme:dark}
+
+*{box-sizing:border-box}
+img{max-width:100%}
+[hidden]:not([hidden=until-found i]){display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-inline:16px;padding-block:0}
+.wrap{max-width:1080px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sign);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);text-transform:uppercase;line-height:.95;margin:0;text-wrap:balance;letter-spacing:.01em}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tab{font-variant-numeric:tabular-nums}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding:10px 16px}
+.bar .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.mark{font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:.02em;text-decoration:none;display:flex;gap:6px;align-items:center}
+.mark b{background:var(--sign);color:var(--sign-ink);padding:0 6px}
+nav{display:flex;gap:4px;margin-left:auto}
+nav a{font-family:var(--display);font-weight:700;font-size:18px;text-transform:uppercase;text-decoration:none;padding:6px 12px;border:2px solid transparent}
+nav a.live{background:var(--sign);color:var(--sign-ink);display:flex;align-items:center;gap:6px}
+nav a:hover{border-color:var(--ink)}
+.dot{width:8px;height:8px;border-radius:50%;background:#D7261E;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.dot{animation:none}}
+@media (max-width:480px){nav{margin-left:0;width:100%;justify-content:space-between}nav a{font-size:16px;padding:5px 6px}}
+
+section{padding-block:36px;border-top:2px solid var(--ink)}
+#live{border-top:0;padding-top:16px}
+.sechead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+.sechead h2{font-size:clamp(40px,7vw,64px);font-weight:900}
+.sechead p{margin:0;color:var(--muted);max-width:52ch}
+.open{padding-block:40px 28px}
+.open h1{font-size:clamp(52px,11vw,120px);font-weight:900}
+.open p{margin:16px 0 0;font-size:clamp(20px,2.6vw,28px);line-height:1.2;font-weight:600}
+
+/* LIVE */
+.livegrid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px}
+.panel{background:var(--surface);border:1px solid var(--line);padding:16px;min-width:0}
+.panel h3{font-size:22px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.span4{grid-column:span 4}.span5{grid-column:span 5}.span7{grid-column:span 7}.span8{grid-column:span 8}
+@media (max-width:860px){.span4,.span5,.span7,.span8{grid-column:span 12}}
+.temp{font-family:var(--display);font-weight:900;font-size:72px;line-height:1}
+.wx{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap}
+.wxrows{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:14px;margin-top:10px}
+.wxrows dt{color:var(--muted)}.wxrows dd{margin:0}
+.board{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:14px}
+.board th{text-align:left;font-weight:500;color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:4px 6px;border-bottom:1px solid var(--line)}
+.board td{padding:8px 6px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;vertical-align:top}
+.board td.dest{font-family:var(--body);font-weight:500}
+.late{color:#D7261E;font-weight:600}
+.line{display:inline-block;min-width:30px;text-align:center;background:var(--ink);color:var(--bg);padding:0 5px;font-size:12px}
+.note{font-size:13px;color:var(--muted);margin:10px 0 0}
+.boardwrap{overflow-x:auto}
+
+.feed{display:grid;gap:0}
+.upd{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.upd:last-child{border-bottom:0}
+.upd time{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums}
+.upd p{margin:2px 0 4px}
+.upd .src{font-size:12px;color:var(--muted)}
+.upd.pinned{background:linear-gradient(90deg,color-mix(in srgb,var(--sign) 22%,transparent),transparent 70%);margin-inline:-16px;padding-inline:16px}
+.badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:1px 6px;border:1.5px solid currentColor;margin-right:6px}
+.b-known{color:var(--known)}.b-think{color:var(--think)}.b-unconf{color:var(--unconf)}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}
+
+.live-status{display:flex;gap:14px;flex-wrap:wrap;padding:8px 0 12px;margin-bottom:2px;border-bottom:1px solid var(--line);font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.live-status span{display:flex;align-items:center;gap:5px}
+.live-status i{width:7px;height:7px;border-radius:50%;background:var(--line);display:inline-block}
+.live-status i.on{background:var(--known)}
+.live-status i.off{background:var(--unconf)}
+.live-status i.manual{background:var(--sign);border:1px solid var(--sign-ink)}
+.feed-empty{padding:26px 0 18px}
+.feed-empty .big{font-family:var(--display);font-size:clamp(32px,5vw,48px);font-weight:900;line-height:.95;text-transform:uppercase;margin:0 0 8px}
+.feed-empty p{margin:0;max-width:54ch}
+.feed-empty .quiet{color:var(--muted);font-size:14px;margin-top:8px}
+.feed-rule{font-size:13px;border-top:1px solid var(--line);padding-top:10px;margin:0;color:var(--muted)}
+.feed-rule strong{color:var(--ink)}
+
+/* MAP */
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.chip{font:600 14px var(--body);padding:6px 12px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.chip .n{font-family:var(--mono);font-size:11px;opacity:.7;margin-left:4px}
+.maprow{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:12px;align-items:start}
+@media (max-width:860px){.maprow{grid-template-columns:1fr}}
+.mapbox{background:var(--snow);border:1px solid var(--line);position:relative;overflow:hidden}
+.mapbox svg{display:block;width:100%;height:auto}
+.maptools{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 12px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.maptools label{display:flex;gap:6px;align-items:center;cursor:pointer;color:var(--ink)}
+.pin{cursor:pointer}
+.pin .bg{fill:var(--sign);stroke:var(--sign-ink);stroke-width:1.5}
+.pin text{font:600 11px var(--mono);fill:var(--sign-ink);text-anchor:middle;dominant-baseline:central}
+.pin.local .bg{fill:var(--surface);stroke:var(--ink)}
+.pin.local text{fill:var(--ink)}
+.pin.dim{opacity:.18}
+.pin.sel .bg{stroke-width:3.5}
+.pin:focus{outline:none}.pin:focus-visible .bg{stroke:#D7261E;stroke-width:3.5}
+.list{display:grid;gap:8px;max-height:560px;overflow-y:auto;padding-right:2px}
+.entry{background:var(--surface);border:1px solid var(--line);padding:12px 14px;display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%}
+.entry.sel{border-color:var(--ink);box-shadow:inset 4px 0 0 var(--sign)}
+.entry .num{font:600 12px var(--mono);width:26px;height:26px;display:grid;place-items:center;background:var(--sign);color:var(--sign-ink)}
+.entry.local .num{background:transparent;border:1.5px solid var(--ink);color:var(--ink)}
+.entry h4{margin:0;font-size:16px;line-height:1.25}
+.entry .meta{font-size:13px;color:var(--muted);margin:2px 0 6px}
+.tags{display:flex;gap:4px;flex-wrap:wrap}
+.tag{font-size:11px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em;border:1px solid var(--line);padding:0 5px}
+.go{display:inline-block;margin-top:8px;font-weight:600;font-size:14px}
+.partner{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:var(--bg);padding:1px 5px;margin-left:6px;vertical-align:2px}
+.empty{color:var(--muted);font-size:14px;padding:12px}
+.chain{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:var(--display);font-weight:700;font-size:20px;text-transform:uppercase;margin:0 0 14px}
+.chain span:nth-child(even){color:var(--muted);font-family:var(--mono);font-size:14px}
+
+.livetag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:1px 5px;margin-right:6px;border:1.5px solid var(--muted);color:var(--muted)}
+.livetag.on{border-color:var(--known);color:var(--known)}
+.livetag.off{border-color:var(--unconf);color:var(--unconf)}
+.src-line a{color:inherit}
+.src-line{font-size:12px;color:var(--muted);margin:8px 0 0}
+footer{border-top:1px solid var(--ink);padding-block:20px 32px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:20px}
+@media (max-width:700px){footer{grid-template-columns:1fr}}
+footer .rule{font-family:var(--display);font-weight:900;font-size:20px;text-transform:uppercase;line-height:1}
+footer p{margin:0 0 6px;max-width:56ch;color:var(--muted);font-size:13px}
+.go-line{margin:8px 0 0}
+.skipick{font-family:var(--display);font-weight:900;font-size:clamp(34px,5vw,48px);line-height:.95;text-transform:uppercase;margin:4px 0 6px}
+.skipick b{background:var(--sign);color:var(--sign-ink);padding:0 6px}
+.skiwhy{margin:0 0 6px;font-size:16px}
+.sos-line{margin:0;font-size:14px}.sos-line a{font-weight:600}
+</style>
+
 </head>
 <body>
-<div id="site-header"></div>
-<main>
-<div class="narrow">
-  <a class="back" href="../index.html">← Stories</a>
-  <header class="story-head">
-    <p class="feature-tag">Story 02 · Trains</p>
-    <h1 class="story-title">DAVOS HAS TWO TRAIN STATIONS. EXCEPT DURING WEF.</h1>
-    <p class="story-dek">Then it has three.</p>
-  </header>
-</div>
-<div class="wrap"><figure class="story-figure"><img src="../../images/story-trains.jpg" alt="Rhaetian Railway train in the Davos valley"></figure></div>
-<article class="narrow story-body">
-<p>Under normal circumstances, arriving in Davos is relatively straightforward.</p>
-<div class="stations">
-  <div><p class="label-dim">Davos Dorf</p><b>Parsenn side.</b></div>
-  <div class="hot"><p class="label-dim">Davos Kongress / Eisstadion</p><b>Temporary WEF stop for the Congress Centre / ice stadium area.</b></div>
-  <div><p class="label-dim">Davos Platz</p><b>Jakobshorn side.</b></div>
-</div>
-<p>During WEF, Rhätische Bahn adds a temporary stop between them: Davos Kongress / Eisstadion.</p>
-<p class="pull">Yes. Switzerland builds you another train station for the week.</p>
-<h2>Everyone is getting off. Don't panic.</h2>
-<p>You're in Landquart.</p>
-<p>No, you're not in Davos yet.</p>
-<div class="box"><span class="box-tag">Getting here</span><p class="route">Zürich → Landquart → RhB → Davos</p><p>Change at Landquart onto the red narrow-gauge Rhätische Bahn.</p></div>
-<p>It is not a downgrade.</p>
-<p class="pull">IT IS THE POINT.</p>
-<h2>The train turned red. Do I need another ticket?</h2>
-<p>Not if your valid through-ticket already covers Davos. Changing from SBB to RhB does not automatically mean buying another ticket.</p>
-<div class="box"><span class="box-tag">Tickets</span><h3>Switzerland has no ticket gates.</h3><p>This is not an invitation. Have a valid ticket before departure.</p><p>Inspectors are real. Fines are real. And “I didn't know” is not a ticket.</p></div>
-<h2>You're on the right train. Are you in the right half?</h2>
-<p>RhB Capricorn trains can run as several complete trainsets coupled together.</p>
-<p>At Klosters Platz, a coupled service can split. One section can continue towards Davos while another heads towards the Engadin / St. Moritz.</p>
-<p>RhB calls this Flügeln.</p>
-<p>Which sounds considerably more romantic than:</p>
-<div class="box"><span class="box-tag">Klosters</span><h3>You may be sitting in the wrong half of the train.</h3><p>Check the destination displays and announcements. RhB's own example has Davos passengers in the rear section when the front continues towards St. Moritz.</p></div>
-<h2>Your train stops here. Your part of the train might not.</h2>
-<p>During WEF, the temporary Kongress/Eisstadion stop creates one more detail worth checking.</p>
-<div class="box"><span class="box-tag">Kongress / Eisstadion</span><h3>Getting off at Kongress? Check which section stops there.</h3><p>Not every part of a long train may open its doors at the temporary stop. Watch the displays and listen to the announcements. We add the confirmed section for WEF 2027 as soon as RhB publishes it.</p></div>
-<p><a class="btn-yellow" href="https://www.sbb.ch/en">Check live connection · SBB ↗</a></p>
-</article>
+<header class="bar">
+  <div class="wrap">
+    <a class="mark" href="index.html" aria-label="OFF DAVOS home"><b>OFF</b>DAVOS</a>
+    <nav aria-label="Sections">
+      <a class="live" href="#top" aria-current="page"><span class="dot" aria-hidden="true"></span>Live</a>
+      <a href="#map">Map</a>
+      <a href="guide/index.html">Guide</a>
+      <a href="ski/index.html">Ski</a>
+      <a href="stories/index.html">Stories</a>
+    </nav>
+  </div>
+</header>
 
-<div class="narrow"><a class="next-story" href="../../stories/people-who-keep-davos-running/index.html"><span class="label-dim">Next story →</span><strong>THE PEOPLE WHO ACTUALLY KEEP DAVOS RUNNING DURING WEF</strong></a></div>
+<main class="wrap" id="top">
+
+  <!-- OPENING -->
+  <header class="open">
+    <h1>Welcome to Davos.</h1>
+    <p>Nobody knows what's going on either.<br>You'll be fine.</p>
+  </header>
+
+  <!-- LIVE -->
+  <section id="live" aria-label="Live">
+
+    <div class="livegrid">
+      <div class="panel span8">
+        <h3>What changed today <span class="label tab" id="today">Today</span></h3>
+
+        <div class="live-status" aria-label="Live system status">
+          <span><i id="status-wx"></i>Weather</span>
+          <span><i id="status-dep"></i>Trains</span>
+          <span><i id="status-ski"></i>Ski model</span>
+          <span><i class="manual"></i>Verified changes</span>
+        </div>
+
+        <div class="feed" id="feed"></div>
+
+        <p class="feed-rule"><strong>The rule:</strong> if it does not change what you should do in Davos in the next few hours, it does not go here.</p>
+
+        <div class="legend">
+          <span><span class="badge b-known">KNOWN</span>official source, linked</span>
+          <span><span class="badge b-think">WE THINK</span>observed by OFF DAVOS, not yet official · place + time</span>
+          <span><span class="badge b-unconf">NOT YET CONFIRMED</span>reported, still being checked</span>
+        </div>
+      </div>
+
+      <div class="panel span4">
+        <h3>Davos <span class="label"><span class="livetag" id="wx-tag">loading</span> 1,560 m</span></h3>
+        <div class="wx">
+          <div class="temp tab" id="wx-temp">–</div>
+          <div style="padding-bottom:8px"><span id="wx-desc">Checking the sky…</span><br><span class="label" id="wx-feels"></span></div>
+        </div>
+        <dl class="wxrows tab">
+          <dt>Today</dt><dd id="wx-range">–</dd>
+          <dt>Wind</dt><dd id="wx-wind">–</dd>
+          <dt>New snow today</dt><dd id="wx-snow">–</dd>
+          <dt>Snow from</dt><dd id="wx-snowfrom">–</dd>
+          <dt>Tomorrow</dt><dd id="wx-tmrw">–</dd>
+          <dt>Sunset</dt><dd id="wx-sunset">–</dd>
+        </dl>
+        <p class="note" id="wx-note">Shoes with grip beat shoes that match the suit.</p>
+        <p class="src-line" id="wx-src">Source: Open-Meteo (MeteoSwiss models)</p>
+      </div>
+
+      <div class="panel span5">
+        <h3>Best skiing today <span class="label"><span class="livetag" id="ski-tag">loading</span></span></h3>
+        <p class="skipick" id="ski-pick">Comparing the slopes…</p>
+        <p class="skiwhy" id="ski-why"></p>
+        <p class="src-line" id="ski-src">From weather-model data for each area's upper slopes (Open-Meteo). Not a lift report: we can't check live whether lifts are open.</p>
+        <p class="go-line"><a class="go" href="https://www.davos.ch/en/" target="_blank" rel="noopener" data-track="lift_status_click">LIFT STATUS → DAVOS KLOSTERS</a></p>
+        <p class="note"><a href="ski/index.html">Skiing: which mountain, passes, rental →</a></p>
+      </div>
+
+      <div class="panel span7">
+        <h3>Trains <span class="label"><span class="livetag" id="dep-tag">loading</span> To Landquart / Zürich</span></h3>
+        <div class="boardwrap">
+          <table class="board">
+            <thead><tr><th>Time</th><th>From</th><th>Line</th><th>To</th><th>Pl.</th></tr></thead>
+            <tbody id="dep-body"><tr><td colspan="5" class="empty">Asking the timetable…</td></tr></tbody>
+          </table>
+        </div>
+        <p class="src-line" id="dep-src">Source: Swiss public transport timetable (transport.opendata.ch)</p>
+        <p class="go-line"><a class="go" href="https://www.sbb.ch/en" target="_blank" rel="noopener" data-track="sbb_check_train_click">CHECK YOUR TRAIN → SBB</a></p>
+        <p class="note">Check the coach number, not just the train. Some trains split on the way, and only one half comes to Davos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section id="map" aria-labelledby="map-h">
+    <div class="sechead">
+      <h2 id="map-h">Map</h2>
+      <p>Where things actually are.</p>
+    </div>
+    <p class="chain" aria-label="How the map works"><span>Who</span><span>→</span><span>Where</span><span>→</span><span>How to get there</span><span>→</span><span>Official source</span></p>
+
+
+    <div class="maprow">
+      <div class="mapbox">
+        <svg id="svg" viewBox="0 0 800 470" role="img" aria-label="Schematic map of Davos from Davos Platz in the southwest to Davos Dorf in the northeast">
+          <rect width="800" height="470" fill="var(--snow)"/>
+          <path d="M0 0 H800 V60 C640 40 520 90 420 110 C300 140 160 200 0 250 Z" fill="var(--terrain)"/>
+          <path d="M0 470 H800 V300 C680 300 560 330 470 370 C360 410 200 440 0 455 Z" fill="var(--terrain)"/>
+          <g fill="none" stroke="var(--line)" stroke-width="1">
+            <path d="M0 210 C160 165 300 110 420 85 C520 65 640 25 800 30"/>
+            <path d="M0 170 C160 125 300 75 420 55 C520 40 640 5 800 5"/>
+            <path d="M0 462 C200 445 360 410 470 380 C560 345 680 315 800 315"/>
+          </g>
+          <path d="M655 70 C700 55 760 60 775 95 C785 125 745 150 705 145 C670 140 640 110 655 70 Z" fill="var(--water)"/>
+          <text x="712" y="108" font-family="IBM Plex Sans, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle" font-style="italic">Davosersee</text>
+          <path d="M40 430 C180 395 300 360 400 320 C500 280 590 235 640 190 C665 165 690 150 720 150" fill="none" stroke="var(--rail)" stroke-width="3" stroke-dasharray="10 6"/>
+          <path d="M60 395 C200 360 320 320 420 280 C520 240 590 205 650 175" fill="none" stroke="var(--road)" stroke-width="7"/>
+          <path d="M70 360 C210 320 330 270 430 235 C530 200 600 165 660 135" fill="none" stroke="var(--road)" stroke-width="9"/>
+          <path d="M70 360 C210 320 330 270 430 235 C530 200 600 165 660 135" fill="none" stroke="var(--line)" stroke-width="1"/>
+          <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)" letter-spacing="1">
+            <text transform="translate(250 304) rotate(-19)">PROMENADE</text>
+            <text transform="translate(285 345) rotate(-20)">TALSTRASSE</text>
+          </g>
+          <g font-family="IBM Plex Sans, sans-serif" font-size="11" fill="var(--ink)">
+            <rect x="172" y="378" width="12" height="12" fill="var(--ink)"/><text x="190" y="400">Bhf Davos Platz</text>
+            <rect x="618" y="198" width="12" height="12" fill="var(--ink)"/><text x="560" y="225">Bhf Davos Dorf</text>
+          </g>
+          <g font-family="Big Shoulders Display, Arial Narrow, sans-serif" font-weight="900" font-size="34" fill="var(--ink)" opacity=".85">
+            <text x="40" y="300">DAVOS PLATZ</text>
+            <text x="560" y="300">DAVOS DORF</text>
+          </g>
+          <g>
+            <rect x="372" y="236" width="38" height="22" fill="none" stroke="var(--ink)" stroke-width="2"/>
+            <text x="391" y="226" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink)" text-anchor="middle">CONGRESS CENTRE</text>
+            <text x="391" y="272" font-family="IBM Plex Sans, sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">WEF venue · badge only</text>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">
+            <text x="555" y="58">↑ PARSENN</text>
+            <text x="190" y="150">↑ SCHATZALP</text>
+            <text x="150" y="458">↓ JAKOBSHORN</text>
+            <text x="680" y="250">→ PISCHA</text>
+            <text x="16" y="440">↓ RINERHORN</text>
+            <text x="640" y="22">↗ MADRISA (KLOSTERS)</text>
+          </g>
+          <g transform="translate(560 440)">
+            <line x1="0" y1="0" x2="80" y2="0" stroke="var(--ink)" stroke-width="2"/>
+            <line x1="0" y1="-4" x2="0" y2="4" stroke="var(--ink)" stroke-width="2"/>
+            <line x1="80" y1="-4" x2="80" y2="4" stroke="var(--ink)" stroke-width="2"/>
+            <text x="90" y="4" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink)">≈ 500 m · schematic</text>
+          </g>
+          <g id="pins"></g>
+        </svg>
+        <div class="maptools">
+          <label for="localToggle"><input type="checkbox" id="localToggle" checked> Show local picks</label>
+          <span id="count" class="tab"></span>
+        </div>
+      </div>
+
+      <div class="list" id="list" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="rule">Useful first.<br>Funny second.<br>Bullshit never.</div>
+    <div>
+      <p style="color:var(--ink);font-weight:600">OFF DAVOS · Davos Survival Guide · For a more sane world.</p>
+      <p>Independent. Not affiliated with the World Economic Forum.</p>
+      <p class="sos-line"><a href="sos/index.html">Emergency → SOS</a> · <a href="about/index.html">About</a></p>
+      <p style="margin-top:14px;font-style:italic">Please don't send us invitations to panels about the future of panels.</p>
+    </div>
+  </footer>
 </main>
-<div id="site-footer"></div>
-<div id="site-tabbar"></div>
-<script src="../../components.js"></script>
-<script>OffDavos.renderChrome({ basePath: "../../", activePath: "stories", variant: "dark" });</script>
-</body>
-</html>
+
+<script>
+const updates=[];
+
+function renderFeed(){
+  const feed=document.getElementById("feed");
+  const today=new Intl.DateTimeFormat("en-GB",{weekday:"short",day:"2-digit",month:"short",timeZone:"Europe/Zurich"}).format(new Date());
+  document.getElementById("today").textContent=today;
+
+  if(!updates.length){
+    feed.innerHTML=`
+      <div class="feed-empty">
+        <p class="big">No verified changes yet.</p>
+        <p>Weather, trains and skiing are already live. This feed only appears when something changes what you should actually do today.</p>
+        <p class="quiet">No rumour feed. No invented activity. Empty is allowed.</p>
+      </div>`;
+    return;
+  }
+
+  const badge={
+    known:["KNOWN","b-known"],
+    think:["WE THINK","b-think"],
+    unconfirmed:["NOT YET CONFIRMED","b-unconf"]
+  };
+
+  feed.innerHTML=updates.map(u=>`
+    <div class="upd${u.pin?" pinned":""}">
+      <time class="tab">${u.t}</time>
+      <div><span class="badge ${badge[u.s][1]}">${badge[u.s][0]}</span>${u.pin?'<span class="label">Pinned</span>':""}
+        <p>${u.txt}</p>
+        ${u.url?`<a class="src" href="${u.url}" target="_blank" rel="noopener">${u.src} ↗</a>`:`<span class="src">${u.src}</span>`}
+      </div>
+    </div>`).join("");
+}
+renderFeed();
+
+/* ---- LIVE: weather (Open-Meteo) + departures (transport.opendata.ch). No fake numbers on failure. ---- */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const hm=d=>new Date(d).toLocaleTimeString("de-CH",{hour:"2-digit",minute:"2-digit",timeZone:"Europe/Zurich"});
+const deg=v=>`${Math.round(v)===0?0:Math.round(v)}°`.replace("-","−");
+const WMO={0:"Clear",1:"Mostly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",48:"Freezing fog",51:"Light drizzle",53:"Drizzle",55:"Heavy drizzle",56:"Freezing drizzle",57:"Freezing drizzle",61:"Light rain",63:"Rain",65:"Heavy rain",66:"Freezing rain",67:"Freezing rain",71:"Light snow",73:"Snow",75:"Heavy snow",77:"Snow grains",80:"Rain showers",81:"Rain showers",82:"Violent showers",85:"Snow showers",86:"Heavy snow showers",95:"Thunderstorm",96:"Thunderstorm, hail",99:"Thunderstorm, hail"};
+function tag(id,state,text){
+  const t=$(id);t.className="livetag "+state;t.textContent=text;
+  const map={"wx-tag":"status-wx","dep-tag":"status-dep","ski-tag":"status-ski"};
+  if(map[id]){const s=$(map[id]);if(s)s.className=state;}
+}
+function wxNote(c,t,w){
+  if([71,73,75,77,85,86].includes(c))return "Snow. Shoes with grip beat shoes that match the suit.";
+  if(t<=-8)return "Properly cold. The coat is not optional, whatever the photo op says.";
+  if(w>=35)return "Windy. Lifts on the upper sections may slow down or stop.";
+  if([0,1].includes(c))return "Clear sky. Sunglasses count as business equipment up here.";
+  if([61,63,65,80,81,82].includes(c))return "Rain in the valley can mean snow higher up.";
+  return "Shoes with grip beat shoes that match the suit.";
+}
+async function loadWeather(){
+  try{
+    const u="https://api.open-meteo.com/v1/forecast?latitude=46.8027&longitude=9.8360&elevation=1560&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m&hourly=snowfall&daily=temperature_2m_max,temperature_2m_min,sunset,snowfall_sum,weather_code&timezone=Europe%2FZurich&forecast_days=3";
+    const r=await fetch(u);if(!r.ok)throw 0;const d=await r.json();const c=d.current,y=d.daily;
+    $("wx-temp").textContent=deg(c.temperature_2m);
+    $("wx-desc").textContent=WMO[c.weather_code]||"—";
+    $("wx-feels").textContent="feels like "+deg(c.apparent_temperature);
+    $("wx-range").textContent=`${deg(y.temperature_2m_min[0])} to ${deg(y.temperature_2m_max[0])}`;
+    $("wx-wind").textContent=`${Math.round(c.wind_speed_10m)} km/h`;
+    $("wx-snow").textContent=`${Math.round(y.snowfall_sum[0])} cm`;
+    $("wx-tmrw").textContent=`${deg(y.temperature_2m_min[1])} to ${deg(y.temperature_2m_max[1])}, ${(WMO[y.weather_code[1]]||"").toLowerCase()}`;
+    $("wx-sunset").textContent=y.sunset[0].slice(11,16);
+    {const nowIso=c.time.slice(0,13);const H=d.hourly;let k=H.time.findIndex(t=>t.slice(0,13)>=nowIso&&H.snowfall[H.time.indexOf(t)]>=0.1);
+     if(k<0)$("wx-snowfrom").textContent="No snow in the next 48 h";
+     else{const t=H.time[k];const day=t.slice(0,10)===c.time.slice(0,10)?"today":new Intl.DateTimeFormat("en-GB",{weekday:"short",timeZone:"Europe/Zurich"}).format(new Date(t+":00"));
+       $("wx-snowfrom").textContent=(t.slice(0,13)===nowIso?"Snowing now":`${day} ${t.slice(11,16)}`);}}
+    $("wx-note").textContent=wxNote(c.weather_code,c.temperature_2m,c.wind_speed_10m);
+    $("wx-src").textContent=`Source: Open-Meteo (MeteoSwiss models) · updated ${c.time.slice(11,16)}`;
+    tag("wx-tag","on","live");
+  }catch(e){
+    tag("wx-tag","off","offline");
+    $("wx-desc").textContent="Weather feed not reachable right now.";
+    $("wx-note").textContent="We'd rather show nothing than guess. Try again in a minute.";
+  }
+}
+async function loadDepartures(){
+  const WAY=/Landquart|Zürich|Zurich|Klosters|Küblis|Schiers|Chur|Disentis|Scuol/i;
+  try{
+    const boards=await Promise.all(["Davos Platz","Davos Dorf"].map(async st=>{
+      const r=await fetch("https://transport.opendata.ch/v1/stationboard?station="+encodeURIComponent(st)+"&limit=30&transportations[]=train");
+      if(!r.ok)throw 0;const d=await r.json();
+      return (d.stationboard||[]).filter(x=>WAY.test(x.to||"")).map(x=>({...x,_from:st.replace("Davos ","")}));
+    }));
+    const rows=boards.flat().sort((a,b)=>a.stop.departureTimestamp-b.stop.departureTimestamp).slice(0,6);
+    if(!rows.length){$("dep-body").innerHTML=`<tr><td colspan="5" class="empty">No trains towards Landquart listed right now. Check sbb.ch.</td></tr>`;}
+    else $("dep-body").innerHTML=rows.map(x=>{
+      const delay=x.stop.delay?`<span class="late">+${x.stop.delay}</span>`:"";
+      return `<tr><td>${hm(x.stop.departure)} ${delay}</td><td>${esc(x._from)}</td><td><span class="line">${esc(x.category)}</span></td><td class="dest">${esc(x.to)}</td><td>${esc(x.stop.platform||"–")}</td></tr>`;
+    }).join("");
+    $("dep-src").textContent=`Source: Swiss public transport timetable (transport.opendata.ch) · checked ${hm(Date.now())}`;
+    tag("dep-tag","on","live");
+  }catch(e){
+    tag("dep-tag","off","offline");
+    $("dep-body").innerHTML=`<tr><td colspan="5" class="empty">Timetable not reachable right now. Check sbb.ch or the SBB app.</td></tr>`;
+  }
+}
+loadWeather();loadDepartures();
+setInterval(loadWeather,10*60*1000);setInterval(loadDepartures,60*1000);
+
+/* ---- Best skiing today: rank areas from model data, explain why ---- */
+const AREAS=[
+  {id:"parsenn",name:"Parsenn",lat:46.8335,lon:9.8065,el:2660},
+  {id:"jakobshorn",name:"Jakobshorn",lat:46.7710,lon:9.8530,el:2590},
+  {id:"pischa",name:"Pischa",lat:46.8180,lon:9.9150,el:2480},
+  {id:"rinerhorn",name:"Rinerhorn",lat:46.7340,lon:9.8330,el:2490},
+  {id:"madrisa",name:"Madrisa",lat:46.9050,lon:9.8790,el:2600}
+];
+async function loadSki(){
+  try{
+    const q=k=>AREAS.map(a=>a[k]).join(",");
+    const u=`https://api.open-meteo.com/v1/forecast?latitude=${q("lat")}&longitude=${q("lon")}&elevation=${q("el")}&hourly=snow_depth&daily=snowfall_sum,wind_gusts_10m_max,sunshine_duration,temperature_2m_max&past_days=1&forecast_days=1&timezone=Europe%2FZurich`;
+    const r=await fetch(u);if(!r.ok)throw 0;let d=await r.json();if(!Array.isArray(d))d=[d];
+    const nowH=new Date().toLocaleString("sv-SE",{timeZone:"Europe/Zurich"}).slice(0,13).replace(" ","T");
+    const res=AREAS.map((a,k)=>{const x=d[k];
+      let hi=x.hourly.time.findIndex(t=>t.startsWith(nowH));if(hi<0)hi=x.hourly.time.length-1;
+      const depth=x.hourly.snow_depth[hi]||0, fresh=(x.daily.snowfall_sum[0]||0)+(x.daily.snowfall_sum[1]||0),
+            gust=x.daily.wind_gusts_10m_max[1]||0, sun=(x.daily.sunshine_duration[1]||0)/3600;
+      const ok=depth>=0.3;
+      const score=ok?Math.min(depth,1.5)*20+Math.min(fresh,30)*2+sun*3-Math.max(0,gust-50)*1.5:-999;
+      return {...a,depth,fresh,gust,sun,ok,score};
+    }).sort((a,b)=>b.score-a.score);
+    const best=res[0], skiable=res.filter(a=>a.ok);
+    if(!skiable.length){
+      $("ski-pick").textContent="No skiing yet.";
+      $("ski-why").textContent="Less than 30 cm of snow on every slope. Come back when the season starts.";
+    }else{
+      const others=skiable.slice(1); let why=["Best mix of snow, wind and sun."];
+      if(others.length){
+        why=[];
+        if(best.fresh>=Math.max(...others.map(o=>o.fresh))&&best.fresh>=5)why.push("Most fresh snow");
+        else if(best.depth>=Math.max(...others.map(o=>o.depth)))why.push("Best snow");
+        if(best.gust<=Math.min(...others.map(o=>o.gust)))why.push("least wind");
+        else if(best.sun>=Math.max(...others.map(o=>o.sun)))why.push("most sun");
+        why=why.length?[why.join(", ")+"."]:["Best mix of snow, wind and sun."];
+      }
+      why[0]=why[0][0].toUpperCase()+why[0].slice(1);
+      $("ski-pick").innerHTML=`Today: <b>${esc(best.name)}</b>.`;
+      $("ski-why").textContent=why[0]+(best.gust>70?" Strong gusts, so upper lifts may stop.":"");
+    }
+    tag("ski-tag","on","live");
+  }catch(e){
+    tag("ski-tag","off","offline");
+    $("ski-pick").textContent="No data right now.";
+    $("ski-why").textContent="Slope data not reachable. We won't guess.";
+  }
+}
+loadSki();setInterval(loadSki,30*60*1000);
+
+/* ---- MAP ---- */
+const places=[
+  /* ===== MAP DATA: edit here. x/y = position on the map (x 0–800, y 0–470). x:null = no pin yet (location to be confirmed). ===== */
+  {name:"Global Conversations · The Main Stage",type:"House",where:"Grandhotel Belvedere, Promenade",when:"WEF week",x:318,y:276,mixed:true,src:"https://www.globalconversations.ch/the-main-stage-davos",note:"Mixed programme. Partnered with the unDavos community for 2027."},
+  {name:"Davos AI & Robotics Summit",type:"Event",where:"Grandhotel Belvedere, Promenade",when:"19 Jan 2027",x:300,y:300,src:null,note:"AGI and agentic AI, physical AI, AI infrastructure, social impact."},
+  {name:"Energy Shift Forum Davos",type:"Event",where:"Location to be confirmed",when:"20 Jan 2027",x:null,y:null,src:"https://energyshift.capital/davos2027"},
+  {name:"House of Trust",type:"House",where:"A restaurant in the valley, exact place TBC",when:"17–21 Jan 2027",x:null,y:null,src:"https://yeswetrust.typeform.com/davos2027"},
+  {name:"Finnish Flow",type:"House",where:"Location to be confirmed",when:"WEF week",x:null,y:null,src:null,note:"Investment, Nordics."},
+  {name:"Women Inspiring Network",type:"Initiative",where:"Location to be confirmed",when:"Jan 2027",x:null,y:null,src:"https://www.womeninspiringnetwork.com/",note:"Women's leadership and climate."},
+  {name:"Kirchner Museum",type:"Local pick",where:"Promenade, Davos Platz",x:250,y:318,local:true,src:"https://www.kirchnermuseum.ch/",tip:"Ernst Ludwig Kirchner lived and painted in Davos. Twenty quiet minutes between two Houses."},
+  {name:"Schatzalp",type:"Local pick",where:"Above Davos Platz, by funicular",x:205,y:175,local:true,src:"https://www.schatzalp.ch/",tip:"The Magic Mountain sanatorium. Funicular up, view, sledge down."},
+  {name:"Coop Davos Platz",type:"Local pick",where:"Davos Platz",x:150,y:372,local:true,src:null,tip:"Groceries and a car park. It fills early during WEF week."}
+];
+let showLocal=true, sel=null;
+const pinsG=document.getElementById("pins"),list=document.getElementById("list");
+
+function match(p){ return p.local ? showLocal : true; }
+function render(){
+  pinsG.innerHTML=places.map((p,idx)=>{
+    if(p.x==null) return "";
+    const on=match(p); const label=p.local?"·":String(idx+1);
+    const shape=p.local?`<circle class="bg" r="9"/>`:`<rect class="bg" x="-11" y="-11" width="22" height="22" transform="rotate(45)"/>`;
+    return `<g class="pin${p.local?" local":""}${on?"":" dim"}${sel===idx?" sel":""}" data-i="${idx}" transform="translate(${p.x} ${p.y})" tabindex="${on?0:-1}" role="button" aria-label="${esc(p.name)}">${shape}<text>${p.local?"":label}</text></g>`;
+  }).join("");
+  const vis=places.map((p,idx)=>({p,idx})).filter(o=>match(o.p));
+  list.innerHTML=vis.length?vis.map(({p,idx})=>{
+    const link=p.src?`<a class="go" href="${esc(p.src)}" target="_blank" rel="noopener">${p.local?"Website":"Official site & program"} ↗</a>`:(p.local?"":`<span class="go" style="color:var(--muted);font-weight:500">Official link pending</span>`);
+    return `<div class="entry${p.local?" local":""}${sel===idx?" sel":""}" id="e${idx}" data-i="${idx}" role="button" tabindex="0">
+      <span class="num">${p.local||p.x==null?"":idx+1}</span>
+      <span><h4>${esc(p.name)}${p.partner?'<span class="partner">Partner</span>':""}</h4>
+        <div class="meta">${esc(p.type)} · ${esc(p.where)}${p.when?" · "+esc(p.when):""}</div>
+        ${p.local?`<div class="meta" style="margin:0">${esc(p.tip)}</div>`:(p.note?`<div class="meta" style="margin:6px 0 0">${esc(p.note)}</div>`:"")}
+        ${link}
+      </span>
+    </div>`;}).join(""):`<p class="empty">Nobody on the map yet. Houses announce late; we add them as they confirm.</p>`;
+  const n=vis.filter(o=>!o.p.local).length;
+  document.getElementById("count").textContent=`${n} on the map · more as they confirm`;
+}
+document.getElementById("localToggle").addEventListener("change",e=>{showLocal=e.target.checked;render();});
+function pick(i){sel=(sel===i)?null:i;render();const el=document.getElementById("e"+i);if(el&&sel!==null)el.scrollIntoView({block:"nearest",behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"});}
+pinsG.addEventListener("click",e=>{const g=e.target.closest(".pin");if(g&&!g.classList.contains("dim"))pick(+g.dataset.i);});
+pinsG.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){const g=e.target.closest(".pin");if(g){e.preventDefault();pick(+g.dataset.i);}}});
+list.addEventListener("click",e=>{if(e.target.closest("a"))return;const b=e.target.closest(".entry");if(b)pick(+b.dataset.i);});
+list.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("entry")){e.preventDefault();pick(+e.target.dataset.i);}});
+render();
+
+/* ---- outbound click hooks: ready for Plausible/GA later ---- */
+document.addEventListener("click",e=>{
+  const a=e.target.closest("a[href^='http']");
+  if(!a)return;
+  const eventName=a.dataset.track || "outbound_click";
+  try{
+    const payload={event:eventName,url:a.href,text:(a.textContent||"").trim().slice(0,120),ts:new Date().toISOString()};
+    const log=JSON.parse(localStorage.getItem("offdavos_clicks")||"[]");
+    log.push(payload);
+    localStorage.setItem("offdavos_clicks",JSON.stringify(log.slice(-250)));
+  }catch(_){}
+});
+</script>
+</body></html>
