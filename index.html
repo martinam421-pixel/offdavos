@@ -511,11 +511,13 @@ loadWeather();loadDepartures();
 setInterval(loadWeather,10*60*1000);setInterval(loadDepartures,60*1000);
 
 /* ---- Best skiing today: rank areas from model data, explain why ---- */
+/* Rinerhorn and Pischa are closed during WEF (davos.ch operating times 2026/27). WEF 2027: 18-22 Jan. */
+const WEF_WEEK=["2027-01-18","2027-01-22"];
 const AREAS=[
   {id:"parsenn",name:"Parsenn",lat:46.8335,lon:9.8065,el:2660},
   {id:"jakobshorn",name:"Jakobshorn",lat:46.7710,lon:9.8530,el:2590},
-  {id:"pischa",name:"Pischa",lat:46.8180,lon:9.9150,el:2480},
-  {id:"rinerhorn",name:"Rinerhorn",lat:46.7340,lon:9.8330,el:2490},
+  {id:"pischa",name:"Pischa",lat:46.8180,lon:9.9150,el:2480,wefClosed:true},
+  {id:"rinerhorn",name:"Rinerhorn",lat:46.7340,lon:9.8330,el:2490,wefClosed:true},
   {id:"madrisa",name:"Madrisa",lat:46.9050,lon:9.8790,el:2600}
 ];
 async function loadSki(){
@@ -528,7 +530,9 @@ async function loadSki(){
       let hi=x.hourly.time.findIndex(t=>t.startsWith(nowH));if(hi<0)hi=x.hourly.time.length-1;
       const depth=x.hourly.snow_depth[hi]||0, fresh=(x.daily.snowfall_sum[0]||0)+(x.daily.snowfall_sum[1]||0),
             gust=x.daily.wind_gusts_10m_max[1]||0, sun=(x.daily.sunshine_duration[1]||0)/3600;
-      const ok=depth>=0.3;
+      const today=new Date().toLocaleDateString("sv-SE",{timeZone:"Europe/Zurich"});
+      const closedForWef=a.wefClosed&&today>=WEF_WEEK[0]&&today<=WEF_WEEK[1];
+      const ok=depth>=0.3&&!closedForWef;
       const score=ok?Math.min(depth,1.5)*20+Math.min(fresh,30)*2+sun*3-Math.max(0,gust-50)*1.5:-999;
       return {...a,depth,fresh,gust,sun,ok,score};
     }).sort((a,b)=>b.score-a.score);
