@@ -1,48 +1,257 @@
 <!doctype html>
-<html lang="en" style="background:#221D19;">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>The Guide · OFF DAVOS</title>
+<title>Guide · OFF DAVOS</title>
+<meta name="description" content="The practical Davos guide for WEF week: trains via Landquart, Dorf vs Platz, the WEF Kongress stop, the CHF 5.90 guest card, getting around, and the Swiss rules nobody tells you.">
+<meta name="theme-color" content="#F5C400">
+<link rel="canonical" href="https://off-davos.com/guide/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700;0,6..72,800;1,6..72,400;1,6..72,500;1,6..72,600&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#EDF0EF; --surface:#FFFFFF; --ink:#13202B; --muted:#5A6770; --line:#D2D8D9;
+  --sign:#F5C400; --sign-ink:#151515; --known:#2E7D4F; --think:#A86B00; --unconf:#8A3A3A;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E151B; --surface:#16212A; --ink:#E7EDEF; --muted:#93A2AA; --line:#2A3945;
+  --known:#5FBF86; --think:#E2A63A; --unconf:#E08484; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E151B; --surface:#16212A; --ink:#E7EDEF; --muted:#93A2AA; --line:#2A3945;
+  --known:#5FBF86; --think:#E2A63A; --unconf:#E08484; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-inline:16px}
+.wrap{max-width:1080px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sign);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);text-transform:uppercase;line-height:.95;margin:0;letter-spacing:.01em;text-wrap:balance}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+
+.bar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding:10px 16px}
+.bar .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.mark{font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:.02em;text-decoration:none;display:flex;gap:6px;align-items:center}
+.mark b{background:var(--sign);color:var(--sign-ink);padding:0 6px}
+nav{display:flex;gap:4px;margin-left:auto}
+nav a{font-family:var(--display);font-weight:700;font-size:18px;text-transform:uppercase;text-decoration:none;padding:6px 12px;border:2px solid transparent}
+nav a.live{background:var(--sign);color:var(--sign-ink);display:flex;align-items:center;gap:6px}
+nav a.cur{border-color:var(--ink)}
+nav a:hover{border-color:var(--ink)}
+.dot{width:8px;height:8px;border-radius:50%;background:#D7261E;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.dot{animation:none}}
+@media (max-width:480px){nav{margin-left:0;width:100%;justify-content:space-between}nav a{font-size:16px;padding:5px 6px}}
+
+.pagehead{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;padding:32px 0 8px}
+.pagehead h1{font-size:clamp(56px,10vw,104px);font-weight:900}
+.pagehead p{margin:0;color:var(--muted);font-size:18px}
+
+section{padding:36px 0 8px}
+.sec h2{font-size:clamp(40px,7vw,64px);font-weight:900;margin:6px 0 8px}
+.sec .dek{margin:0 0 20px;color:var(--muted);font-size:18px}
+.chain{font-family:var(--display);font-weight:700;font-size:22px;text-transform:uppercase;margin:0 0 18px}
+.chain i{font-style:normal;color:var(--muted);font-family:var(--mono);font-size:14px;margin:0 6px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.tip{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--sign);padding:18px 18px 16px;display:flex;flex-direction:column}
+.tip h3{font-family:var(--body);text-transform:none;font-weight:600;font-size:19px;line-height:1.25;margin:8px 0 8px;letter-spacing:0}
+.tip p{margin:0 0 8px;font-size:15px}
+.tip p.fact{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.tip .more{margin-top:auto;padding-top:6px;font-weight:600;font-size:15px}
+.st{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;padding:0 5px;border:1.5px solid currentColor;margin-right:4px;vertical-align:1px}
+.st.k{color:var(--known)}.st.t{color:var(--think)}.st.u{color:var(--unconf)}
+
+.rule{background:var(--sign);color:var(--sign-ink);padding:18px 18px 20px}
+.rule .label{color:var(--sign-ink);opacity:.8}
+.rule h3{font-size:clamp(28px,3.4vw,36px);font-weight:900;margin:8px 0 10px}
+.rule p{margin:0;font-size:15px}
+
+.pages{display:grid;gap:8px;margin-top:6px}
+.pages a{display:flex;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);padding:14px 16px;text-decoration:none}
+.pages b{font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase}
+.pages span{color:var(--muted);font-size:14px;display:block}
+.small{font-size:13px;color:var(--muted)}
+footer{border-top:1px solid var(--ink);margin-top:40px;padding-block:20px 32px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:20px}
+@media (max-width:700px){footer{grid-template-columns:1fr}}
+footer .r{font-family:var(--display);font-weight:900;font-size:20px;text-transform:uppercase;line-height:1}
+footer p{margin:0 0 6px;color:var(--muted);font-size:13px}
+</style>
 </head>
 <body>
-<div id="site-header"></div>
-<main>
-
-<section class="wrap section">
-  <p class="label-dim">The Guide</p>
-  <h1 class="display-2" style="margin-top:14px;">THE GUIDE.</h1>
-  <p class="lede" style="margin-top:16px;">Everything you actually need to know about Davos during WEF. In one place.</p>
-  <div style="margin-top: 32px;">
-    <article class="chapter">
-      <div class="chapter-num">01</div>
-      <div>
-        <h2 class="chapter-title">DAVOS,<br>EXPLAINED.</h2>
-        <p class="chapter-sub">The mountain village nobody had time to understand before arriving.</p>
-        <p class="chapter-desc">Trains. Transport. Getting around. The small things that become surprisingly important once you're here.</p>
-        <a href="davos-explained.html" class="cta">Enter →</a>
-      </div>
-    </article>
-    <article class="chapter">
-      <div class="chapter-num">02</div>
-      <div>
-        <h2 class="chapter-title">SURVIVE<br>SWITZERLAND.</h2>
-        <p class="chapter-sub">Things Switzerland apparently assumed you already knew.</p>
-        <p class="chapter-desc">Tickets. Money. Plugs. Roaming. Migros. Coop. And several rules nobody thought to mention.</p>
-        <a href="survive-switzerland.html" class="cta">Enter →</a>
-      </div>
-    </article>
+<header class="bar">
+  <div class="wrap">
+    <a class="mark" href="../index.html" aria-label="OFF DAVOS home"><b>OFF</b>DAVOS</a>
+    <nav aria-label="Sections">
+      <a class="live" href="../index.html"><span class="dot" aria-hidden="true"></span>Live</a>
+      <a class="cur" href="index.html" aria-current="page">Guide</a>
+      <a href="../index.html#map">Map</a>
+      <a href="../ski/index.html">Ski</a>
+      <a href="../stories/index.html">Stories</a>
+    </nav>
   </div>
-</section>
+</header>
 
+<main class="wrap">
+  <header class="pagehead">
+    <h1>Guide</h1>
+    <p>The practical part. What you need to know before Davos teaches you.</p>
+  </header>
+
+  <!-- ========== DAVOS, EXPLAINED ========== -->
+  <section class="sec" id="explained" aria-labelledby="ex-h">
+    <p class="label">Guide · Quick tips</p>
+    <h2 id="ex-h">Davos, explained</h2>
+    <p class="dek">The mountain village nobody had time to understand before arriving.</p>
+    <p class="chain">Zürich HB<i>→</i>Landquart<i>→</i>Davos</p>
+
+    <div class="grid">
+      <article class="tip">
+        <p class="label">Getting here</p>
+        <h3>Everyone is getting off. Don't panic.</h3>
+        <p>You're in Landquart, not Davos. From Zürich HB, every route to Davos changes here onto the red Rhaetian Railway (RhB). It is not a downgrade. It is the point.</p>
+        <a class="more" href="arriving/index.html">Arriving in Davos →</a>
+      </article>
+
+      <article class="tip">
+        <p class="label">Tickets</p>
+        <h3>The train turned red. Do I need another ticket?</h3>
+        <p>No, if your ticket says Davos. SBB to RhB is one journey, one ticket. But buy it before you board: there are no ticket gates, and inspectors fine on the spot.</p>
+        <a class="more" href="survive-switzerland/index.html#tickets">Tickets →</a>
+      </article>
+
+      <article class="tip">
+        <p class="label">Trains</p>
+        <h3>Right train. Wrong part.</h3>
+        <p>Some RhB trains are two trains coupled together. At Klosters Platz they split: one part to Davos, the other to the Engadin and St. Moritz. Check the destination display in <b>your</b> carriage.</p>
+        <a class="more" href="../stories/davos-has-two-train-stations/index.html">Read the story →</a>
+      </article>
+
+      <article class="tip">
+        <p class="label">Stations</p>
+        <h3>Two stations. Except during WEF.</h3>
+        <p><b>Davos Dorf</b>: Parsenn side. <b>Davos Platz</b>: Jakobshorn side. Opposite ends of town. During WEF week, RhB adds a third: <b>Davos Kongress / Eisstadion</b>, next to the Congress Centre.</p>
+        <p class="fact">2026: Mon–Fri, all trains stopped 06:25–19:45, plus 2 extra shuttles an hour.</p>
+        <a class="more" href="arriving/index.html">Where to get off →</a>
+      </article>
+
+      <article class="tip">
+        <p class="label">Kongress stop</p>
+        <h3>Your train stops there. Your part of it might not.</h3>
+        <p>On a long train, not every section opens its doors at the temporary Kongress platform.</p>
+        <p><span class="st t">We think</span>Sit further back. We were in the front section and our doors didn't open.</p>
+        <p><span class="st u">Not yet confirmed</span>The 2027 rule. We add it when RhB publishes it.</p>
+      </article>
+
+      <article class="tip">
+        <p class="label">Luggage</p>
+        <h3>Your room isn't ready. Your suitcase has two options.</h3>
+        <p><b>Davos Platz</b>: staffed counter 07:20–18:45 with luggage storage, plus lockers. Only four are large. <b>Davos Dorf</b>: lockers only, nobody there.</p>
+        <p>Big suitcase? Ask your hotel or host to hold it.</p>
+      </article>
+
+      <article class="tip">
+        <p class="label">Getting around</p>
+        <h3>Taxi? Look at traffic. Then at your feet.</h3>
+        <p>Roads close at short notice, motorcades happen, security zones move. For short distances, walking is usually faster. Wear soles with grip: the pavement is ice.</p>
+        <a class="more" href="getting-around/index.html">Getting around →</a>
+      </article>
+
+      <article class="tip">
+        <p class="label">Buses</p>
+        <h3>Your bus stop may have moved.</h3>
+        <p>During WEF, big buses stop at the edges of town and small WEF buses run the centre, roughly every 15 minutes, with no fixed timetable. Stops move days before WEF starts.</p>
+        <p class="fact">2026: all local VBD buses free for everyone. 2027: not announced yet.</p>
+        <a class="more" href="getting-around/index.html">Buses during WEF →</a>
+      </article>
+
+      <article class="tip">
+        <p class="label">Evening</p>
+        <h3>The train that brought you may not take you back.</h3>
+        <p>The Dorf–Kongress–Platz train shuttle stops in the evening. In 2025 and 2026, a bus took over from about 20:00.</p>
+        <a class="more" href="getting-around/index.html">Dorf ↔ Platz →</a>
+      </article>
+
+      <article class="tip">
+        <p class="label">Night</p>
+        <h3>The last bus isn't the last bus.</h3>
+        <p>Davos has an on-demand night bus: <b>invia PickMeUp</b>. In town it runs 00:00–06:00 every winter night. Book in the app at least 30 minutes ahead. Pay by card in the app.</p>
+        <p class="fact">Your guest card is NOT valid on it. No cash.</p>
+      </article>
+
+      <article class="tip">
+        <p class="label">Money</p>
+        <h3>You paid the guest tax. Use it.</h3>
+        <p><b>CHF 5.90</b> per person per night gets you the Davos Klosters guest card: local buses and RhB trains within the Davos zones. Not to Landquart or Zürich.</p>
+        <p>Hotel: ask reception. Apartment: your host registers you, or you do it yourself at the information office, <b>Talstrasse 41, Davos Platz</b>.</p>
+        <a class="more" href="guest-card/index.html">Guest card →</a>
+      </article>
+
+      <article class="tip">
+        <p class="label">Hosts</p>
+        <h3>Rented out your flat for WEF? You're a landlord now.</h3>
+        <p>Even once. Even if you only rent it long-term yourself. Register your guests, you're jointly liable for their guest tax, and there's a tourism levy of CHF 65 per bed, per year.</p>
+        <a class="more" href="guest-card/index.html#hosts">What hosts must do →</a>
+      </article>
+
+      <article class="tip">
+        <p class="label">By car</p>
+        <h3>Your parking ticket doesn't buy you the night.</h3>
+        <p>1 November to 30 April: no parking on public spaces 03:00–07:00, for snow clearing. Police issued 359 parking fines during WEF 2026.</p>
+        <p>Driving in? Security checks on the access roads can mean waiting time. Leave a buffer.</p>
+        <a class="more" href="getting-around/index.html#car">Driving & parking →</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- ========== SURVIVE CH ========== -->
+  <section class="sec" id="survive" aria-labelledby="sv-h">
+    <p class="label">Guide · The funny part</p>
+    <h2 id="sv-h">Survive CH</h2>
+    <p class="dek">Switzerland in twelve rules. Useful, and a little bit mean.</p>
+
+    <div class="grid">
+      <article class="rule"><p class="label">Time</p><h3>08:21 means 08:21.</h3><p>Swiss trains leave on the minute. Your meeting may run late. The train will not wait for it.</p></article>
+      <article class="rule"><p class="label">Tickets</p><h3>No gates. Not an invitation.</h3><p>Buy before you board: SBB app or the machine on the platform. Not on the train. Inspectors are real, fines are real, and "I didn't know" is not a ticket.</p></article>
+      <article class="rule"><p class="label">Plugs</p><h3>Your charger may not fit.</h3><p>Swiss sockets are Type J. Slim two-pin EU plugs fit. Chunky round German ones don't. UK and US plugs need an adapter. Everyone else forgot theirs.</p></article>
+      <article class="rule"><p class="label">Water</p><h3>Tap water is free.</h3><p>And excellent. Drink it. At 1,560 metres, the second glass of wine counts like the third.</p></article>
+      <article class="rule"><p class="label">Sunday</p><h3>Sunday is closed.</h3><p>Most shops shut on Sundays. Station shops are usually the exception. Plan toothpaste emergencies for Saturday.</p></article>
+      <article class="rule"><p class="label">Language</p><h3>Say "Grüezi".</h3><p>That's hello. Everyone speaks English. The local word gets you further.</p></article>
+      <article class="rule"><p class="label">Money</p><h3>CHF. Not EUR.</h3><p>Cards work almost everywhere. Euros sometimes, change comes back in francs at their rate. Terminal offers your home currency? Say no. Pay in CHF.</p></article>
+      <article class="rule"><p class="label">Tipping</p><h3>Americans, please remain calm.</h3><p>This is not a 25% tip emergency. Service is included. Rounding up is normal.</p></article>
+      <article class="rule"><p class="label">Phone</p><h3>Switzerland is not in the EU.</h3><p>Your EU roaming plan may not cover it. Check before you land, or get an eSIM. Your phone bill can be the most expensive panel you attend.</p></article>
+      <article class="rule"><p class="label">Shops</p><h3>Migros has no wine.</h3><p>Migros, the orange M, traditionally sells no alcohol. Coop does. Which one is better? Ask a Swiss person. Then get comfortable.</p></article>
+      <article class="rule"><p class="label">Payment</p><h3>TWINT is everywhere.</h3><p>The Swiss payment app. You'll see the logo on every counter. You don't need it. Your card works.</p></article>
+      <article class="rule"><p class="label">Night</p><h3>Your after-party is your neighbours' business.</h3><p>Apartments have house rules, and evening quiet hours are normal. Davos is a village with a conference, not the other way round.</p></article>
+    </div>
+  </section>
+
+  <!-- ========== FULL PAGES ========== -->
+  <section class="sec" aria-labelledby="pg-h">
+    <p class="label">The full version</p>
+    <h2 id="pg-h">Every detail, one page each</h2>
+    <nav class="pages" aria-label="Guide pages">
+      <a href="arriving/index.html"><div><b>Arriving in Davos</b><span>Landquart, Dorf or Platz, the Kongress stop, the split at Klosters, luggage.</span></div><span>→</span></a>
+      <a href="guest-card/index.html"><div><b>Guest Card</b><span>CHF 5.90, who registers you, what the card covers, the message for your host.</span></div><span>→</span></a>
+      <a href="getting-around/index.html"><div><b>Getting around</b><span>On foot, WEF buses, the train shuttle, taxis, closed paths, parking.</span></div><span>→</span></a>
+      <a href="survive-switzerland/index.html"><div><b>Survive Switzerland</b><span>Tickets, money, plugs, roaming, supermarkets, Sunday.</span></div><span>→</span></a>
+      <a href="../ski/index.html"><div><b>Ski</b><span>Five mountains, which one, and when the lifts stop.</span></div><span>→</span></a>
+    </nav>
+    <p class="small" style="margin-top:16px">Last checked: 12 Oct 2026. WEF transport (Kongress stop, shuttles, free buses) changes every year; 2026 facts are marked as 2026. We update when RhB and the Gemeinde Davos publish 2027.</p>
+    <p class="small"><a href="../sos/index.html"><b>Emergency → SOS</b></a></p>
+  </section>
+
+  <footer>
+    <div class="r">Useful first.<br>Funny second.<br>Bullshit never.</div>
+    <div>
+      <p style="color:var(--ink);font-weight:600">OFF DAVOS · Davos Survival Guide · For a more sane world.</p>
+      <p>Independent. Not affiliated with the World Economic Forum.</p>
+      <p><a href="../sos/index.html">Emergency → SOS</a> · <a href="../about/index.html">About</a></p>
+    </div>
+  </footer>
 </main>
-<div id="site-footer"></div>
-<div id="site-tabbar"></div>
-<script src="../components.js"></script>
-<script>OffDavos.renderChrome({ basePath: "../", activePath: "guide", variant: "dark" });</script>
 </body>
 </html>
