@@ -144,6 +144,21 @@ section{padding-block:36px;border-top:2px solid var(--ink)}
 .partner{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:var(--bg);padding:1px 5px;margin-left:6px;vertical-align:2px}
 .empty{color:var(--muted);font-size:14px;padding:12px}
 .chain{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:var(--display);font-weight:700;font-size:20px;text-transform:uppercase;margin:0 0 14px}
+.houses{margin:8px 0 34px;padding:22px 0 0;border-top:6px solid var(--sign)}
+.houses-head h3{font-family:var(--display);font-weight:900;font-size:clamp(44px,9vw,84px);line-height:.9;margin:0 0 10px;letter-spacing:.01em}
+.houses-head p{margin:0 0 20px;max-width:60ch;color:var(--muted)}
+.houses-head p b{color:var(--ink)}
+.hgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.hcard{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--ink);padding:16px 16px 14px;display:flex;flex-direction:column}
+.hcard h4{font-family:var(--display);font-weight:900;font-size:32px;line-height:1;margin:10px 0 8px;text-transform:uppercase}
+.hcard p{margin:0 0 8px;font-size:15px}
+.hcard .h27{font-weight:600}
+.hcard .go{margin-top:auto}
+.hcard .go.muted{color:var(--muted);font-weight:500}
+.hstat{align-self:flex-start;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;color:var(--surface);font-weight:500}
+.hstat.ok{background:var(--known)}
+.hstat.wait{background:var(--think)}
+.hnote{font-size:13px;color:var(--muted);margin:12px 0 0}
 .chain span:nth-child(even){color:var(--muted);font-family:var(--mono);font-size:14px}
 
 .livetag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:1px 5px;margin-right:6px;border:1.5px solid var(--muted);color:var(--muted)}
@@ -260,6 +275,65 @@ footer p{margin:0 0 6px;max-width:56ch;color:var(--muted);font-size:13px}
       <p>Where things actually are.</p>
     </div>
     <p class="chain" aria-label="How the map works"><span>Who</span><span>→</span><span>Where</span><span>→</span><span>How to get there</span><span>→</span><span>Official source</span></p>
+
+    <div class="houses" aria-labelledby="houses-h">
+      <div class="houses-head">
+        <h3 id="houses-h">THE HOUSES.</h3>
+        <p>The big ones. Who's back, where they are, and what nobody has announced yet. <b>We only print an address once the organiser does.</b></p>
+      </div>
+      <div class="hgrid">
+        <article class="hcard">
+          <span class="hstat wait">Not announced</span>
+          <h4>USA House</h4>
+          <p class="h27">2027: nothing official yet.</p>
+          <p>2026: the official US venue near the Congress Centre, plus “the Sanctuary”, a historic church on the Promenade. Sponsors included Microsoft and McKinsey.</p>
+          <a class="go" href="https://www.thenationalnews.com/news/us/2026/01/09/trump-davos-usa-house-promenade/" target="_blank" rel="noopener">2026 report ↗</a>
+        </article>
+        <article class="hcard">
+          <span class="hstat ok">Confirmed 2027</span>
+          <h4>UK House</h4>
+          <p class="h27">On the Promenade. Street number: not yet.</p>
+          <p>Founders Forum with UK government partners. AI, energy tech, investment. Partners so far include LSEG, University of Oxford, CBI and Baringa.</p>
+          <span class="go muted">Official link pending</span>
+        </article>
+        <article class="hcard">
+          <span class="hstat ok">Confirmed 2027</span>
+          <h4>House of Switzerland</h4>
+          <p class="h27">19–21 Jan 2027. Location: not yet.</p>
+          <p>The host country's own house. Programme “to follow”. Don't assume last year's spot.</p>
+          <a class="go" href="https://houseofswitzerland.org/events" target="_blank" rel="noopener">Official site ↗</a>
+        </article>
+        <article class="hcard">
+          <span class="hstat ok">Confirmed 2027</span>
+          <h4>Belgium House</h4>
+          <p class="h27">Promenade 45 · 18–22 Jan 2027</p>
+          <p>Business, trade, investment. Dates and address are out. The programme text on the page still talks about 2026, so wait for the real one.</p>
+          <a class="go" href="https://ebsummits.eu/our-summits/belgium-house/" target="_blank" rel="noopener">Official site ↗</a>
+        </article>
+        <article class="hcard">
+          <span class="hstat ok">Confirmed 2027</span>
+          <h4>Frontiers Science House</h4>
+          <p class="h27">Planet Prize: 18 Jan, Hotel Schweizerhof, Promenade 50</p>
+          <p>Science, climate, health, AI. Last year it was at Promenade 63. Saved the old address? Check again.</p>
+          <a class="go" href="https://www.frontiersplanetprize.org/awards-ceremony" target="_blank" rel="noopener">Official site ↗</a>
+        </article>
+        <article class="hcard">
+          <span class="hstat wait">Not announced</span>
+          <h4>Ukraine House</h4>
+          <p class="h27">2027: nothing official yet.</p>
+          <p>Every recent WEF so far. Resilience, rebuilding, investment. Run by UMAEF.</p>
+          <a class="go" href="https://umaef.org/medias/ukraine-house-davos-2026-resilience-innovation-and-global-partnerships-alongside-the-world-economic-forum/" target="_blank" rel="noopener">2026 edition ↗</a>
+        </article>
+        <article class="hcard">
+          <span class="hstat ok">Confirmed 2027</span>
+          <h4>House of Trust</h4>
+          <p class="h27">Address: not confirmed for 2027.</p>
+          <p>Fifth Davos edition. Founders, investors, family offices. Curated, by application. Their dates on the page belong to an old year. Ignore them.</p>
+          <a class="go" href="https://yeswetrust.com/" target="_blank" rel="noopener">Official site ↗</a>
+        </article>
+      </div>
+      <p class="hnote">Last checked: 11 Oct 2026. Houses change buildings. Always check the organiser's page before you walk over.</p>
+    </div>
 
 
     <div class="maprow">
@@ -491,7 +565,7 @@ const places=[
   {name:"Global Conversations · The Main Stage",type:"House",where:"Grandhotel Belvedere, Promenade",when:"WEF week",x:318,y:276,mixed:true,src:"https://www.globalconversations.ch/the-main-stage-davos",note:"Mixed programme. Partnered with the unDavos community for 2027."},
   {name:"Davos AI & Robotics Summit",type:"Event",where:"Grandhotel Belvedere, Promenade",when:"19 Jan 2027",x:300,y:300,src:null,note:"AGI and agentic AI, physical AI, AI infrastructure, social impact."},
   {name:"Energy Shift Forum Davos",type:"Event",where:"Location to be confirmed",when:"20 Jan 2027",x:null,y:null,src:"https://energyshift.capital/davos2027"},
-  {name:"House of Trust",type:"House",where:"A restaurant in the valley, exact place TBC",when:"17–21 Jan 2027",x:null,y:null,src:"https://yeswetrust.typeform.com/davos2027"},
+  {name:"House of Trust",type:"House",where:"Address not confirmed for 2027",when:"17–21 Jan 2027",x:null,y:null,src:"https://yeswetrust.typeform.com/davos2027"},
   {name:"Finnish Flow",type:"House",where:"Location to be confirmed",when:"WEF week",x:null,y:null,src:null,note:"Investment, Nordics."},
   {name:"Women Inspiring Network",type:"Initiative",where:"Location to be confirmed",when:"Jan 2027",x:null,y:null,src:"https://www.womeninspiringnetwork.com/",note:"Women's leadership and climate."},
   {name:"Kirchner Museum",type:"Local pick",where:"Promenade, Davos Platz",x:250,y:318,local:true,src:"https://www.kirchnermuseum.ch/",tip:"Ernst Ludwig Kirchner lived and painted in Davos. Twenty quiet minutes between two Houses."},
