@@ -143,6 +143,12 @@ section{padding-block:36px;border-top:2px solid var(--ink)}
 .go{display:inline-block;margin-top:8px;font-weight:600;font-size:14px}
 .partner{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:var(--bg);padding:1px 5px;margin-left:6px;vertical-align:2px}
 .empty{color:var(--muted);font-size:14px;padding:12px}
+.latest{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.lt{display:flex;flex-direction:column;gap:8px;background:var(--ink);color:var(--bg);border-left:6px solid var(--sign);padding:18px;text-decoration:none;min-width:0}
+.lt .label{color:var(--sign)}
+.lt b{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(32px,4vw,44px);line-height:.95}
+.lt .hit{font-weight:600;color:var(--sign)}
+.lt:hover{outline:3px solid var(--sign)}
 .chain{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:var(--display);font-weight:700;font-size:20px;text-transform:uppercase;margin:0 0 14px}
 .houses{margin:8px 0 34px;padding:22px 0 0;border-top:6px solid var(--sign)}
 .houses-head h3{font-family:var(--display);font-weight:900;font-size:clamp(44px,9vw,84px);line-height:.9;margin:0 0 10px;letter-spacing:.01em}
@@ -266,6 +272,17 @@ footer p{margin:0 0 6px;max-width:56ch;color:var(--muted);font-size:13px}
         <p class="note">Check the coach number, not just the train. Some trains split on the way, and only one half comes to Davos.</p>
       </div>
     </div>
+  </section>
+
+  <!-- LATEST STORIES: newest first, max 3 -->
+  <section id="latest" aria-labelledby="latest-h">
+    <div class="sechead"><h2 id="latest-h">Latest</h2><p>The newest stories. The rest live under Stories.</p></div>
+    <div class="latest">
+      <a class="lt" href="stories/davos-has-two-train-stations/index.html"><span class="label">Trains · read this before you board</span><b>Your train might split in half.</b><span class="hit">Wrong half: wrong valley.</span></a>
+      <a class="lt" href="stories/most-expensive-chf-5-90/index.html"><span class="label">Money / Local reality</span><b>The most expensive CHF 5.90 in Davos.</b><span class="hit">You paid for free trains. Use them.</span></a>
+      <a class="lt" href="stories/people-who-keep-davos-running/index.html"><span class="label">People</span><b>Who actually runs Davos during WEF?</b><span class="hit">No, not the CEOs.</span></a>
+    </div>
+    <p style="margin:14px 0 0"><a class="go" href="stories/index.html">All stories →</a></p>
   </section>
 
   <!-- MAP -->
