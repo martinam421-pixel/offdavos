@@ -1,0 +1,107 @@
+/* OFF DAVOS story pages: same system as the Guide (Swiss signpost yellow, Big Shoulders + IBM Plex). */
+:root{
+  --bg:#EDF0EF; --surface:#FFFFFF; --ink:#13202B; --muted:#5A6770; --line:#D2D8D9;
+  --sign:#F5C400; --sign-ink:#151515; --rail:#C9D1D3; --free:#F5C400; --pay:#8A3A3A; --known:#2E7D4F; --think:#A86B00;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E151B; --surface:#16212A; --ink:#E7EDEF; --muted:#93A2AA; --line:#2A3945; --rail:#34444F; --pay:#E08484; --known:#5FBF86; --think:#E2A63A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E151B; --surface:#16212A; --ink:#E7EDEF; --muted:#93A2AA; --line:#2A3945; --rail:#34444F; --pay:#E08484; --known:#5FBF86; --think:#E2A63A; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;padding-inline:16px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sign);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);text-transform:uppercase;line-height:.95;margin:0;letter-spacing:.01em;text-wrap:balance}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.wrap{max-width:1080px;margin:0 auto}
+.narrow{max-width:720px}
+
+.bar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding:10px 16px}
+.bar .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.mark{font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:.02em;text-decoration:none;display:flex;gap:6px;align-items:center}
+.mark b{background:var(--sign);color:var(--sign-ink);padding:0 6px}
+.bar nav{display:flex;gap:4px;margin-left:auto}
+.bar nav a{font-family:var(--display);font-weight:700;font-size:18px;text-transform:uppercase;text-decoration:none;padding:6px 12px;border:2px solid transparent}
+.bar nav a.live{background:var(--sign);color:var(--sign-ink)}
+.bar nav a.cur,.bar nav a:hover{border-color:var(--ink)}
+@media (max-width:480px){.bar nav{margin-left:0;width:100%;justify-content:space-between}.bar nav a{font-size:16px;padding:5px 6px}}
+
+.back{display:inline-block;margin:24px 0 0;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--muted)}
+.hero{padding:20px 0 28px}
+.hero h1{font-size:clamp(52px,10vw,112px);font-weight:900;margin:10px 0 14px}
+.hero .dek{font-size:clamp(20px,2.6vw,26px);font-weight:600;line-height:1.25;margin:0;max-width:30ch}
+.save{background:var(--ink);color:var(--bg);padding:22px 22px 24px;border-left:6px solid var(--sign);margin:0 0 36px}
+.save .label{color:var(--sign)}
+.save .big{font-family:var(--display);font-weight:900;font-size:clamp(64px,13vw,140px);line-height:.9;margin:8px 0 6px;color:var(--sign)}
+.save p{margin:6px 0 0;font-size:18px;max-width:52ch}
+.save .hit{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(30px,5vw,48px);line-height:.95;color:var(--sign);margin:8px 0 10px}
+
+.body p{max-width:62ch}
+.body h2,.sec h2{font-size:clamp(36px,6vw,56px);font-weight:900;margin:40px 0 14px}
+.pull{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(30px,5vw,48px);line-height:.95;margin:22px 0;padding-left:16px;border-left:6px solid var(--sign);max-width:none!important}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin:16px 0 8px}
+.tip{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--sign);padding:16px 18px;display:flex;flex-direction:column;min-width:0}
+.tip h3{font-family:var(--body);text-transform:none;letter-spacing:0;font-weight:600;font-size:19px;line-height:1.25;margin:8px 0 6px}
+.tip p{margin:0 0 6px;font-size:15px}
+.tip.no{border-left-color:var(--pay)}
+.tip .go{margin-top:auto;padding-top:6px;font-weight:600;font-size:14px}
+.rule{background:var(--sign);color:var(--sign-ink);padding:18px}
+.rule .label{color:var(--sign-ink);opacity:.8}
+.rule h3{font-size:clamp(26px,3.4vw,34px);font-weight:900;margin:8px 0 8px}
+.rule p{margin:0;font-size:15px}
+
+/* the line map: one row per station, the rail on the left changes colour by fare */
+.linemap{background:var(--surface);border:1px solid var(--line);padding:18px 18px 10px;margin:16px 0}
+.linemap .legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;margin:0 0 14px}
+.linemap .legend span{display:flex;align-items:center;gap:8px}
+.sw{display:inline-block;width:28px;height:8px}
+.sw.free{background:var(--free)}.sw.pay{background:repeating-linear-gradient(90deg,var(--pay) 0 6px,transparent 6px 10px)}
+.st{display:grid;grid-template-columns:36px minmax(0,1fr);min-height:44px}
+.st .rl{position:relative}
+.st .rl::before{content:"";position:absolute;left:14px;top:0;bottom:0;width:8px;background:var(--rail)}
+.st.free .rl::before{background:var(--free)}
+.st.pay .rl::before{background:repeating-linear-gradient(180deg,var(--pay) 0 8px,transparent 8px 13px)}
+.st.first .rl::before{top:50%}.st.last .rl::before{bottom:50%}
+.st .rl::after{content:"";position:absolute;left:9px;top:calc(50% - 9px);width:18px;height:18px;border-radius:50%;background:var(--surface);border:3px solid var(--ink)}
+.st.temp .rl::after{border-style:dashed;border-color:var(--think)}
+.st .nm{align-self:center;padding:6px 0 6px 8px}
+.st .nm b{font-size:17px}
+.st .nm small{display:block;color:var(--muted);font-size:13px;line-height:1.3}
+.st .tagfree{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:var(--free);color:var(--sign-ink);padding:1px 6px;margin-left:6px;vertical-align:2px}
+.st .tagpay{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1.5px solid var(--pay);color:var(--pay);padding:0 5px;margin-left:6px;vertical-align:2px}
+.zone{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:22px;margin:4px 0 8px 44px;color:var(--ink)}
+
+/* split diagram for the train story */
+.split{background:var(--surface);border:1px solid var(--line);padding:18px;margin:16px 0;overflow-x:auto}
+.split svg{display:block;width:100%;min-width:520px;height:auto}
+.split text{font-family:var(--body);fill:var(--ink)}
+.split .t-big{font-family:var(--display);font-weight:900;font-size:22px}
+.split .t-small{font-size:13px;fill:var(--muted)}
+
+table.facts{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);font-size:15px;margin:12px 0}
+table.facts th{text-align:left;width:34%;font-weight:600;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+table.facts td{padding:10px 12px;border-bottom:1px solid var(--line)}
+.tw{overflow-x:auto}
+
+.copy{background:var(--surface);border:2px dashed var(--ink);padding:16px 18px;margin:12px 0}
+.copy p{margin:6px 0 10px;font-size:16px}
+.copy button{font:600 15px var(--body);background:var(--sign);color:var(--sign-ink);border:0;padding:8px 14px;cursor:pointer}
+.copy .ok{font-size:13px;color:var(--known);margin-left:8px}
+
+.links{list-style:none;padding:0;margin:12px 0;display:grid;gap:8px}
+.links a{display:flex;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);padding:12px 14px;text-decoration:none;font-weight:600}
+.links a span{font-weight:400;color:var(--muted);font-size:14px;display:block}
+.small{font-size:13px;color:var(--muted)}
+.badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;padding:0 5px;border:1.5px solid currentColor;margin-right:6px;vertical-align:2px;text-transform:uppercase}
+.badge.k{color:var(--known)}.badge.t{color:var(--think)}.badge.u{color:var(--pay)}
+.next{display:block;margin:40px 0 0;padding:20px;background:var(--sign);color:var(--sign-ink);text-decoration:none}
+.next .label{color:var(--sign-ink)}
+.next b{display:block;font-family:var(--display);font-weight:900;font-size:clamp(28px,4vw,40px);text-transform:uppercase;line-height:1;margin-top:6px}
+footer{border-top:1px solid var(--ink);margin-top:48px;padding-block:20px 32px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:20px}
+@media (max-width:700px){footer{grid-template-columns:1fr}}
+footer .r{font-family:var(--display);font-weight:900;font-size:20px;text-transform:uppercase;line-height:1}
+footer p{margin:0 0 6px;color:var(--muted);font-size:13px}
