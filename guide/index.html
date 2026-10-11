@@ -65,6 +65,11 @@ section{padding:36px 0 8px}
 .st{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;padding:0 5px;border:1.5px solid currentColor;margin-right:4px;vertical-align:1px}
 .st.k{color:var(--known)}.st.t{color:var(--think)}.st.u{color:var(--unconf)}
 
+.tip.banger{grid-column:span 2;background:var(--ink);color:var(--bg);border-left-color:var(--sign)}
+.tip.banger .label{color:var(--sign)}
+.tip.banger h3{font-family:var(--display);text-transform:uppercase;font-weight:900;font-size:clamp(38px,5vw,56px);line-height:.95;margin:10px 0 12px}
+.tip.banger .more{color:var(--sign)}
+@media (max-width:640px){.tip.banger{grid-column:auto}}
 .rule{background:var(--sign);color:var(--sign-ink);padding:18px 18px 20px}
 .rule .label{color:var(--sign-ink);opacity:.8}
 .rule h3{font-size:clamp(28px,3.4vw,36px);font-weight:900;margin:8px 0 10px}
@@ -113,37 +118,15 @@ footer p{margin:0 0 6px;color:var(--muted);font-size:13px}
         <p class="label">Getting here</p>
         <h3>Everyone is getting off. Don't panic.</h3>
         <p>You're in Landquart, not Davos. From Zürich HB, every route to Davos changes here onto the red Rhaetian Railway (RhB). It is not a downgrade. It is the point.</p>
+        <p>The train turned red? Your ticket to Davos still covers it. One journey, one ticket.</p>
         <a class="more" href="arriving/index.html">Arriving in Davos →</a>
       </article>
-
-      <article class="tip">
-        <p class="label">Tickets</p>
-        <h3>The train turned red. Do I need another ticket?</h3>
-        <p>No, if your ticket says Davos. SBB to RhB is one journey, one ticket. But buy it before you board: there are no ticket gates, and inspectors fine on the spot.</p>
-        <a class="more" href="survive-switzerland/index.html#tickets">Tickets →</a>
-      </article>
-
-      <article class="tip">
-        <p class="label">Trains</p>
-        <h3>Right train. Wrong part.</h3>
-        <p>Some RhB trains are two trains coupled together. At Klosters Platz they split: one part to Davos, the other to the Engadin and St. Moritz. Check the destination display in <b>your</b> carriage.</p>
+      <article class="tip banger">
+        <p class="label">Trains · read this before you board</p>
+        <h3>Your train might split in half.</h3>
+        <p>Some RhB trains are two trains coupled together. At Klosters Platz they split: one half goes to Davos, the other to St. Moritz. Sit in the wrong half and you'll see the Engadin instead of the Congress Centre.</p>
+        <p>And Davos has two stations. Except during WEF: then it has three. Dorf, Platz, and the temporary Kongress / Eisstadion stop, where not every part of the train opens its doors.</p>
         <a class="more" href="../stories/davos-has-two-train-stations/index.html">Read the story →</a>
-      </article>
-
-      <article class="tip">
-        <p class="label">Stations</p>
-        <h3>Two stations. Except during WEF.</h3>
-        <p><b>Davos Dorf</b>: Parsenn side. <b>Davos Platz</b>: Jakobshorn side. Opposite ends of town. During WEF week, RhB adds a third: <b>Davos Kongress / Eisstadion</b>, next to the Congress Centre.</p>
-        <p class="fact">2026: Mon–Fri, all trains stopped 06:25–19:45, plus 2 extra shuttles an hour.</p>
-        <a class="more" href="arriving/index.html">Where to get off →</a>
-      </article>
-
-      <article class="tip">
-        <p class="label">Kongress stop</p>
-        <h3>Your train stops there. Your part of it might not.</h3>
-        <p>On a long train, not every section opens its doors at the temporary Kongress platform.</p>
-        <p><span class="st t">We think</span>Sit further back. We were in the front section and our doors didn't open.</p>
-        <p><span class="st u">Not yet confirmed</span>The 2027 rule. We add it when RhB publishes it.</p>
       </article>
 
       <article class="tip">
