@@ -20,7 +20,7 @@
 /* Accent borrowed from Swiss hiking signposts: yellow with black type. */
 :root{
   --bg:#EDF0EF; --surface:#FFFFFF; --ink:#13202B; --muted:#5A6770; --line:#D2D8D9;
-  --sign:#F5C400; --sign-ink:#151515; --snow:#F8FAFA; --terrain:#DDE4E2; --water:#BFD3DC; --road:#FFFFFF; --rail:#6C7880;
+  --sign:#F5C400; --sign-ink:#151515; --snow:#F7F9F9; --terrain:#E3E9E7; --terrain2:#CFD9D6; --contour:#C6D1CE; --water:#B9D2DD; --road:#FFFFFF; --roadedge:#C3CCCF; --railbed:#5C6A73; --rail:#6C7880;
   --known:#2E7D4F; --think:#A86B00; --unconf:#8A3A3A;
   --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -28,11 +28,11 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0E151B; --surface:#16212A; --ink:#E7EDEF; --muted:#93A2AA; --line:#2A3945;
-  --snow:#121C24; --terrain:#1B2832; --water:#22404F; --road:#34444F; --rail:#7E8B93;
+  --snow:#121C24; --terrain:#18242D; --terrain2:#22313C; --contour:#2A3A46; --water:#22404F; --road:#34444F; --roadedge:#41525E; --railbed:#8C99A1; --rail:#7E8B93;
   --known:#5FBF86; --think:#E2A63A; --unconf:#E08484; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0E151B; --surface:#16212A; --ink:#E7EDEF; --muted:#93A2AA; --line:#2A3945;
-  --snow:#121C24; --terrain:#1B2832; --water:#22404F; --road:#34444F; --rail:#7E8B93;
+  --snow:#121C24; --terrain:#18242D; --terrain2:#22313C; --contour:#2A3A46; --water:#22404F; --road:#34444F; --roadedge:#41525E; --railbed:#8C99A1; --rail:#7E8B93;
   --known:#5FBF86; --think:#E2A63A; --unconf:#E08484; color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -125,12 +125,30 @@ section{padding-block:36px;border-top:2px solid var(--ink)}
 .maptools label{display:flex;gap:6px;align-items:center;cursor:pointer;color:var(--ink)}
 .pin{cursor:pointer}
 .pin .bg{fill:var(--sign);stroke:var(--sign-ink);stroke-width:1.5}
-.pin text{font:600 11px var(--mono);fill:var(--sign-ink);text-anchor:middle;dominant-baseline:central}
 .pin.local .bg{fill:var(--surface);stroke:var(--ink)}
-.pin.local text{fill:var(--ink)}
 .pin.dim{opacity:.18}
 .pin.sel .bg{stroke-width:3.5}
 .pin:focus{outline:none}.pin:focus-visible .bg{stroke:#D7261E;stroke-width:3.5}
+.mapbox svg text{font-family:var(--body);fill:var(--ink)}
+.m-town{font-family:var(--display)!important;font-weight:900;font-size:32px;letter-spacing:.02em;fill:var(--ink);opacity:.9}
+.m-street{font-family:var(--mono)!important;font-size:11px;letter-spacing:2px;fill:var(--muted)!important}
+.m-poi{font-family:var(--mono)!important;font-size:11px;letter-spacing:1px;font-weight:500}
+.m-small{font-size:11px;fill:var(--muted)!important}
+.m-water{font-size:12px;font-style:italic;fill:var(--muted)!important;text-anchor:middle}
+.stn rect{fill:var(--ink)}
+.stn text{font-size:13px;font-weight:600}
+.stn.tmp rect{fill:var(--sign);stroke:var(--ink);stroke-width:2;stroke-dasharray:3 2}
+.mtn polygon{fill:var(--ink)}
+.mtn text{font-family:var(--mono)!important;font-size:11px;letter-spacing:1px;font-weight:500}
+.mtn.off text{fill:var(--muted)!important}
+.mapbox svg text,.pin .lbl{paint-order:stroke;stroke:var(--snow);stroke-width:4px;stroke-linejoin:round}
+.pin .lbl{font:600 12px var(--body);fill:var(--ink);text-anchor:start;dominant-baseline:central}
+.pin .num{font:700 12px var(--mono);fill:var(--sign-ink);text-anchor:middle;dominant-baseline:central;stroke:none}
+.pin .bg{fill:var(--sign);stroke:var(--sign-ink);stroke-width:2}
+.pin.local .bg{fill:var(--surface);stroke:var(--ink);stroke-width:2}
+.pin.local .lbl{font-weight:500;fill:var(--muted)}
+.pin:hover .bg{stroke-width:3.5}
+.mapnote{font-size:12px;color:var(--muted);padding:6px 12px 0;margin:0}
 .list{display:grid;gap:8px;max-height:560px;overflow-y:auto;padding-right:2px}
 .entry{background:var(--surface);border:1px solid var(--line);padding:12px 14px;display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%}
 .entry.sel{border-color:var(--ink);box-shadow:inset 4px 0 0 var(--sign)}
@@ -310,7 +328,7 @@ footer p{margin:0 0 6px;max-width:56ch;color:var(--muted);font-size:13px}
           <span class="hstat ok">Confirmed 2027</span>
           <h4>UK House</h4>
           <p class="h27">On the Promenade. Street number: not yet.</p>
-          <p>Founders Forum with UK government partners. AI, energy tech, investment. Partners so far include LSEG, University of Oxford, CBI and Baringa.</p>
+          <p>Run by Founders Forum with UK government partners. Partners so far include LSEG, University of Oxford, CBI and Baringa.</p>
           <span class="go muted">Official link pending</span>
         </article>
         <article class="hcard">
@@ -324,28 +342,28 @@ footer p{margin:0 0 6px;max-width:56ch;color:var(--muted);font-size:13px}
           <span class="hstat ok">Confirmed 2027</span>
           <h4>Belgium House</h4>
           <p class="h27">Promenade 45 · 18–22 Jan 2027</p>
-          <p>Business, trade, investment. Dates and address are out. The programme text on the page still talks about 2026, so wait for the real one.</p>
+          <p>Dates and address are out. The programme text on the page still talks about 2026, so wait for the real one.</p>
           <a class="go" href="https://ebsummits.eu/our-summits/belgium-house/" target="_blank" rel="noopener">Official site ↗</a>
         </article>
         <article class="hcard">
           <span class="hstat ok">Confirmed 2027</span>
           <h4>Frontiers Science House</h4>
           <p class="h27">Planet Prize: 18 Jan, Hotel Schweizerhof, Promenade 50</p>
-          <p>Science, climate, health, AI. Last year it was at Promenade 63. Saved the old address? Check again.</p>
+          <p>Last year it was at Promenade 63. Saved the old address? Check again.</p>
           <a class="go" href="https://www.frontiersplanetprize.org/awards-ceremony" target="_blank" rel="noopener">Official site ↗</a>
         </article>
         <article class="hcard">
           <span class="hstat wait">Not announced</span>
           <h4>Ukraine House</h4>
           <p class="h27">2027: nothing official yet.</p>
-          <p>Every recent WEF so far. Resilience, rebuilding, investment. Run by UMAEF.</p>
+          <p>Every recent WEF so far. Run by UMAEF.</p>
           <a class="go" href="https://umaef.org/medias/ukraine-house-davos-2026-resilience-innovation-and-global-partnerships-alongside-the-world-economic-forum/" target="_blank" rel="noopener">2026 edition ↗</a>
         </article>
         <article class="hcard">
           <span class="hstat ok">Confirmed 2027</span>
           <h4>House of Trust</h4>
           <p class="h27">Address: not confirmed for 2027.</p>
-          <p>Fifth Davos edition. Founders, investors, family offices. Curated, by application. Their dates on the page belong to an old year. Ignore them.</p>
+          <p>Fifth Davos edition. Their dates on the page belong to an old year. Ignore them.</p>
           <a class="go" href="https://yeswetrust.com/" target="_blank" rel="noopener">Official site ↗</a>
         </article>
       </div>
@@ -355,58 +373,64 @@ footer p{margin:0 0 6px;max-width:56ch;color:var(--muted);font-size:13px}
 
     <div class="maprow">
       <div class="mapbox">
-        <svg id="svg" viewBox="0 0 800 470" role="img" aria-label="Schematic map of Davos from Davos Platz in the southwest to Davos Dorf in the northeast">
-          <rect width="800" height="470" fill="var(--snow)"/>
-          <path d="M0 0 H800 V60 C640 40 520 90 420 110 C300 140 160 200 0 250 Z" fill="var(--terrain)"/>
-          <path d="M0 470 H800 V300 C680 300 560 330 470 370 C360 410 200 440 0 455 Z" fill="var(--terrain)"/>
-          <g fill="none" stroke="var(--line)" stroke-width="1">
-            <path d="M0 210 C160 165 300 110 420 85 C520 65 640 25 800 30"/>
-            <path d="M0 170 C160 125 300 75 420 55 C520 40 640 5 800 5"/>
-            <path d="M0 462 C200 445 360 410 470 380 C560 345 680 315 800 315"/>
+        <svg id="svg" viewBox="0 0 800 480" role="img" aria-label="Schematic map of Davos: Davos Platz in the southwest, Davos Dorf in the northeast, the Promenade and Talstrasse along the valley, the railway with its three WEF-week stations, and the mountains around.">
+          <defs>
+            <linearGradient id="slopeN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--terrain2)"/><stop offset="1" stop-color="var(--terrain)"/></linearGradient>
+            <linearGradient id="slopeS" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="var(--terrain2)"/><stop offset="1" stop-color="var(--terrain)"/></linearGradient>
+          </defs>
+          <rect width="800" height="480" fill="var(--snow)"/>
+          <!-- mountain slopes either side of the valley -->
+          <path d="M0 0 H800 V70 C700 60 620 110 520 140 C400 180 250 230 0 300 Z" fill="url(#slopeN)"/>
+          <path d="M0 480 H800 V300 C700 300 600 330 500 370 C380 420 220 450 0 470 Z" fill="url(#slopeS)"/>
+          <g fill="none" stroke="var(--contour)" stroke-width="1">
+            <path d="M0 255 C230 200 380 150 500 115 C600 85 700 40 800 40"/>
+            <path d="M0 205 C220 155 370 105 490 75 C590 50 690 12 800 10"/>
+            <path d="M0 150 C200 110 350 65 470 35"/>
+            <path d="M120 480 C300 455 420 420 520 385 C620 345 720 325 800 330"/>
+            <path d="M330 480 C450 455 560 410 650 380 C720 360 770 360 800 362"/>
           </g>
-          <path d="M655 70 C700 55 760 60 775 95 C785 125 745 150 705 145 C670 140 640 110 655 70 Z" fill="var(--water)"/>
-          <text x="712" y="108" font-family="IBM Plex Sans, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle" font-style="italic">Davosersee</text>
-          <path d="M40 430 C180 395 300 360 400 320 C500 280 590 235 640 190 C665 165 690 150 720 150" fill="none" stroke="var(--rail)" stroke-width="3" stroke-dasharray="10 6"/>
-          <path d="M60 395 C200 360 320 320 420 280 C520 240 590 205 650 175" fill="none" stroke="var(--road)" stroke-width="7"/>
-          <path d="M70 360 C210 320 330 270 430 235 C530 200 600 165 660 135" fill="none" stroke="var(--road)" stroke-width="9"/>
-          <path d="M70 360 C210 320 330 270 430 235 C530 200 600 165 660 135" fill="none" stroke="var(--line)" stroke-width="1"/>
-          <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)" letter-spacing="1">
-            <text transform="translate(250 304) rotate(-19)">PROMENADE</text>
-            <text transform="translate(285 345) rotate(-20)">TALSTRASSE</text>
-          </g>
-          <g font-family="IBM Plex Sans, sans-serif" font-size="11" fill="var(--ink)">
-            <rect x="172" y="378" width="12" height="12" fill="var(--ink)"/><text x="190" y="400">Bhf Davos Platz</text>
-            <rect x="618" y="198" width="12" height="12" fill="var(--ink)"/><text x="560" y="225">Bhf Davos Dorf</text>
-          </g>
-          <g font-family="Big Shoulders Display, Arial Narrow, sans-serif" font-weight="900" font-size="34" fill="var(--ink)" opacity=".85">
-            <text x="40" y="300">DAVOS PLATZ</text>
-            <text x="560" y="300">DAVOS DORF</text>
-          </g>
-          <g>
-            <rect x="372" y="236" width="38" height="22" fill="none" stroke="var(--ink)" stroke-width="2"/>
-            <text x="391" y="226" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink)" text-anchor="middle">CONGRESS CENTRE</text>
-            <text x="391" y="272" font-family="IBM Plex Sans, sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">WEF venue · badge only</text>
-          </g>
-          <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">
-            <text x="555" y="58">↑ PARSENN</text>
-            <text x="190" y="150">↑ SCHATZALP</text>
-            <text x="150" y="458">↓ JAKOBSHORN</text>
-            <text x="680" y="250">→ PISCHA</text>
-            <text x="16" y="440">↓ RINERHORN</text>
-            <text x="640" y="22">↗ MADRISA (KLOSTERS)</text>
-          </g>
-          <g transform="translate(560 440)">
-            <line x1="0" y1="0" x2="80" y2="0" stroke="var(--ink)" stroke-width="2"/>
-            <line x1="0" y1="-4" x2="0" y2="4" stroke="var(--ink)" stroke-width="2"/>
-            <line x1="80" y1="-4" x2="80" y2="4" stroke="var(--ink)" stroke-width="2"/>
-            <text x="90" y="4" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink)">≈ 500 m · schematic</text>
-          </g>
+          <!-- lake -->
+          <path d="M660 88 C700 70 770 74 784 110 C796 142 752 168 708 160 C672 154 645 122 660 88 Z" fill="var(--water)"/>
+          <text x="720" y="122" class="m-water">Davosersee</text>
+          <!-- Schatzalp funicular -->
+          <path d="M238 330 L205 190" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 4" fill="none"/>
+          <!-- streets -->
+          <path id="prom" d="M40 392 C250 322 470 236 690 150" fill="none" stroke="var(--road)" stroke-width="12" stroke-linecap="round"/>
+          <path d="M40 392 C250 322 470 236 690 150" fill="none" stroke="var(--roadedge)" stroke-width="1"/>
+          <path d="M60 428 C270 360 490 278 712 190" fill="none" stroke="var(--road)" stroke-width="8" stroke-linecap="round"/>
+          <path d="M60 428 C270 360 490 278 712 190" fill="none" stroke="var(--roadedge)" stroke-width="1"/>
+          <text class="m-street"><textPath href="#prom" startOffset="22%">PROMENADE</textPath></text>
+          <text class="m-street" transform="translate(300 380) rotate(-19)">TALSTRASSE</text>
+          <!-- railway -->
+          <path d="M70 452 C290 380 510 296 740 206" fill="none" stroke="var(--railbed)" stroke-width="7"/>
+          <path d="M70 452 C290 380 510 296 740 206" fill="none" stroke="var(--surface)" stroke-width="3" stroke-dasharray="10 8"/>
+          <!-- Congress Centre -->
+          <g transform="translate(408 262) rotate(-20)"><rect x="-26" y="-13" width="52" height="26" fill="var(--ink)"/></g>
+          <text x="408" y="236" class="m-poi" text-anchor="middle">CONGRESS CENTRE</text>
+          <text x="420" y="300" class="m-small" text-anchor="start">WEF venue</text>
+          <!-- stations -->
+          <g class="stn"><rect x="160" y="397" width="16" height="16"/><text x="186" y="418">Davos Platz</text><text x="186" y="432" class="m-small">station · staffed · luggage</text></g>
+          <g class="stn tmp"><rect x="451" y="316" width="16" height="16"/><text x="476" y="336">Kongress / Eisstadion</text><text x="476" y="350" class="m-small">WEF week only</text></g>
+          <g class="stn"><rect x="658" y="228" width="16" height="16"/><text x="600" y="268">Davos Dorf</text><text x="600" y="282" class="m-small">station · lockers</text></g>
+          <!-- town names -->
+          <text x="22" y="304" class="m-town">DAVOS PLATZ</text>
+          <text x="400" y="150" class="m-town" text-anchor="start">DAVOS DORF</text>
+          <!-- mountains -->
+          <g class="mtn"><polygon points="580,58 568,80 592,80"/><text x="600" y="76">PARSENN</text><text x="600" y="90" class="m-small">from Dorf</text></g>
+          <g class="mtn"><polygon points="205,176 193,198 217,198"/><text x="150" y="172">SCHATZALP</text><text x="150" y="186" class="m-small">funicular from Platz</text></g>
+          <g class="mtn"><polygon points="300,452 288,474 312,474"/><text x="320" y="470">JAKOBSHORN</text><text x="320" y="456" class="m-small">cable car from Platz</text></g>
+          <g class="mtn off"><text x="10" y="472">← RINERHORN</text></g>
+          <g class="mtn off"><text x="790" y="296" text-anchor="end">PISCHA →</text></g>
+          <g class="mtn"><text x="790" y="24" text-anchor="end">MADRISA (KLOSTERS) ↗</text></g>
+          <!-- compass -->
+          <g transform="translate(46 40)"><circle r="16" fill="var(--surface)" stroke="var(--line)"/><path d="M0 -11 L5 4 L0 1 L-5 4 Z" fill="var(--ink)"/><text y="30" text-anchor="middle" class="m-small">N</text></g>
           <g id="pins"></g>
         </svg>
         <div class="maptools">
           <label for="localToggle"><input type="checkbox" id="localToggle" checked> Show local picks</label>
           <span id="count" class="tab"></span>
         </div>
+        <p class="mapnote">Our drawing, not to scale. For walking directions, open the official site of each place.</p>
       </div>
 
       <div class="list" id="list" aria-live="polite"></div>
@@ -582,16 +606,13 @@ loadSki();setInterval(loadSki,30*60*1000);
 
 /* ---- MAP ---- */
 const places=[
-  /* ===== MAP DATA: edit here. x/y = position on the map (x 0–800, y 0–470). x:null = no pin yet (location to be confirmed). ===== */
-  {name:"Global Conversations · The Main Stage",type:"House",where:"Grandhotel Belvedere, Promenade",when:"WEF week",x:318,y:276,mixed:true,src:"https://www.globalconversations.ch/the-main-stage-davos",note:"Mixed programme. Partnered with the unDavos community for 2027."},
-  {name:"Davos AI & Robotics Summit",type:"Event",where:"Grandhotel Belvedere, Promenade",when:"19 Jan 2027",x:300,y:300,src:null,note:"AGI and agentic AI, physical AI, AI infrastructure, social impact."},
-  {name:"Energy Shift Forum Davos",type:"Event",where:"Location to be confirmed",when:"20 Jan 2027",x:null,y:null,src:"https://energyshift.capital/davos2027"},
-  {name:"House of Trust",type:"House",where:"Address not confirmed for 2027",when:"17–21 Jan 2027",x:null,y:null,src:"https://yeswetrust.typeform.com/davos2027"},
-  {name:"Finnish Flow",type:"House",where:"Location to be confirmed",when:"WEF week",x:null,y:null,src:null,note:"Investment, Nordics."},
-  {name:"Women Inspiring Network",type:"Initiative",where:"Location to be confirmed",when:"Jan 2027",x:null,y:null,src:"https://www.womeninspiringnetwork.com/",note:"Women's leadership and climate."},
-  {name:"Kirchner Museum",type:"Local pick",where:"Promenade, Davos Platz",x:250,y:318,local:true,src:"https://www.kirchnermuseum.ch/",tip:"Ernst Ludwig Kirchner lived and painted in Davos. Twenty quiet minutes between two Houses."},
-  {name:"Schatzalp",type:"Local pick",where:"Above Davos Platz, by funicular",x:205,y:175,local:true,src:"https://www.schatzalp.ch/",tip:"The Magic Mountain sanatorium. Funicular up, view, sledge down."},
-  {name:"Coop Davos Platz",type:"Local pick",where:"Davos Platz",x:150,y:372,local:true,src:null,tip:"Groceries and a car park. It fills early during WEF week."}
+  /* ===== MAP DATA: edit here. x/y = position on the drawing (x 0–800, y 0–480). x:null = no pin yet. short = label on the map. ===== */
+  {name:"Global Conversations · The Main Stage",short:"The Main Stage",type:"House",where:"Grandhotel Belvedere, Promenade",when:"WEF week",x:330,y:280,mixed:true,src:"https://www.globalconversations.ch/the-main-stage-davos",note:"Mixed programme. Partnered with the unDavos community for 2027."},
+  {name:"House of Trust",type:"House",where:"Address not confirmed for 2027",when:"17–21 Jan 2027",x:null,y:null,src:"https://yeswetrust.com/"},
+  {name:"Finnish Flow",type:"House",where:"Location to be confirmed",when:"WEF week",x:null,y:null,src:null},
+  {name:"Kirchner Museum",short:"Kirchner Museum",type:"Local pick",where:"Promenade, Davos Platz",x:262,y:342,local:true,src:"https://www.kirchnermuseum.ch/",tip:"Ernst Ludwig Kirchner lived and painted in Davos. Twenty quiet minutes between two Houses."},
+  {name:"Schatzalp",short:"Schatzalp",type:"Local pick",where:"Above Davos Platz, by funicular",x:205,y:220,local:true,src:"https://www.schatzalp.ch/",tip:"The Magic Mountain sanatorium. Funicular up, view, sledge down."},
+  {name:"Coop Davos Platz",short:"Coop",type:"Local pick",where:"Davos Platz",x:118,y:388,local:true,src:null,tip:"Groceries and a car park. It fills early during WEF week."}
 ];
 let showLocal=true, sel=null;
 const pinsG=document.getElementById("pins"),list=document.getElementById("list");
@@ -601,8 +622,9 @@ function render(){
   pinsG.innerHTML=places.map((p,idx)=>{
     if(p.x==null) return "";
     const on=match(p); const label=p.local?"·":String(idx+1);
-    const shape=p.local?`<circle class="bg" r="9"/>`:`<rect class="bg" x="-11" y="-11" width="22" height="22" transform="rotate(45)"/>`;
-    return `<g class="pin${p.local?" local":""}${on?"":" dim"}${sel===idx?" sel":""}" data-i="${idx}" transform="translate(${p.x} ${p.y})" tabindex="${on?0:-1}" role="button" aria-label="${esc(p.name)}">${shape}<text>${p.local?"":label}</text></g>`;
+    const shape=p.local?`<circle class="bg" r="8"/>`:`<rect class="bg" x="-12" y="-12" width="24" height="24" transform="rotate(45)"/><text class="num">${label}</text>`;
+    const lbl=p.short?`<text class="lbl" x="${p.local?13:18}" y="0">${esc(p.short)}</text>`:"";
+    return `<g class="pin${p.local?" local":""}${on?"":" dim"}${sel===idx?" sel":""}" data-i="${idx}" transform="translate(${p.x} ${p.y})" tabindex="${on?0:-1}" role="button" aria-label="${esc(p.name)}">${shape}${lbl}</g>`;
   }).join("");
   const vis=places.map((p,idx)=>({p,idx})).filter(o=>match(o.p));
   list.innerHTML=vis.length?vis.map(({p,idx})=>{
