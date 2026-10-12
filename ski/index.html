@@ -75,21 +75,23 @@
 .flylbl.stn{font:600 12px var(--body);text-transform:none}
 .flylbl.on{color:var(--sign)}
 .flynote{font-size:12px;color:var(--muted);margin:6px 0 0}
-.ptab{border-top:3px solid var(--ink);margin:22px 0 10px}
-.prow{display:grid;grid-template-columns:190px .8fr 1fr 1.5fr;gap:18px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line)}
-.prow.hd{padding:10px 0;border-bottom:1px solid var(--ink)}
-.prow.hd span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.pn{display:flex;align-items:center;gap:10px;white-space:nowrap;font-family:var(--display);font-weight:900;font-size:30px;text-transform:uppercase;line-height:1}
-.pdot{width:16px;height:16px;border-radius:50%;flex:none;display:inline-block}
-.pdot.blue{background:#1D5FBF}.pdot.red{background:#C8232C}.pdot.black{background:var(--ink)}
-.pdot.route{background:repeating-linear-gradient(135deg,#F5C400 0 4px,#151515 4px 8px);border-radius:2px}
-.psays{font-size:16px;color:var(--muted)}
-.pcons{font-family:var(--mono);font-size:14px}
-.preal{font-size:17px}.preal b{display:block;text-wrap:balance;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase;line-height:1;margin-bottom:4px}
-.plab{display:none;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
-@media (max-width:760px){.prow{grid-template-columns:1fr;gap:8px}.prow.hd{display:none}.plab{display:block}}
-.pgreen{display:flex;align-items:center;gap:10px;margin:16px 0 0;font-size:15px}
-.pgreen .pdot{background:transparent;border:2px dashed var(--muted)}
+.piste{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0 8px}
+@media (max-width:860px){.piste{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.piste{grid-template-columns:1fr}}
+.pc{position:relative;padding:20px 18px 22px;color:#fff;min-height:220px;display:flex;flex-direction:column;gap:6px;transform:rotate(var(--r,0deg));box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.pc .pl{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin:0;opacity:.9}
+.pc h3{font-family:var(--display);font-weight:900;font-size:clamp(28px,3.2vw,38px);line-height:.95;text-transform:uppercase;margin:0}
+.pc p{margin:0;font-size:15px}
+.pc .dotc{position:absolute;right:14px;top:14px;width:30px;height:30px;border-radius:50%;background:#fff;opacity:.95}
+.pc.blue{background:#1D5FBF;--r:-1deg}
+.pc.red{background:#C8232C;--r:.8deg}
+.pc.black{background:#111;--r:-.6deg;outline:1px solid #444}
+.pc.route{background:repeating-linear-gradient(135deg,#F5C400 0 18px,#E0A800 18px 36px);color:#151515;--r:1deg}
+.pc.route .dotc{background:#151515}
+.pc.blue .dotc{background:#1D5FBF;border:5px solid #fff}
+.pc.red .dotc{background:#C8232C;border:5px solid #fff}
+.pc.black .dotc{background:#111;border:5px solid #fff}
+@media (prefers-reduced-motion:reduce){.pc{transform:none}}
 </style>
 </head>
 <body>
@@ -124,14 +126,13 @@
     <p class="label">Piste colours</p>
     <h2 id="p-h">There is no green.</h2>
     <p class="narrow">In Switzerland the easiest piste is blue. Switzerland is being optimistic. Here's the translation.</p>
-    <div class="ptab" role="table" aria-label="Swiss piste colours translated">
-      <div class="prow hd" role="row"><span>Colour</span><span>Switzerland says</span><span>Consultant says</span><span>What it means</span></div>
-      <div class="prow" role="row"><div class="pn"><span class="pdot blue"></span>Blue</div><div class="psays"><span class="plab">Switzerland says</span>"Easy."</div><div class="pcons"><span class="plab">Consultant says</span>“Low-risk quick win.”</div><div class="preal"><span class="plab">What it means</span><b>You'll probably survive.</b>Still a mountain. The CEO in rental boots is on this one. Wave.</div></div>
-      <div class="prow" role="row"><div class="pn"><span class="pdot red"></span>Red</div><div class="psays"><span class="plab">Switzerland says</span>"Intermediate."</div><div class="pcons"><span class="plab">Consultant says</span>“Stretch goal.”</div><div class="preal"><span class="plab">What it means</span><b>Know what you're doing.</b>Steeper than it looks from the chairlift. Steeper than your LinkedIn says you are.</div></div>
-      <div class="prow" role="row"><div class="pn"><span class="pdot black"></span>Black</div><div class="psays"><span class="plab">Switzerland says</span>"Difficult."</div><div class="pcons"><span class="plab">Consultant says</span>“Transformational. Inform the board.”</div><div class="preal"><span class="plab">What it means</span><b>Your health insurance should know.</b>Not the place to test your new boots. Or your ego. Or both at once.</div></div>
-      <div class="prow" role="row"><div class="pn"><span class="pdot route"></span>Ski route</div><div class="psays"><span class="plab">Switzerland says</span>"Marked. Not groomed."</div><div class="pcons"><span class="plab">Consultant says</span>“Out of scope.”</div><div class="preal"><span class="plab">What it means</span><b>Nobody's coming to tidy it.</b>Check the legend on the piste map before you commit.</div></div>
+    <div class="piste">
+      <article class="pc blue"><span class="dotc"></span><p class="pl">Blue</p><h3>You'll probably survive.</h3><p>Easy. Still a mountain. The CEO in rental boots is on this one. Wave.</p></article>
+      <article class="pc red"><span class="dotc"></span><p class="pl">Red</p><h3>Know what you're doing.</h3><p>Steeper than it looks from the chairlift. Steeper than your LinkedIn says you are.</p></article>
+      <article class="pc black"><span class="dotc"></span><p class="pl">Black</p><h3>Your health insurance should know.</h3><p>Not the place to test your new boots. Or your ego. Or both at once.</p></article>
+      <article class="pc route"><span class="dotc"></span><p class="pl">Ski route</p><h3>Marked. Not groomed.</h3><p>Nobody's coming to tidy it for you. Check the legend on the piste map before you commit.</p></article>
     </div>
-    <p class="pgreen"><span class="pdot"></span>Green? That's other countries. Here, "easy" is a matter of opinion.</p>
+    <p class="small">Green slopes? That's other countries. Here, "easy" is a matter of opinion.</p>
   </section>
 
   <nav class="subnav" aria-label="On this page"><a href="#pistes">Piste colours</a><a href="#skimap">Ski map</a><a href="#parsenn">Mountains</a><a href="#rental">Rental &amp; passes</a><a href="#close">4 pm</a><a href="#weather">Weather</a></nav>
