@@ -214,6 +214,26 @@ section{padding-block:36px;border-top:2px solid var(--ink)}
 .intelblk .mbtn.alt{background:transparent;color:#151515}
 .intelblk .mbtn:hover{background:var(--surface);color:#151515}
 .intelblk .fine{font-size:13px;margin-top:14px}
+.slip{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+@media (max-width:760px){.slip{grid-template-columns:1fr}}
+.slipin{background:var(--surface);border:1px solid var(--line);padding:18px;display:grid;gap:8px}
+.slipin label{font-weight:600;font-size:15px;display:flex;justify-content:space-between;gap:8px}
+.slipin output{font-family:var(--mono)}
+.slipin select,.slipin input[type=range]{width:100%;font:inherit;padding:6px;accent-color:var(--sign)}
+.slipin .chk{justify-content:flex-start;font-weight:400}
+.slipout{background:var(--ink);color:var(--bg);border-left:6px solid var(--sign);padding:18px;display:flex;flex-direction:column;gap:8px}
+.slipout .label{color:var(--sign)}
+.slipout .pct{font-family:var(--display);font-weight:900;font-size:clamp(80px,14vw,140px);line-height:.85;margin:0;color:var(--sign);font-variant-numeric:tabular-nums}
+.bar2{height:12px;background:rgba(255,255,255,.18)}
+.bar2 i{display:block;height:100%;width:0;background:var(--sign);transition:width .3s}
+.slipout .verdict{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(24px,3vw,32px);line-height:1;margin:6px 0 0}
+.slipout .quad{font-size:14px;margin:0;opacity:.85}
+@media (prefers-reduced-motion:reduce){.bar2 i{transition:none}}
+.bsblk .slipwrap{margin:0 0 18px}
+.bsblk .slipwrap h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(34px,5vw,54px);line-height:.95;margin:0 0 6px}
+.bsblk .slipwrap .sdek{margin:0 0 12px;max-width:60ch;color:var(--muted)}
+.slipin .small{font-size:13px;color:var(--muted);margin:4px 0 0}
+.slipfoot{font-size:14px;margin:8px 0 0;color:var(--muted)}
 .aboutblk{border-top:6px solid var(--sign)}
 .aboutblk h2{font-size:clamp(34px,5.5vw,60px);font-weight:900;margin:8px 0 14px;max-width:20ch}
 .aboutblk p{max-width:62ch}
@@ -411,6 +431,45 @@ footer p{margin:0 0 6px;max-width:56ch;color:var(--muted);font-size:13px}
   <!-- BULLSHIT NEVER -->
   <section id="bullshit" aria-labelledby="bs-h" class="bsblk">
     <div class="sechead"><h2 id="bs-h">Bullshit never.</h2><p>Things people say about Davos week. And what's actually true.</p></div>
+    <div class="slipwrap" id="slip">
+      <p class="label">Not science. Not even consulting.</p>
+      <h3>The Slip-o-Meter.</h3>
+      <p class="sdek">What are the odds you end up horizontal in the snow tonight? We built a framework. It has a matrix.</p>
+    <div class="slip">
+      <form class="slipin" id="slipform" onsubmit="return false">
+        <label for="s-drinks">Drinks so far <output id="o-drinks">2</output></label>
+        <input type="range" id="s-drinks" min="0" max="12" value="2">
+        <label for="s-shoes">Shoes</label>
+        <select id="s-shoes">
+          <option value="1">Winter boots with grip</option>
+          <option value="3">Moon Boots</option>
+          <option value="5" selected>Sneakers</option>
+          <option value="7">Smooth leather soles</option>
+          <option value="9">Heels</option>
+          <option value="10">Louboutins (why)</option>
+        </select>
+        <label for="s-time">Time</label>
+        <select id="s-time">
+          <option value="0">Before dinner</option>
+          <option value="1" selected>After dinner</option>
+          <option value="2">After the reception</option>
+          <option value="3">After the after-party</option>
+        </select>
+        <label class="chk"><input type="checkbox" id="s-down"> The way home is downhill</label>
+        <label class="chk"><input type="checkbox" id="s-champ"> Someone at a consultancy party said "one more glass"</label>
+        <p class="small" id="s-temp">Outside right now in Davos: checking…</p>
+      </form>
+      <div class="slipout" aria-live="polite">
+        <p class="label">Probability of meeting the snow</p>
+        <p class="pct" id="s-pct">–</p>
+        <div class="bar2"><i id="s-bar"></i></div>
+        <p class="verdict" id="s-verdict"></p>
+        <p class="quad" id="s-quad"></p>
+      </div>
+    </div>
+      <p class="slipfoot">Drinking makes you feel warm. It doesn't make you warm. Night bus: invia PickMeUp, 00:00–06:00. Someone down and not getting up? Call 144.</p>
+    </div>
+
     <div class="wnh"><p class="label">What's normally here? · Saudi House, WEF 2026 · <span class="nyc">Not yet confirmed</span></p><p class="wnh-big">The Migros.</p><p class="wnh-line">Rest of the year: no alcohol. During WEF: still no alcohol. <b>Just more gold.</b></p><p class="wnh-small">The only building on the Promenade that didn't have to change its drinks policy.</p></div>
     <div class="bsgrid"><article class="bsn"><p class="bsn-said">You heard</p><h3>“You need a badge to walk down the Promenade.”</h3><p class="bsn-true"><b>Actually:</b> No. You need shoes with grip. The badge is for the buildings. The ice doesn't check.</p></article><article class="bsn"><p class="bsn-said">You heard</p><h3>“Your guest card is a souvenir.”</h3><p class="bsn-true"><b>Actually:</b> It's a train ticket. Davos Laret to Davos Glaris, free, from your first night. You paid CHF 5.90 for it.</p></article><article class="bsn"><p class="bsn-said">You heard</p><h3>“Taxi is the fast option.”</h3><p class="bsn-true"><b>Actually:</b> During WEF, the taxi is how you spend time, not save it. Motorcade, checkpoint, traffic. Your feet win.</p></article><article class="bsn"><p class="bsn-said">You heard</p><h3>“A drink will keep you warm.”</h3><p class="bsn-true"><b>Actually:</b> It makes you feel warm. You lose heat faster. Physics doesn't attend receptions.</p></article><article class="bsn"><p class="bsn-said">You heard</p><h3>“The last bus has gone.”</h3><p class="bsn-true"><b>Actually:</b> There's an on-demand night bus. It doesn't take your guest card or cash. Download the app before 01:40.</p></article><article class="bsn"><p class="bsn-said">You heard</p><h3>“Someone important will notice your shoes.”</h3><p class="bsn-true"><b>Actually:</b> Nobody looks at shoes. Everybody looks at who just fell over.</p></article></div>
   </section>
@@ -656,5 +715,28 @@ document.addEventListener("click",e=>{
     localStorage.setItem("offdavos_clicks",JSON.stringify(log.slice(-250)));
   }catch(_){}
 });
+</script>
+<script>
+(function(){
+  var T=null;
+  function $(i){return document.getElementById(i);}
+  function calc(){
+    var d=+$("s-drinks").value, sh=+$("s-shoes").value, t=+$("s-time").value, down=$("s-down").checked, ch=$("s-champ").checked;
+    $("o-drinks").textContent=d;
+    var temp=(T==null?-5:T);
+    var ice=temp<=0?1.25:(temp<=3?1.1:0.85);
+    var x=-3.2+0.42*d+0.28*sh+0.45*t+(down?0.7:0)+(ch?0.5:0);
+    var p=Math.round(100/(1+Math.exp(-x))*ice);p=Math.max(1,Math.min(99,p));
+    $("s-pct").textContent=p+"%";$("s-bar").style.width=p+"%";
+    var v=p<15?"You'll be fine. Probably.":p<35?"Walk like a penguin.":p<60?"Small steps. Hold the railing. Swallow your pride.":p<80?"Book the night bus now.":"You are the snow now.";
+    var q=p<15?"Quadrant: Low exposure, high traction. Synergies intact.":p<35?"Quadrant: Moderate risk. Recommend a phased walk-back.":p<60?"Quadrant: High conviction, low traction. Pivot to the bus.":p<80?"Quadrant: Strategic horizontal realignment likely.":"Quadrant: Disruption achieved. Please invoice the pavement.";
+    $("s-verdict").textContent=v;$("s-quad").textContent=q;
+  }
+  ["s-drinks","s-shoes","s-time","s-down","s-champ"].forEach(function(i){$(i).addEventListener("input",calc);$(i).addEventListener("change",calc);});
+  calc();
+  fetch("https://api.open-meteo.com/v1/forecast?latitude=46.8027&longitude=9.8360&elevation=1560&current=temperature_2m&timezone=Europe%2FZurich")
+   .then(function(r){return r.json();}).then(function(d){T=d.current.temperature_2m;$("s-temp").textContent="Outside right now in Davos: "+Math.round(T)+" °C"+(T<=0?". Ice likely.":".");calc();})
+   .catch(function(){$("s-temp").textContent="Live temperature not reachable. We assume −5 °C, which is optimistic.";});
+})();
 </script>
 </body></html>
