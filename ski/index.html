@@ -72,6 +72,23 @@
 .flylbl.stn{font:600 12px var(--body);text-transform:none}
 .flylbl.on{color:var(--sign)}
 .flynote{font-size:12px;color:var(--muted);margin:6px 0 0}
+.piste{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0 8px}
+@media (max-width:860px){.piste{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.piste{grid-template-columns:1fr}}
+.pc{position:relative;padding:20px 18px 22px;color:#fff;min-height:220px;display:flex;flex-direction:column;gap:6px;transform:rotate(var(--r,0deg));box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.pc .pl{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin:0;opacity:.9}
+.pc h3{font-family:var(--display);font-weight:900;font-size:clamp(28px,3.2vw,38px);line-height:.95;text-transform:uppercase;margin:0}
+.pc p{margin:0;font-size:15px}
+.pc .dotc{position:absolute;right:14px;top:14px;width:30px;height:30px;border-radius:50%;background:#fff;opacity:.95}
+.pc.blue{background:#1D5FBF;--r:-1deg}
+.pc.red{background:#C8232C;--r:.8deg}
+.pc.black{background:#111;--r:-.6deg;outline:1px solid #444}
+.pc.route{background:repeating-linear-gradient(135deg,#F5C400 0 18px,#E0A800 18px 36px);color:#151515;--r:1deg}
+.pc.route .dotc{background:#151515}
+.pc.blue .dotc{background:#1D5FBF;border:5px solid #fff}
+.pc.red .dotc{background:#C8232C;border:5px solid #fff}
+.pc.black .dotc{background:#111;border:5px solid #fff}
+@media (prefers-reduced-motion:reduce){.pc{transform:none}}
 </style>
 </head>
 <body>
@@ -102,7 +119,20 @@
     <p><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=facilities" target="_blank" rel="noopener" style="color:var(--sign);font-weight:600" data-track="lift_status_click">Live lift status ↗</a> &nbsp; <a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=slopes" target="_blank" rel="noopener" style="color:var(--sign);font-weight:600" data-track="piste_status_click">Live piste status ↗</a></p>
   </section>
 
-  <nav class="subnav" aria-label="On this page"><a href="#skimap">Ski map</a><a href="#parsenn">Mountains</a><a href="#pistes">Piste colours</a><a href="#rental">Rental &amp; passes</a><a href="#close">4 pm</a><a href="#weather">Weather</a></nav>
+  <section class="sec" id="pistes" aria-labelledby="p-h">
+    <p class="label">Piste colours</p>
+    <h2 id="p-h">There is no green.</h2>
+    <p class="narrow">In Switzerland the easiest piste is blue. Switzerland is being optimistic. Here's the translation.</p>
+    <div class="piste">
+      <article class="pc blue"><span class="dotc"></span><p class="pl">Blue</p><h3>You'll probably survive.</h3><p>Easy. Still a mountain. The CEO in rental boots is on this one. Wave.</p></article>
+      <article class="pc red"><span class="dotc"></span><p class="pl">Red</p><h3>Know what you're doing.</h3><p>Steeper than it looks from the chairlift. Steeper than your LinkedIn says you are.</p></article>
+      <article class="pc black"><span class="dotc"></span><p class="pl">Black</p><h3>Your health insurance should know.</h3><p>Not the place to test your new boots. Or your ego. Or both at once.</p></article>
+      <article class="pc route"><span class="dotc"></span><p class="pl">Ski route</p><h3>Marked. Not groomed.</h3><p>Nobody's coming to tidy it for you. Check the legend on the piste map before you commit.</p></article>
+    </div>
+    <p class="small">Green slopes? That's other countries. Here, "easy" is a matter of opinion.</p>
+  </section>
+
+  <nav class="subnav" aria-label="On this page"><a href="#pistes">Piste colours</a><a href="#skimap">Ski map</a><a href="#parsenn">Mountains</a><a href="#rental">Rental &amp; passes</a><a href="#close">4 pm</a><a href="#weather">Weather</a></nav>
 
   <section class="sec" id="skimap" aria-labelledby="sm-h">
     <h2 id="sm-h">Five mountains. One valley.</h2>
@@ -215,17 +245,6 @@
     <div class="grid"><article class="tip"><p class="label">For</p><h3>Freeriders and people who like quiet.</h3></article><article class="tip"><p class="label">Get there</p><h3>Bus from Davos Dorf towards the Flüela pass.</h3></article><article class="tip no"><p class="label">Good to know</p><h3>Off-piste means avalanche risk. Read the bulletin first.</h3></article></div>
     <p class="links"><a href="https://www.davosklostersmountains.ch/en/mountains/mountains/pischa" target="_blank" rel="noopener">Lifts &amp; slopes today ↗</a></p>
   </div>
-  </section>
-
-  <section class="sec" id="pistes" aria-labelledby="p-h">
-    <h2 id="p-h">There is no green.</h2>
-    <p class="narrow">Swiss pistes come in three colours. The easiest one is blue. Switzerland is being optimistic.</p>
-    <div class="grid">
-      <article class="rule"><p class="label">Blue</p><h3>You'll probably survive.</h3><p>Easy. Still a mountain.</p></article>
-      <article class="rule"><p class="label">Red</p><h3>Know what you're doing.</h3><p>Intermediate. Steeper than it looks from the chairlift.</p></article>
-      <article class="rule"><p class="label">Black</p><h3>Your health insurance should know.</h3><p>Difficult. Not the place to test your new boots.</p></article>
-      <article class="rule"><p class="label">Ski routes</p><h3>Marked, not groomed.</h3><p>Not checked like a piste. Read the legend on the piste map.</p></article>
-    </div>
   </section>
 
   <section class="sec" id="rental" aria-labelledby="r-h">
