@@ -100,4 +100,3 @@ footer p{margin:0 0 10px;max-width:56ch;color:var(--muted);font-size:14px}
 .card .c{padding:16px}
 .card h2{font-size:clamp(28px,3.6vw,36px);font-weight:900;margin:8px 0 8px}
 .card p.d{margin:0;color:var(--muted)}
-.sno{font-weight:700;color:var(--ink)}

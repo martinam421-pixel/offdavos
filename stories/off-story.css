@@ -105,4 +105,3 @@ footer{border-top:1px solid var(--ink);margin-top:48px;padding-block:20px 32px;d
 @media (max-width:700px){footer{grid-template-columns:1fr}}
 footer .r{font-family:var(--display);font-weight:900;font-size:20px;text-transform:uppercase;line-height:1}
 footer p{margin:0 0 6px;color:var(--muted);font-size:13px}
-.sno{font-weight:700;color:var(--ink)}
