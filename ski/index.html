@@ -76,16 +76,16 @@
 .flylbl.on{color:var(--sign)}
 .flynote{font-size:12px;color:var(--muted);margin:6px 0 0}
 .ptab{border-top:3px solid var(--ink);margin:22px 0 10px}
-.prow{display:grid;grid-template-columns:150px 1fr 1fr 1.4fr;gap:18px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line)}
+.prow{display:grid;grid-template-columns:190px .8fr 1fr 1.5fr;gap:18px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line)}
 .prow.hd{padding:10px 0;border-bottom:1px solid var(--ink)}
 .prow.hd span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.pn{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:900;font-size:30px;text-transform:uppercase;line-height:1}
+.pn{display:flex;align-items:center;gap:10px;white-space:nowrap;font-family:var(--display);font-weight:900;font-size:30px;text-transform:uppercase;line-height:1}
 .pdot{width:16px;height:16px;border-radius:50%;flex:none;display:inline-block}
 .pdot.blue{background:#1D5FBF}.pdot.red{background:#C8232C}.pdot.black{background:var(--ink)}
 .pdot.route{background:repeating-linear-gradient(135deg,#F5C400 0 4px,#151515 4px 8px);border-radius:2px}
 .psays{font-size:16px;color:var(--muted)}
 .pcons{font-family:var(--mono);font-size:14px}
-.preal{font-size:17px}.preal b{display:block;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase;line-height:1;margin-bottom:4px}
+.preal{font-size:17px}.preal b{display:block;text-wrap:balance;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase;line-height:1;margin-bottom:4px}
 .plab{display:none;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
 @media (max-width:760px){.prow{grid-template-columns:1fr;gap:8px}.prow.hd{display:none}.plab{display:block}}
 .pgreen{display:flex;align-items:center;gap:10px;margin:16px 0 0;font-size:15px}
