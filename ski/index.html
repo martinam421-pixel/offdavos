@@ -1,249 +1,323 @@
 <!doctype html>
-<html lang="en" style="background:#221D19;">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Which Mountain? · OFF DAVOS</title>
+<title>Ski in Davos · OFF DAVOS</title>
+<meta name="description" content="Skiing in Davos during WEF: five mountains, which one to pick, how to get there, piste colours, rental and passes, and when the lifts stop. Rinerhorn and Pischa close during WEF week.">
+<meta name="theme-color" content="#F5C400">
+<link rel="canonical" href="https://off-davos.com/ski/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700;0,6..72,800;1,6..72,400;1,6..72,500;1,6..72,600&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../stories/off-story.css">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js" defer></script>
+
 <style>
-/* Ski map tool: our own schematic drawing; details always link to the lift operator. */
-.skimap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);border:1px solid var(--rule);background:var(--bg-2)}
-@media (max-width:700px){.skimap{grid-template-columns:minmax(0,1fr)}}
-.skimap svg{display:block;width:100%;height:auto}
-.skimap-panel{border-left:1px solid var(--rule);padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0;background:var(--bg)}
-@media (max-width:700px){.skimap-panel{border-left:0;border-top:1px solid var(--rule)}}
-.skimap-panel h3{font-weight:800;font-size:clamp(30px,4vw,40px);line-height:1;letter-spacing:-.02em}
-.skimap-panel dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;margin:0;font-family:var(--font-ui);font-size:14px;line-height:1.4}
-.skimap-panel dt{color:var(--dim)}
-.skimap-panel dd{margin:0}
-.skimap-links{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding-top:4px}
-.mtn-pick{display:flex;flex-wrap:wrap;gap:6px}
-.mtn-pick button{font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;min-height:40px;padding:8px 12px;background:transparent;color:var(--fg);border:1px solid var(--rule);cursor:pointer}
-.mtn-pick button:hover{border-color:var(--dim)}
-.mtn-pick button[aria-pressed="true"]{background:var(--yellow);color:var(--on-yellow);border-color:var(--yellow)}
+:root{--slope:#DCE4E2;--slope2:#C9D4D1;--water:#B9D2DD;--snowbg:#F7F9F9}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--slope:#18242D;--slope2:#22313C;--water:#22404F;--snowbg:#121C24}}
+:root[data-theme="dark"]{--slope:#18242D;--slope2:#22313C;--water:#22404F;--snowbg:#121C24}
+.subnav{display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 8px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.subnav a{text-decoration:none;border-bottom:2px solid var(--sign)}
+.skimap{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:12px;margin:16px 0 8px}
+@media (max-width:820px){.skimap{grid-template-columns:1fr}}
+.skisvg{background:var(--snowbg);border:1px solid var(--line)}
+.skisvg svg{display:block;width:100%;height:auto}
+.skisvg text{font-family:var(--body);fill:var(--ink);paint-order:stroke;stroke:var(--snowbg);stroke-width:4px;stroke-linejoin:round}
+.skisvg .st rect{fill:var(--ink)}
+.skisvg .st text{font-size:13px;font-weight:600}
+.skisvg .small{font-size:11px;fill:var(--muted)}
 .mk{cursor:pointer}
-.mk .tri{fill:var(--bg);stroke:var(--fg);stroke-width:2}
-.mk.on .tri{fill:var(--yellow);stroke:var(--yellow)}
-.mk text{font:700 13px Inter,sans-serif;letter-spacing:.1em;fill:var(--fg)}
-.mk.on text{fill:var(--yellow)}
-.mk:focus{outline:none}
-.mk:focus-visible .tri{stroke:var(--yellow);stroke-width:4}
+.mk .tri{fill:var(--surface);stroke:var(--ink);stroke-width:2.5}
+.mk text{font-family:var(--display);font-weight:900;font-size:22px;letter-spacing:.02em}
+.mk.on .tri{fill:var(--sign);stroke:var(--sign-ink)}
+.mk.closed .tri{stroke-dasharray:4 3}
+.mk:focus{outline:none}.mk:focus-visible .tri{stroke-width:5}
+.panel{background:var(--ink);color:var(--bg);border-left:6px solid var(--sign);padding:18px;display:flex;flex-direction:column;gap:8px}
+.panel .label{color:var(--sign)}
+.panel h3{font-size:clamp(40px,5vw,56px);font-weight:900;margin:2px 0 6px}
+.panel dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:15px}
+.panel dt{color:var(--sign);font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
+.panel dd{margin:0}
+.panel .warn{background:var(--sign);color:var(--sign-ink);font-weight:600;padding:6px 10px;margin:4px 0}
+.panel a{color:var(--sign);font-weight:600}
+.pick{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
+.pick button{font:700 16px var(--display);text-transform:uppercase;letter-spacing:.04em;padding:8px 14px;background:var(--surface);color:var(--ink);border:2px solid var(--ink);cursor:pointer}
+.pick button[aria-pressed="true"]{background:var(--sign);color:var(--sign-ink);border-color:var(--sign-ink)}
+.mtn{border-top:2px solid var(--ink);padding:26px 0 8px}
+.mtn h2{margin:6px 0 10px!important}
+.mtn .closedtag{display:inline-block;background:var(--pay);color:var(--surface);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;margin:0 0 8px}
+.mtn .links{display:flex;flex-wrap:wrap;gap:8px 18px;margin:10px 0 0;font-weight:600}
+.fly{position:relative;height:clamp(380px,62vh,640px);background:#0b1218;border:1px solid var(--line);margin:16px 0 0;overflow:hidden}
+.fly #flymap{position:absolute;inset:0}
+.fly .hud{position:absolute;left:12px;top:12px;z-index:2;background:rgba(19,32,43,.82);color:#fff;padding:10px 14px;border-left:5px solid var(--sign);max-width:min(360px,70%)}
+.fly .hud b{display:block;font-family:var(--display);font-weight:900;font-size:clamp(28px,4vw,44px);text-transform:uppercase;line-height:.95;color:var(--sign)}
+.fly .hud span{font-size:13px}
+.fly .ctl{position:absolute;right:12px;bottom:34px;z-index:2;display:flex;gap:6px}
+.fly .ctl button{font:700 13px var(--mono);text-transform:uppercase;padding:8px 10px;background:var(--sign);color:var(--sign-ink);border:0;cursor:pointer}
+.flylbl{font:900 18px var(--display);text-transform:uppercase;color:#fff;text-shadow:0 1px 3px #000,0 0 8px #000;letter-spacing:.03em;pointer-events:none;white-space:nowrap}
+.flylbl.closed{color:#ffb3b3}
+.flylbl.stn{font:600 12px var(--body);text-transform:none}
+.flylbl.on{color:var(--sign)}
+.flynote{font-size:12px;color:var(--muted);margin:6px 0 0}
 </style>
 </head>
 <body>
-<div id="site-header"></div>
-<main>
-
-<section class="answer-dark" style="min-height: 460px;">
-  <img src="../images/hero-valley.jpg" alt="The Davos valley in winter">
-  <div class="answer-dark-fade"></div>
-  <div class="answer-dark-content">
-    <p class="answer-dark-tag">Ski</p>
-    <h1 class="answer-dark-q">Yes. <em>Those giant white things behind the Congress Centre are usable.</em></h1>
-    <p class="answer-dark-body">Five mountains. Several ways to disappear from WEF for a few hours.</p>
+<header class="bar">
+  <div class="wrap">
+    <a class="mark" href="../index.html" aria-label="OFF DAVOS home"><b>OFF</b>DAVOS</a>
+    <nav aria-label="Sections">
+      <a class="live" href="../index.html">Live</a>
+      <a href="../guide/index.html">Guide</a>
+      <a href="../index.html#map">Map</a>
+      <a class="cur" href="index.html" aria-current="page">Ski</a>
+      <a href="../stories/index.html">Stories</a>
+    </nav>
   </div>
-</section>
-<nav class="subnav" aria-label="On this page">
-  <a href="#skimap">Ski map</a><a href="#mountains">Mountains</a><a href="#pistes">Piste colours</a><a href="#rental">Rental &amp; passes</a><a href="#status">Live status</a><a href="#weather">Weather</a>
-</nav>
-<div class="narrow">
-  <section class="block" id="mountains">
-    <p class="label-dim">Mountains</p>
-    <h2>Which mountain?</h2>
-    <p>Wait. There's more than one?</p>
-    <p style="display:flex;flex-wrap:wrap;gap:12px 24px;"><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=maps" target="_blank" rel="noopener" data-track="pistemap_all_click">All piste maps ↗</a><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/webcams" target="_blank" rel="noopener" data-track="webcam_all_click">All webcams ↗</a></p>
-    <p class="label-dim">Check it yourself</p>
-    <p style="display:flex;flex-wrap:wrap;gap:12px 24px;"><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=facilities" target="_blank" rel="noopener" data-track="lift_status_click">Live lift status ↗</a><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=slopes" target="_blank" rel="noopener" data-track="piste_status_click">Live piste status ↗</a><a class="cta" href="https://www.davos.ch/en/discover/mountains-in-davos-klosters/winter-sports-report/lifts-and-piste-report" target="_blank" rel="noopener" data-track="davos_ch_lift_report_click">davos.ch lifts &amp; piste report ↗</a></p>
-    <p class="label-dim">Source: Davos Klosters Bergbahnen, the lift operator. We can't check live whether lifts are open, so we link to the people who can.</p>
+</header>
+
+<main class="wrap">
+  <header class="hero">
+    <p class="label">Ski</p>
+    <h1>Yes. Those giant white things are usable.</h1>
+    <p class="dek">Five mountains. Several ways to disappear from WEF for a few hours.</p>
+  </header>
+
+  <section class="save" aria-label="Save it">
+    <p class="label">Save it · the 10-second version</p>
+    <p class="hit">Two mountains. Zero lifts.</p>
+    <p><b>Rinerhorn and Pischa close during WEF week.</b> Parsenn, Jakobshorn and Madrisa stay open. Last lift up is around 4 pm. Check live status before you go, not yesterday's memory.</p>
+    <p><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=facilities" target="_blank" rel="noopener" style="color:var(--sign);font-weight:600" data-track="lift_status_click">Live lift status ↗</a> &nbsp; <a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=slopes" target="_blank" rel="noopener" style="color:var(--sign);font-weight:600" data-track="piste_status_click">Live piste status ↗</a></p>
   </section>
-  <section class="block" id="skimap">
-    <p class="label-dim">Ski map · tap a mountain</p>
-    <h2>Five mountains. One valley.</h2>
-    <div class="mtn-pick" role="group" aria-label="Choose a mountain">
-      <button type="button" id="pick-parsenn" data-m="parsenn" aria-pressed="true">Parsenn</button>
-      <button type="button" id="pick-jakobshorn" data-m="jakobshorn" aria-pressed="false">Jakobshorn</button>
-      <button type="button" id="pick-rinerhorn" data-m="rinerhorn" aria-pressed="false">Rinerhorn</button>
-      <button type="button" id="pick-pischa" data-m="pischa" aria-pressed="false">Pischa</button>
-      <button type="button" id="pick-madrisa" data-m="madrisa" aria-pressed="false">Madrisa</button>
+
+  <nav class="subnav" aria-label="On this page"><a href="#skimap">Ski map</a><a href="#parsenn">Mountains</a><a href="#pistes">Piste colours</a><a href="#rental">Rental &amp; passes</a><a href="#close">4 pm</a><a href="#weather">Weather</a></nav>
+
+  <section class="sec" id="skimap" aria-labelledby="sm-h">
+    <h2 id="sm-h">Five mountains. One valley.</h2>
+    <p class="label">Tap a mountain</p>
+    <div class="pick" role="group" aria-label="Choose a mountain">
+      <button type="button" data-m="parsenn" aria-pressed="true">Parsenn</button>
+      <button type="button" data-m="jakobshorn" aria-pressed="false">Jakobshorn</button>
+      <button type="button" data-m="madrisa" aria-pressed="false">Madrisa</button>
+      <button type="button" data-m="rinerhorn" aria-pressed="false">Rinerhorn</button>
+      <button type="button" data-m="pischa" aria-pressed="false">Pischa</button>
     </div>
+
+    <div class="fly" id="fly">
+      <div id="flymap" role="img" aria-label="3D satellite view of the Davos valley. The camera flies to the mountain you choose."></div>
+      <div class="hud" aria-live="polite"><b id="fly-name">Davos</b><span id="fly-sub">Five mountains. One valley. Tap a mountain.</span></div>
+      <div class="ctl"><button type="button" id="fly-spin">Pause drone</button><button type="button" id="fly-home">Whole valley</button></div>
+    </div>
+    <p class="flynote" id="fly-note">3D view: swisstopo SWISSIMAGE satellite imagery, terrain from open elevation data. Mountain labels are approximate. Drag to look around.</p>
     <div class="skimap">
-      <svg viewBox="0 0 800 470" role="img" aria-label="Schematic map of the Davos valley from Davos Glaris in the southwest to Klosters in the northeast, with the five ski mountains">
-        <rect width="800" height="470" fill="var(--bg-2)"/>
-        <path d="M0 0 H800 V40 C700 60 640 110 560 150 C480 190 400 215 330 250 C250 290 150 330 0 380 Z" fill="var(--map-slope)"/>
-        <path d="M0 470 H800 V170 C720 180 660 220 590 260 C510 300 440 320 360 350 C260 390 150 430 0 460 Z" fill="var(--map-slope)"/>
-        <ellipse cx="505" cy="205" rx="30" ry="15" fill="var(--map-water)"/>
-        <text x="505" y="232" font-family="Newsreader, Georgia, serif" font-size="12" font-style="italic" fill="var(--dim)" text-anchor="middle">Davosersee</text>
-        <path d="M40 430 C150 390 220 345 270 320 S380 265 430 240 S560 170 650 120 S700 88 770 60" fill="none" stroke="var(--rule)" stroke-width="10" stroke-linecap="round"/>
-        <path d="M40 430 C150 390 220 345 270 320 S380 265 430 240 S560 170 650 120 S700 88 770 60" fill="none" stroke="var(--dim)" stroke-width="2" stroke-dasharray="8 6"/>
-        <g font-family="Inter, sans-serif" font-size="11" fill="var(--fg)">
-          <rect x="104" y="394" width="11" height="11" fill="var(--fg)"/><text x="60" y="425">Davos Glaris</text>
-          <rect x="264" y="314" width="11" height="11" fill="var(--fg)"/><text x="186" y="314">Davos Platz</text>
-          <rect x="424" y="234" width="11" height="11" fill="var(--fg)"/><text x="444" y="262">Davos Dorf</text>
-          <rect x="644" y="114" width="11" height="11" fill="var(--fg)"/><text x="590" y="142">Klosters Platz</text>
-          <rect x="694" y="80" width="11" height="11" fill="var(--fg)"/><text x="714" y="96">Klosters Dorf</text>
-        </g>
-        <g fill="none" stroke="var(--dim)" stroke-width="1.5" stroke-dasharray="2 4">
-          <path d="M430 240 L330 120"/>
-          <path d="M650 120 L345 108"/>
-          <path d="M270 320 L360 395"/>
-          <path d="M110 400 L205 425"/>
-          <path d="M430 240 L585 305"/>
-          <path d="M700 85 L690 46"/>
-        </g>
-        <g font-family="Inter, sans-serif" font-size="10" fill="var(--dim)">
-          <circle cx="232" cy="262" r="4" fill="none" stroke="var(--dim)" stroke-width="1.5"/>
-          <text x="128" y="250">Schatzalp · not on</text>
-          <text x="128" y="263">the ski pass</text>
-        </g>
-        <g class="mk on" id="mk-parsenn" data-m="parsenn" tabindex="0" role="button" aria-label="Parsenn"><polygon class="tri" points="330,96 316,120 344,120"/><text x="300" y="84">PARSENN</text></g>
-        <g class="mk" id="mk-jakobshorn" data-m="jakobshorn" tabindex="0" role="button" aria-label="Jakobshorn"><polygon class="tri" points="360,384 346,408 374,408"/><text x="384" y="402">JAKOBSHORN</text></g>
-        <g class="mk" id="mk-rinerhorn" data-m="rinerhorn" tabindex="0" role="button" aria-label="Rinerhorn"><polygon class="tri" points="205,414 191,438 219,438"/><text x="228" y="433">RINERHORN</text></g>
-        <g class="mk" id="mk-pischa" data-m="pischa" tabindex="0" role="button" aria-label="Pischa"><polygon class="tri" points="590,294 576,318 604,318"/><text x="614" y="313">PISCHA</text></g>
-        <g class="mk" id="mk-madrisa" data-m="madrisa" tabindex="0" role="button" aria-label="Madrisa"><polygon class="tri" points="690,22 676,46 704,46"/><text x="596" y="40">MADRISA</text></g>
-        <text x="790" y="462" font-family="Inter, sans-serif" font-size="10" fill="var(--dim)" text-anchor="end">Schematic · not to scale · dotted = lift or bus up</text>
-      </svg>
-      <div class="skimap-panel" aria-live="polite">
-        <p class="label-dim" id="sm-tag">From Davos Dorf</p>
+      <div class="skisvg">
+        <svg viewBox="0 0 800 480" role="img" aria-label="Schematic map of the valley from Davos Glaris in the southwest to Klosters in the northeast, with the five ski mountains and how to get up.">
+          <rect width="800" height="480" fill="var(--snowbg)"/>
+          <path d="M0 0 H800 V40 C700 60 640 110 560 150 C480 190 400 215 330 250 C250 290 150 330 0 380 Z" fill="var(--slope)"/>
+          <path d="M0 0 H800 V10 C690 30 600 80 520 115 C420 160 300 200 0 300 Z" fill="var(--slope2)"/>
+          <path d="M0 480 H800 V180 C720 190 660 230 590 270 C510 310 440 330 360 360 C260 400 150 440 0 470 Z" fill="var(--slope)"/>
+          <path d="M0 480 H800 V250 C720 260 650 300 580 335 C500 375 400 400 300 430 C200 460 100 475 0 480 Z" fill="var(--slope2)"/>
+          <ellipse cx="505" cy="205" rx="32" ry="15" fill="var(--water)"/>
+          <path d="M40 430 C150 390 220 345 270 320 S380 265 430 240 S560 170 650 120 S700 88 770 60" fill="none" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M40 430 C150 390 220 345 270 320 S380 265 430 240 S560 170 650 120 S700 88 770 60" fill="none" stroke="var(--snowbg)" stroke-width="2" stroke-dasharray="8 8"/>
+          <g fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="3 5">
+            <path d="M430 240 L330 120"/><path d="M650 120 L345 110"/><path d="M270 320 L360 392"/><path d="M110 400 L205 422"/><path d="M430 240 L585 300"/><path d="M700 85 L690 50"/>
+          </g>
+          <g class="st"><rect x="104" y="394" width="12" height="12"/><text x="40" y="384">Davos Glaris</text></g>
+          <g class="st"><rect x="264" y="314" width="12" height="12"/><text x="160" y="306">Davos Platz</text></g>
+          <g class="st"><rect x="424" y="234" width="12" height="12"/><text x="446" y="262">Davos Dorf</text></g>
+          <g class="st"><rect x="644" y="114" width="12" height="12"/><text x="560" y="150">Klosters Platz</text></g>
+          <g class="st"><rect x="694" y="80" width="12" height="12"/><text x="716" y="96">Klosters Dorf</text></g>
+          <text x="232" y="262" class="small">Schatzalp · not on the ski pass</text>
+          <g class="mk on" data-m="parsenn" tabindex="0" role="button" aria-label="Parsenn"><polygon class="tri" points="330,92 314,120 346,120"/><text x="290" y="82">PARSENN</text></g>
+          <g class="mk" data-m="jakobshorn" tabindex="0" role="button" aria-label="Jakobshorn"><polygon class="tri" points="360,380 344,408 376,408"/><text x="386" y="404">JAKOBSHORN</text></g>
+          <g class="mk closed" data-m="rinerhorn" tabindex="0" role="button" aria-label="Rinerhorn, closed during WEF"><polygon class="tri" points="205,410 189,438 221,438"/><text x="230" y="436">RINERHORN</text><text x="230" y="452" class="small">closed during WEF</text></g>
+          <g class="mk closed" data-m="pischa" tabindex="0" role="button" aria-label="Pischa, closed during WEF"><polygon class="tri" points="590,290 574,318 606,318"/><text x="616" y="312">PISCHA</text><text x="616" y="328" class="small">closed during WEF</text></g>
+          <g class="mk" data-m="madrisa" tabindex="0" role="button" aria-label="Madrisa"><polygon class="tri" points="690,20 674,48 706,48"/><text x="580" y="40">MADRISA</text></g>
+          <text x="790" y="472" class="small" text-anchor="end">Our drawing, not to scale · dotted = lift or bus up</text>
+        </svg>
+      </div>
+      <div class="panel" aria-live="polite">
+        <p class="label" id="sm-tag">From Davos Dorf</p>
         <h3 id="sm-name">Parsenn.</h3>
-        <dl>
-          <dt>Get there</dt><dd id="sm-there">Parsennbahn, next to Davos Dorf station. From Klosters: Gotschnabahn.</dd>
-          <dt>Pick it if</dt><dd id="sm-pick">You only get one day.</dd>
-        </dl>
-        <div class="skimap-links">
-          <a class="cta" id="sm-map" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=maps" target="_blank" rel="noopener" data-track="skimap_pistemap_click">Piste map ↗</a>
-          <a class="cta" id="sm-cams" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/webcams" target="_blank" rel="noopener" data-track="skimap_webcam_click">Webcams ↗</a>
-          <a class="cta" id="sm-live" href="https://www.davosklostersmountains.ch/en/mountains/mountains/parsenn" target="_blank" rel="noopener" data-track="skimap_mountain_click">Lifts &amp; slopes today ↗</a>
-          <a class="cta" id="sm-more" href="#parsenn">More on this page ↓</a>
-        </div>
+        <p class="warn" id="sm-warn" hidden>Closed during WEF week.</p>
+        <dl><dt>Get there</dt><dd id="sm-there"></dd><dt>Pick it if</dt><dd id="sm-pick"></dd></dl>
+        <p><a id="sm-live" href="https://www.davosklostersmountains.ch/en/mountains/mountains/parsenn" target="_blank" rel="noopener">Lifts &amp; slopes today ↗</a></p>
+        <p><a id="sm-more" href="#parsenn">More on this page ↓</a></p>
       </div>
     </div>
-    <p class="label-dim">Our drawing, not the official piste map. Live details: Davos Klosters Bergbahnen.</p>
   </section>
-  <section class="block" id="parsenn">
-    <p class="label-dim">01 · from Davos Dorf</p>
+
+  <section class="mtn" id="parsenn">
+    <p class="label">From Davos Dorf</p>
     <h2>Parsenn.</h2>
-    <p>The big classic. Access from Davos Dorf via the Parsennbahn and from Klosters via the Gotschnabahn. If you have one proper ski day, start here.</p>
-    <div class="qa-grid"><div><p class="label-dim">For</p><b>Everyone.</b></div><div><p class="label-dim">Get there</p><b>Parsennbahn, next to Davos Dorf station.</b></div><div><p class="label-dim">Good to know</p><b>Long runs, some all the way down to Klosters.</b></div><div><p class="label-dim">Pick it if</p><b>You only get one day.</b></div></div>
-    <p style="display:flex;flex-wrap:wrap;gap:12px 24px;"><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=maps" target="_blank" rel="noopener" data-track="pistemap_parsenn_click">Piste map ↗</a><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/webcams" target="_blank" rel="noopener" data-track="webcam_parsenn_click">Webcams ↗</a><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/mountains/parsenn" target="_blank" rel="noopener" data-track="mountain_parsenn_click">Lifts &amp; slopes today ↗</a></p>
+    <p>The big classic. Up from Davos Dorf with the Parsennbahn, or from Klosters with the Gotschnabahn. If you have one proper ski day, start here.</p>
+    <div class="grid"><article class="tip"><p class="label">For</p><h3>Everyone.</h3></article><article class="tip"><p class="label">Get there</p><h3>Parsennbahn, next to Davos Dorf station.</h3></article><article class="tip"><p class="label">Good to know</p><h3>Long runs, some all the way down to Klosters.</h3></article><article class="tip"><p class="label">Pick it if</p><h3>You only get one day.</h3></article></div>
+    <p class="links"><a href="https://www.davosklostersmountains.ch/en/mountains/mountains/parsenn" target="_blank" rel="noopener">Lifts &amp; slopes today ↗</a><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=maps" target="_blank" rel="noopener">Piste map ↗</a><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/webcams" target="_blank" rel="noopener">Webcams ↗</a></p>
   </section>
-  <section class="block" id="jakobshorn">
-    <p class="label-dim">02 · from Davos Platz</p>
+
+  <section class="mtn" id="jakobshorn">
+    <p class="label">From Davos Platz</p>
     <h2>Jakobshorn.</h2>
     <p>Right by Davos Platz. Convenient if your meeting mysteriously finishes early.</p>
-    <div class="qa-grid"><div><p class="label-dim">For</p><b>A short escape. Freestyle and snowpark.</b></div><div><p class="label-dim">Get there</p><b>Cable car across from Davos Platz station.</b></div><div><p class="label-dim">Good to know</p><b>The closest mountain to the Platz end of the Promenade.</b></div><div><p class="label-dim">Pick it if</p><b>You have three hours between two meetings.</b></div></div>
-    <p style="display:flex;flex-wrap:wrap;gap:12px 24px;"><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=maps" target="_blank" rel="noopener" data-track="pistemap_jakobshorn_click">Piste map ↗</a><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/webcams" target="_blank" rel="noopener" data-track="webcam_jakobshorn_click">Webcams ↗</a><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/mountains/jakobshorn" target="_blank" rel="noopener" data-track="mountain_jakobshorn_click">Lifts &amp; slopes today ↗</a></p>
+    <div class="grid"><article class="tip"><p class="label">For</p><h3>A short escape. Freestyle and snowpark.</h3></article><article class="tip"><p class="label">Get there</p><h3>Cable car across from Davos Platz station.</h3></article><article class="tip"><p class="label">Good to know</p><h3>The closest mountain to the Platz end of the Promenade.</h3></article><article class="tip"><p class="label">Pick it if</p><h3>You have three hours between two meetings.</h3></article></div>
+    <p class="links"><a href="https://www.davosklostersmountains.ch/en/mountains/mountains/jakobshorn" target="_blank" rel="noopener">Lifts &amp; slopes today ↗</a><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=maps" target="_blank" rel="noopener">Piste map ↗</a><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/webcams" target="_blank" rel="noopener">Webcams ↗</a></p>
   </section>
-  <section class="block" id="rinerhorn">
-    <p class="label-dim">03 · Davos Glaris</p>
-    <h2>Rinerhorn.</h2>
-    <p>Further down the valley. Quieter. Good for: fewer badges.</p>
-    <p><b>Closed during WEF week.</b> It was closed 19–23 January 2026, and the 2026/27 operating times say it closes during WEF again.</p>
-    <div class="qa-grid"><div><p class="label-dim">For</p><b>Families and relaxed skiers.</b></div><div><p class="label-dim">Get there</p><b>Train or bus to Davos Glaris.</b></div><div><p class="label-dim">Good to know</p><b>Closed during WEF week.</b></div><div><p class="label-dim">Pick it if</p><b>You want a day where nobody asks what you do.</b></div></div>
-    <p style="display:flex;flex-wrap:wrap;gap:12px 24px;"><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=maps" target="_blank" rel="noopener" data-track="pistemap_rinerhorn_click">Piste map ↗</a><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/webcams" target="_blank" rel="noopener" data-track="webcam_rinerhorn_click">Webcams ↗</a><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/mountains/rinerhorn" target="_blank" rel="noopener" data-track="mountain_rinerhorn_click">Lifts &amp; slopes today ↗</a></p>
-  </section>
-  <section class="block" id="pischa">
-    <p class="label-dim">04 · above Davos Dorf</p>
-    <h2>Pischa.</h2>
-    <p>The quiet one up the Flüela road. Less piste, more powder.</p>
-    <p><b>Closed during WEF week.</b> Same as Rinerhorn: closed 19–23 January 2026, and closing during WEF again this winter.</p>
-    <div class="qa-grid"><div><p class="label-dim">For</p><b>Freeriders and people who like quiet.</b></div><div><p class="label-dim">Get there</p><b>By bus from Davos Dorf towards the Flüela pass.</b></div><div><p class="label-dim">Good to know</p><b>Off-piste means avalanche risk. Read the bulletin first.</b></div><div><p class="label-dim">Pick it if</p><b>You want fewer people and more snow.</b></div></div>
-    <p style="display:flex;flex-wrap:wrap;gap:12px 24px;"><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=maps" target="_blank" rel="noopener" data-track="pistemap_pischa_click">Piste map ↗</a><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/webcams" target="_blank" rel="noopener" data-track="webcam_pischa_click">Webcams ↗</a><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/mountains/pischa" target="_blank" rel="noopener" data-track="mountain_pischa_click">Lifts &amp; slopes today ↗</a></p>
-  </section>
-  <section class="block" id="madrisa">
-    <p class="label-dim">05 · Klosters</p>
+
+  <section class="mtn" id="madrisa">
+    <p class="label">Klosters</p>
     <h2>Madrisa.</h2>
     <p>Over in Klosters. Sunny, family-friendly, and far enough away to forget the Promenade.</p>
-    <div class="qa-grid"><div><p class="label-dim">For</p><b>Families, sunny slopes.</b></div><div><p class="label-dim">Get there</p><b>Train to Klosters Dorf, then the Madrisa gondola.</b></div><div><p class="label-dim">Good to know</p><b>Check whether your guest card covers the trip to Klosters.</b></div><div><p class="label-dim">Pick it if</p><b>You need to leave Davos to remember it exists.</b></div></div>
-    <p style="display:flex;flex-wrap:wrap;gap:12px 24px;"><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=maps" target="_blank" rel="noopener" data-track="pistemap_madrisa_click">Piste map ↗</a><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/webcams" target="_blank" rel="noopener" data-track="webcam_madrisa_click">Webcams ↗</a><a class="cta" href="https://www.davosklostersmountains.ch/en/mountains/mountains/madrisa" target="_blank" rel="noopener" data-track="mountain_madrisa_click">Lifts &amp; slopes today ↗</a></p>
+    <div class="grid"><article class="tip"><p class="label">For</p><h3>Families, sunny slopes.</h3></article><article class="tip"><p class="label">Get there</p><h3>Train to Klosters Dorf, then the Madrisa gondola.</h3></article><article class="tip no"><p class="label">Good to know</p><h3>Your Davos guest card doesn't cover the train to Klosters. Buy a ticket.</h3></article><article class="tip"><p class="label">Pick it if</p><h3>You need to leave Davos to remember it exists.</h3></article></div>
+    <p class="links"><a href="https://www.davosklostersmountains.ch/en/mountains/mountains/madrisa" target="_blank" rel="noopener">Lifts &amp; slopes today ↗</a><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=maps" target="_blank" rel="noopener">Piste map ↗</a><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/webcams" target="_blank" rel="noopener">Webcams ↗</a></p>
   </section>
-  <section class="block" id="pistes">
-    <p class="label-dim">Piste colours</p>
-    <h2>There is no green.</h2>
-    <p>Swiss pistes come in three colours. The easiest one is blue. Switzerland is being optimistic.</p>
-    <div class="info-rows">
-      <div><b>Blue</b><p>Easy. Still a mountain.</p></div>
-      <div><b>Red</b><p>Intermediate. Steeper than it looks from the chairlift.</p></div>
-      <div><b>Black</b><p>Difficult. Not the place to test your new boots.</p></div>
-      <div><b>Ski routes</b><p>Marked but not groomed or checked like a piste. The colour on the piste map varies, so read the legend.</p></div>
+
+  <section class="mtn" id="rinerhorn">
+    <p class="label">Davos Glaris</p>
+    <h2>Rinerhorn.</h2>
+    <p class="closedtag">Closed during WEF week</p>
+    <p>Further down the valley. Quieter. Good for: fewer badges. It was closed 19–23 January 2026, and this winter's operating times say it closes during WEF again.</p>
+    <div class="grid"><article class="tip"><p class="label">For</p><h3>Families and relaxed skiers.</h3></article><article class="tip"><p class="label">Get there</p><h3>Train or bus to Davos Glaris.</h3></article><article class="tip"><p class="label">Pick it if</p><h3>You want a day where nobody asks what you do. Before or after WEF.</h3></article></div>
+    <p class="links"><a href="https://www.davosklostersmountains.ch/en/mountains/mountains/rinerhorn" target="_blank" rel="noopener">Lifts &amp; slopes today ↗</a></p>
+  </section>
+
+  <section class="mtn" id="pischa">
+    <p class="label">Above Davos Dorf</p>
+    <h2>Pischa.</h2>
+    <p class="closedtag">Closed during WEF week</p>
+    <p>The quiet one up the Flüela road. Less piste, more powder. Same as Rinerhorn: closed during WEF in 2026 and again this winter.</p>
+    <div class="grid"><article class="tip"><p class="label">For</p><h3>Freeriders and people who like quiet.</h3></article><article class="tip"><p class="label">Get there</p><h3>Bus from Davos Dorf towards the Flüela pass.</h3></article><article class="tip no"><p class="label">Good to know</p><h3>Off-piste means avalanche risk. Read the bulletin first.</h3></article></div>
+    <p class="links"><a href="https://www.davosklostersmountains.ch/en/mountains/mountains/pischa" target="_blank" rel="noopener">Lifts &amp; slopes today ↗</a></p>
+  </section>
+
+  <section class="sec" id="pistes" aria-labelledby="p-h">
+    <h2 id="p-h">There is no green.</h2>
+    <p class="narrow">Swiss pistes come in three colours. The easiest one is blue. Switzerland is being optimistic.</p>
+    <div class="grid">
+      <article class="rule"><p class="label">Blue</p><h3>You'll probably survive.</h3><p>Easy. Still a mountain.</p></article>
+      <article class="rule"><p class="label">Red</p><h3>Know what you're doing.</h3><p>Intermediate. Steeper than it looks from the chairlift.</p></article>
+      <article class="rule"><p class="label">Black</p><h3>Your health insurance should know.</h3><p>Difficult. Not the place to test your new boots.</p></article>
+      <article class="rule"><p class="label">Ski routes</p><h3>Marked, not groomed.</h3><p>Not checked like a piste. Read the legend on the piste map.</p></article>
     </div>
   </section>
 
-  <section class="block" id="rental">
-    <p class="label-dim">Rental &amp; passes</p>
-    <h2>You didn't bring skis. Nobody did.</h2>
-    <div class="qa-grid">
-      <div><p class="label-dim">Rent?</p><b>Sport shops in Dorf and Platz, many next to the lifts.</b></div>
-      <div><p class="label-dim">Book ahead?</p><b>During WEF week, yes.</b></div>
-      <div><p class="label-dim">Pass?</p><b>At the valley station or online. Prices can change by day.</b></div>
-      <div><p class="label-dim">Hotel deal?</p><b>Some hotels include lift passes. Ask before you buy.</b></div>
-    </div>
-    <p>A day pass covers the whole Davos Klosters area. Check the current options on the official site before you queue.</p>
-    <p><a class="cta" href="https://www.davos.ch/en/" target="_blank" rel="noopener">Passes and prices · davos.ch ↗</a></p>
+  <section class="sec" id="rental" aria-labelledby="r-h">
+    <h2 id="r-h">You didn't bring skis. Nobody did.</h2>
+    <div class="tw"><table class="facts">
+      <tr><th>Rent?</th><td>Sport shops in Dorf and Platz, many right next to the lifts.</td></tr>
+      <tr><th>Book ahead?</th><td>During WEF week, yes.</td></tr>
+      <tr><th>Pass?</th><td>At the valley station or online. Prices can change by day.</td></tr>
+      <tr><th>Hotel deal?</th><td>Some hotels include lift passes. Ask before you buy.</td></tr>
+      <tr><th>Guest card?</th><td>Gets you to the valley stations for free (Davos Laret to Glaris). Not a ski pass.</td></tr>
+    </table></div>
+    <ul class="links"><li><a href="https://www.davos.ch/en/discover/mountains-in-davos-klosters/operating-times" target="_blank" rel="noopener">Operating times this winter <span>davos.ch · incl. WEF closures</span></a></li><li><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=operationTimes" target="_blank" rel="noopener">Passes, prices and hours <span>Davos Klosters Mountains</span></a></li></ul>
   </section>
 
-</div>
-<section class="answer-dark" id="status" style="min-height: 460px; margin-block: 24px;">
-  <img src="../images/ski-mountain.jpg" alt="Chairlift above Davos">
-  <div class="answer-dark-fade"></div>
-  <div class="answer-dark-content">
-    <p class="answer-dark-tag" style="color: var(--yellow);">The mountain has opinions</p>
-    <h2 class="answer-dark-q">When does the mountain close? <em>4pm means 4pm.</em></h2>
-    <p class="answer-dark-body">The mountain does not care that your panel ran late. Last lift up is around 4pm; last lift down is shortly after. Check the day's status, not yesterday's memory.</p>
-    <a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=facilities" class="btn-yellow" target="_blank" rel="noopener" style="max-width: 320px; margin-top: 14px;">Check live lift status →</a>
-  </div>
-</section>
-<div class="narrow">
-
-  <section class="block" id="weather">
-    <p class="label-dim">Weather</p>
-    <h2>Sun down here. Wind up there.</h2>
-    <p>Sun in the valley does not mean sun at 2,600 m. Wind closes upper lifts. Fresh snow off-piste means avalanche risk.</p>
-    <div class="info-rows">
-      <div><b>Forecast</b><p><a href="https://www.meteoswiss.admin.ch/" target="_blank" rel="noopener">MeteoSwiss ↗</a>, or today's numbers on our <a href="../index.html#live">Live</a> page.</p></div>
-      <div><b>Avalanche bulletin</b><p>Published by SLF, which is based in Davos. White Risk app or <a href="https://www.slf.ch/en/" target="_blank" rel="noopener">slf.ch ↗</a></p></div>
-      <div><b>Emergency on the mountain</b><p>Rega air rescue 1414 · Ambulance 144</p></div>
-    </div>
+  <section class="save" id="close" aria-labelledby="c-h" style="margin-top:36px">
+    <p class="label">The mountain has opinions</p>
+    <h2 id="c-h" class="hit" style="font-size:clamp(40px,7vw,72px)">4 pm means 4 pm.</h2>
+    <p>The mountain does not care that your panel ran late. Last lift up is around 4 pm; last lift down shortly after. Your badge does not outrank the mountain.</p>
+    <p><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=facilities" target="_blank" rel="noopener" style="color:var(--sign);font-weight:600">Check live lift status ↗</a></p>
   </section>
-</div>
-<div style="height: 72px;"></div>
+
+  <section class="sec" id="weather" aria-labelledby="w-h">
+    <h2 id="w-h">Sun down here. Wind up there.</h2>
+    <p class="narrow">Sun in the valley does not mean sun at 2,600 m. Wind closes upper lifts. Fresh snow off-piste means avalanche risk.</p>
+    <ul class="links">
+      <li><a href="https://www.meteoswiss.admin.ch/" target="_blank" rel="noopener">Forecast <span>MeteoSwiss · or today's numbers on our Live page</span></a></li>
+      <li><a href="https://www.slf.ch/en/" target="_blank" rel="noopener">Avalanche bulletin <span>SLF, based in Davos · White Risk app</span></a></li>
+    </ul>
+    <p><b>Emergency on the mountain:</b> Rega air rescue 1414 · Ambulance 144</p>
+    <p class="small">Last checked: 12 Oct 2026.</p>
+  </section>
+
+  <footer>
+    <div class="r">Useful first.<br>Funny second.<br>Bullshit never.</div>
+    <div>
+      <p style="color:var(--ink);font-weight:600">OFF DAVOS · Davos Survival Guide · For a more sane world.</p>
+      <p>Independent. Not affiliated with the World Economic Forum.</p>
+      <p><a href="../sos/index.html">Emergency → SOS</a> · <a href="../about/index.html">About</a></p>
+    </div>
+  </footer>
 </main>
-<div id="site-footer"></div>
-<div id="site-tabbar"></div>
-<script src="../components.js"></script>
-<script>OffDavos.renderChrome({ basePath: "../", activePath: "ski", variant: "dark" });</script>
 <script>
 (function(){
   var M={
     parsenn:{tag:"From Davos Dorf",name:"Parsenn.",there:"Parsennbahn, next to Davos Dorf station. From Klosters: Gotschnabahn.",pick:"You only get one day."},
     jakobshorn:{tag:"From Davos Platz",name:"Jakobshorn.",there:"Cable car across from Davos Platz station.",pick:"You have three hours between two meetings."},
-    rinerhorn:{tag:"Davos Glaris",name:"Rinerhorn.",there:"Train or bus to Davos Glaris.",pick:"You want a day where nobody asks what you do. Not during WEF week: it's closed."},
-    pischa:{tag:"Above Davos Dorf",name:"Pischa.",there:"Bus from Davos Dorf towards the Flüela pass.",pick:"You want fewer people and more snow. Not during WEF week: it's closed."},
-    madrisa:{tag:"Klosters",name:"Madrisa.",there:"Train to Klosters Dorf, then the Madrisa gondola.",pick:"You need to leave Davos to remember it exists."}
+    madrisa:{tag:"Klosters",name:"Madrisa.",there:"Train to Klosters Dorf, then the Madrisa gondola. Buy a train ticket: the Davos guest card stops at Laret.",pick:"You need to leave Davos to remember it exists."},
+    rinerhorn:{tag:"Davos Glaris",name:"Rinerhorn.",there:"Train or bus to Davos Glaris.",pick:"Before or after WEF week.",closed:true},
+    pischa:{tag:"Above Davos Dorf",name:"Pischa.",there:"Bus from Davos Dorf towards the Flüela pass.",pick:"Before or after WEF week. Read the avalanche bulletin first.",closed:true}
   };
   var BASE="https://www.davosklostersmountains.ch/en/mountains/mountains/";
+  function $(id){return document.getElementById(id);}
   function show(k){
     var d=M[k]; if(!d) return;
-    document.getElementById("sm-tag").textContent=d.tag;
-    document.getElementById("sm-name").textContent=d.name;
-    document.getElementById("sm-there").textContent=d.there;
-    document.getElementById("sm-pick").textContent=d.pick;
-    document.getElementById("sm-live").href=BASE+k;
-    document.getElementById("sm-live").setAttribute("data-track","skimap_mountain_"+k+"_click");
-    document.getElementById("sm-more").href="#"+k;
+    $("sm-tag").textContent=d.tag; $("sm-name").textContent=d.name;
+    $("sm-there").textContent=d.there; $("sm-pick").textContent=d.pick;
+    $("sm-warn").hidden=!d.closed;
+    $("sm-live").href=BASE+k; $("sm-more").href="#"+k;
     document.querySelectorAll(".mk").forEach(function(g){g.classList.toggle("on",g.getAttribute("data-m")===k);});
-    document.querySelectorAll(".mtn-pick button").forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-m")===k?"true":"false");});
+    document.querySelectorAll(".pick button").forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-m")===k?"true":"false");});
   }
   document.querySelectorAll(".mk").forEach(function(g){
     g.addEventListener("click",function(){show(g.getAttribute("data-m"));});
     g.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();show(g.getAttribute("data-m"));}});
   });
-  document.querySelectorAll(".mtn-pick button").forEach(function(b){
-    b.addEventListener("click",function(){show(b.getAttribute("data-m"));});
-  });
+  document.querySelectorAll(".pick button").forEach(function(b){b.addEventListener("click",function(){show(b.getAttribute("data-m"));});});
+  show("parsenn");
 })();
+</script>
+
+<script>
+window.addEventListener("load",function(){
+  var box=document.getElementById("fly"), note=document.getElementById("fly-note");
+  function fail(){box.hidden=true;note.hidden=true;}
+  if(!window.maplibregl){fail();return;}
+  try{var c=document.createElement("canvas");if(!(c.getContext("webgl2")||c.getContext("webgl"))){fail();return;}}catch(e){fail();return;}
+  var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var P={
+    home:{c:[9.845,46.815],z:11.4,p:62,b:35,name:"Davos",sub:"Five mountains. One valley. Tap a mountain."},
+    parsenn:{c:[9.806,46.833],z:13.2,p:72,b:300,name:"Parsenn",sub:"Up from Davos Dorf with the Parsennbahn."},
+    jakobshorn:{c:[9.856,46.772],z:13.4,p:72,b:200,name:"Jakobshorn",sub:"Cable car across from Davos Platz station."},
+    madrisa:{c:[9.880,46.908],z:13.2,p:72,b:160,name:"Madrisa",sub:"Klosters. Train to Klosters Dorf, then the gondola."},
+    rinerhorn:{c:[9.841,46.738],z:13.3,p:72,b:250,name:"Rinerhorn",sub:"Closed during WEF week."},
+    pischa:{c:[9.918,46.819],z:13.3,p:72,b:250,name:"Pischa",sub:"Closed during WEF week."}
+  };
+  var map;
+  try{
+  map=new maplibregl.Map({container:"flymap",attributionControl:{compact:true},
+    style:{version:8,
+      sources:{
+        sat:{type:"raster",tiles:["https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg"],tileSize:256,maxzoom:19,attribution:"© swisstopo"},
+        dem:{type:"raster-dem",tiles:["https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"],encoding:"terrarium",tileSize:256,maxzoom:14,attribution:"Terrain: Mapzen / AWS open data"}
+      },
+      layers:[{id:"sat",type:"raster",source:"sat"}],
+      terrain:{source:"dem",exaggeration:1.35},
+      sky:{"sky-color":"#7fb2d9","horizon-color":"#dfe9f0","sky-horizon-blend":0.6}
+    },
+    center:P.home.c,zoom:P.home.z,pitch:P.home.p,bearing:P.home.b,maxPitch:80});
+  }catch(e){fail();return;}
+  map.addControl(new maplibregl.NavigationControl({visualizePitch:true}),"top-right");
+  var labels={};
+  function lbl(k,ll,txt,cls){var el=document.createElement("div");el.className="flylbl "+(cls||"");el.textContent=txt;new maplibregl.Marker({element:el,anchor:"bottom"}).setLngLat(ll).addTo(map);labels[k]=el;}
+  ["parsenn","jakobshorn","madrisa","rinerhorn","pischa"].forEach(function(k){var d=P[k];lbl(k,d.c,"▲ "+d.name+(k==="rinerhorn"||k==="pischa"?" · closed WEF":""),(k==="rinerhorn"||k==="pischa")?"closed":"");});
+  lbl("s1",[9.8215,46.7957],"■ Davos Platz","stn");lbl("s2",[9.8432,46.8144],"■ Davos Dorf","stn");lbl("s3",[9.8826,46.8693],"■ Klosters Platz","stn");
+  var spinning=!reduce, bearing=P.home.b;
+  function spin(){if(!spinning||map.isMoving())return;bearing=(map.getBearing()+0.06)%360;map.rotateTo(bearing,{duration:0});}
+  setInterval(spin,40);
+  map.on("mousedown",function(){spinning=false;document.getElementById("fly-spin").textContent="Start drone";});
+  map.on("touchstart",function(){spinning=false;document.getElementById("fly-spin").textContent="Start drone";});
+  function go(k){var d=P[k];if(!d)return;
+    document.getElementById("fly-name").textContent=d.name;document.getElementById("fly-sub").textContent=d.sub;
+    Object.keys(labels).forEach(function(x){labels[x].classList.toggle("on",x===k);});
+    map.flyTo({center:d.c,zoom:d.z,pitch:d.p,bearing:d.b,duration:reduce?0:4500,essential:true});}
+  window.OffFly=go;
+  document.getElementById("fly-home").addEventListener("click",function(){go("home");});
+  document.getElementById("fly-spin").addEventListener("click",function(){spinning=!spinning;this.textContent=spinning?"Pause drone":"Start drone";});
+  document.querySelectorAll(".pick button,.mk").forEach(function(b){b.addEventListener("click",function(){go(b.getAttribute("data-m"));});});
+});
 </script>
 </body>
 </html>
