@@ -1,11 +1,15 @@
 /* OFF DAVOS shared chrome: header, footer, mobile tab bar, copy buttons, Box 01 form. */
+/* Preview lock: loads /gate.js on every page that uses this file. Remove these lines to open the site. */
+(function(){ if(!document.querySelector('script[src="/gate.js"]')){ var m=document.createElement('meta'); m.name='robots'; m.content='noindex,nofollow'; document.head.appendChild(m); var g=document.createElement('script'); g.src='/gate.js'; document.head.appendChild(g); } })();
 (function () {
   var NAV = [
     { href: 'index.html', label: 'Live', key: 'live' },
     { href: 'index.html#map', label: 'Map', key: 'map' },
     { href: 'guide/index.html', label: 'Guide', key: 'guide' },
     { href: 'ski/index.html', label: 'Ski', key: 'ski' },
-    { href: 'stories/index.html', label: 'Stories', key: 'stories' }
+    { href: 'stories/index.html', label: 'Stories', key: 'stories' },
+    { href: 'bullshit-never/index.html', label: 'Bullshit', key: 'bullshit' },
+    { href: 'contact/index.html', label: 'Intel', key: 'intel' }
   ];
 
   function links(base, active, cls) {
