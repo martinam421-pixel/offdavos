@@ -45,6 +45,17 @@
 .pick{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
 .pick button{font:700 16px var(--display);text-transform:uppercase;letter-spacing:.04em;padding:8px 14px;background:var(--surface);color:var(--ink);border:2px solid var(--ink);cursor:pointer}
 .pick button[aria-pressed="true"]{background:var(--sign);color:var(--sign-ink);border-color:var(--sign-ink)}
+.mcard{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:0;border:1px solid var(--line);border-top:6px solid var(--ink);background:var(--surface);padding:0!important;margin:20px 0}
+.mcard .mimg{margin:0;position:relative;min-height:260px;background:var(--slope)}
+.mcard .mimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.mcard .mimg figcaption{position:absolute;right:6px;bottom:6px;font-size:10px;color:#fff;background:rgba(0,0,0,.45);padding:1px 5px}
+.mcard .mbody{padding:20px 22px 18px;min-width:0}
+.mcard h2{font-size:clamp(40px,5vw,60px)!important}
+.mcard .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.mcard .tip h3{font-size:16px}
+.mcard:has(.closedtag){border-top-color:var(--pay)}
+.mcard:has(.closedtag) .mimg img{filter:grayscale(.85) contrast(.9)}
+@media (max-width:760px){.mcard{grid-template-columns:1fr}.mcard .mimg{min-height:200px}.mcard .grid{grid-template-columns:1fr}}
 .mtn{border-top:2px solid var(--ink);padding:26px 0 8px}
 .mtn h2{margin:6px 0 10px!important}
 .mtn .closedtag{display:inline-block;background:var(--pay);color:var(--surface);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;margin:0 0 8px}
@@ -149,46 +160,61 @@
     </div>
   </section>
 
-  <section class="mtn" id="parsenn">
+  <section class="mtn mcard" id="parsenn">
+    <figure class="mimg"><img src="https://wms.geo.admin.ch/?SERVICE=WMS&amp;REQUEST=GetMap&amp;VERSION=1.3.0&amp;LAYERS=ch.swisstopo.swissimage&amp;STYLES=&amp;CRS=EPSG:4326&amp;BBOX=46.8170,9.7800,46.8530,9.8400&amp;WIDTH=900&amp;HEIGHT=600&amp;FORMAT=image/jpeg" alt="Aerial view of the Parsenn area" loading="lazy" width="900" height="600" onerror="this.onerror=null;this.src='../images/ski-mountain.jpg';this.nextElementSibling.hidden=true"><figcaption>Aerial image © swisstopo</figcaption></figure>
+    <div class="mbody">
     <p class="label">From Davos Dorf</p>
     <h2>Parsenn.</h2>
     <p>The big classic. Up from Davos Dorf with the Parsennbahn, or from Klosters with the Gotschnabahn. If you have one proper ski day, start here.</p>
     <div class="grid"><article class="tip"><p class="label">For</p><h3>Everyone.</h3></article><article class="tip"><p class="label">Get there</p><h3>Parsennbahn, next to Davos Dorf station.</h3></article><article class="tip"><p class="label">Good to know</p><h3>Long runs, some all the way down to Klosters.</h3></article><article class="tip"><p class="label">Pick it if</p><h3>You only get one day.</h3></article></div>
     <p class="links"><a href="https://www.davosklostersmountains.ch/en/mountains/mountains/parsenn" target="_blank" rel="noopener">Lifts &amp; slopes today ↗</a><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=maps" target="_blank" rel="noopener">Piste map ↗</a><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/webcams" target="_blank" rel="noopener">Webcams ↗</a></p>
+  </div>
   </section>
 
-  <section class="mtn" id="jakobshorn">
+  <section class="mtn mcard" id="jakobshorn">
+    <figure class="mimg"><img src="https://wms.geo.admin.ch/?SERVICE=WMS&amp;REQUEST=GetMap&amp;VERSION=1.3.0&amp;LAYERS=ch.swisstopo.swissimage&amp;STYLES=&amp;CRS=EPSG:4326&amp;BBOX=46.7570,9.8250,46.7930,9.8850&amp;WIDTH=900&amp;HEIGHT=600&amp;FORMAT=image/jpeg" alt="Aerial view of the Jakobshorn area" loading="lazy" width="900" height="600" onerror="this.onerror=null;this.src='../images/ski-mountain.jpg';this.nextElementSibling.hidden=true"><figcaption>Aerial image © swisstopo</figcaption></figure>
+    <div class="mbody">
     <p class="label">From Davos Platz</p>
     <h2>Jakobshorn.</h2>
     <p>Right by Davos Platz. Convenient if your meeting mysteriously finishes early.</p>
     <div class="grid"><article class="tip"><p class="label">For</p><h3>A short escape. Freestyle and snowpark.</h3></article><article class="tip"><p class="label">Get there</p><h3>Cable car across from Davos Platz station.</h3></article><article class="tip"><p class="label">Good to know</p><h3>The closest mountain to the Platz end of the Promenade.</h3></article><article class="tip"><p class="label">Pick it if</p><h3>You have three hours between two meetings.</h3></article></div>
     <p class="links"><a href="https://www.davosklostersmountains.ch/en/mountains/mountains/jakobshorn" target="_blank" rel="noopener">Lifts &amp; slopes today ↗</a><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=maps" target="_blank" rel="noopener">Piste map ↗</a><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/webcams" target="_blank" rel="noopener">Webcams ↗</a></p>
+  </div>
   </section>
 
-  <section class="mtn" id="madrisa">
+  <section class="mtn mcard" id="madrisa">
+    <figure class="mimg"><img src="https://wms.geo.admin.ch/?SERVICE=WMS&amp;REQUEST=GetMap&amp;VERSION=1.3.0&amp;LAYERS=ch.swisstopo.swissimage&amp;STYLES=&amp;CRS=EPSG:4326&amp;BBOX=46.8870,9.8550,46.9230,9.9150&amp;WIDTH=900&amp;HEIGHT=600&amp;FORMAT=image/jpeg" alt="Aerial view of the Madrisa area" loading="lazy" width="900" height="600" onerror="this.onerror=null;this.src='../images/ski-mountain.jpg';this.nextElementSibling.hidden=true"><figcaption>Aerial image © swisstopo</figcaption></figure>
+    <div class="mbody">
     <p class="label">Klosters</p>
     <h2>Madrisa.</h2>
     <p>Over in Klosters. Sunny, family-friendly, and far enough away to forget the Promenade.</p>
     <div class="grid"><article class="tip"><p class="label">For</p><h3>Families, sunny slopes.</h3></article><article class="tip"><p class="label">Get there</p><h3>Train to Klosters Dorf, then the Madrisa gondola.</h3></article><article class="tip no"><p class="label">Good to know</p><h3>Your Davos guest card doesn't cover the train to Klosters. Buy a ticket.</h3></article><article class="tip"><p class="label">Pick it if</p><h3>You need to leave Davos to remember it exists.</h3></article></div>
     <p class="links"><a href="https://www.davosklostersmountains.ch/en/mountains/mountains/madrisa" target="_blank" rel="noopener">Lifts &amp; slopes today ↗</a><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/current-operating-infos?active=maps" target="_blank" rel="noopener">Piste map ↗</a><a href="https://www.davosklostersmountains.ch/en/mountains/winter/live-info/webcams" target="_blank" rel="noopener">Webcams ↗</a></p>
+  </div>
   </section>
 
-  <section class="mtn" id="rinerhorn">
+  <section class="mtn mcard" id="rinerhorn">
+    <figure class="mimg"><img src="https://wms.geo.admin.ch/?SERVICE=WMS&amp;REQUEST=GetMap&amp;VERSION=1.3.0&amp;LAYERS=ch.swisstopo.swissimage&amp;STYLES=&amp;CRS=EPSG:4326&amp;BBOX=46.7200,9.8100,46.7560,9.8700&amp;WIDTH=900&amp;HEIGHT=600&amp;FORMAT=image/jpeg" alt="Aerial view of the Rinerhorn area" loading="lazy" width="900" height="600" onerror="this.onerror=null;this.src='../images/ski-mountain.jpg';this.nextElementSibling.hidden=true"><figcaption>Aerial image © swisstopo</figcaption></figure>
+    <div class="mbody">
     <p class="label">Davos Glaris</p>
     <h2>Rinerhorn.</h2>
     <p class="closedtag">Closed during WEF week</p>
     <p>Further down the valley. Quieter. Good for: fewer badges. It was closed 19–23 January 2026, and this winter's operating times say it closes during WEF again.</p>
     <div class="grid"><article class="tip"><p class="label">For</p><h3>Families and relaxed skiers.</h3></article><article class="tip"><p class="label">Get there</p><h3>Train or bus to Davos Glaris.</h3></article><article class="tip"><p class="label">Pick it if</p><h3>You want a day where nobody asks what you do. Before or after WEF.</h3></article></div>
     <p class="links"><a href="https://www.davosklostersmountains.ch/en/mountains/mountains/rinerhorn" target="_blank" rel="noopener">Lifts &amp; slopes today ↗</a></p>
+  </div>
   </section>
 
-  <section class="mtn" id="pischa">
+  <section class="mtn mcard" id="pischa">
+    <figure class="mimg"><img src="https://wms.geo.admin.ch/?SERVICE=WMS&amp;REQUEST=GetMap&amp;VERSION=1.3.0&amp;LAYERS=ch.swisstopo.swissimage&amp;STYLES=&amp;CRS=EPSG:4326&amp;BBOX=46.8020,9.8880,46.8380,9.9480&amp;WIDTH=900&amp;HEIGHT=600&amp;FORMAT=image/jpeg" alt="Aerial view of the Pischa area" loading="lazy" width="900" height="600" onerror="this.onerror=null;this.src='../images/ski-mountain.jpg';this.nextElementSibling.hidden=true"><figcaption>Aerial image © swisstopo</figcaption></figure>
+    <div class="mbody">
     <p class="label">Above Davos Dorf</p>
     <h2>Pischa.</h2>
     <p class="closedtag">Closed during WEF week</p>
     <p>The quiet one up the Flüela road. Less piste, more powder. Same as Rinerhorn: closed during WEF in 2026 and again this winter.</p>
     <div class="grid"><article class="tip"><p class="label">For</p><h3>Freeriders and people who like quiet.</h3></article><article class="tip"><p class="label">Get there</p><h3>Bus from Davos Dorf towards the Flüela pass.</h3></article><article class="tip no"><p class="label">Good to know</p><h3>Off-piste means avalanche risk. Read the bulletin first.</h3></article></div>
     <p class="links"><a href="https://www.davosklostersmountains.ch/en/mountains/mountains/pischa" target="_blank" rel="noopener">Lifts &amp; slopes today ↗</a></p>
+  </div>
   </section>
 
   <section class="sec" id="pistes" aria-labelledby="p-h">
