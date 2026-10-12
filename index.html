@@ -19,6 +19,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js" defer></script>
 <style>
 /* Accent borrowed from Swiss hiking signposts: yellow with black type. */
 :root{
@@ -120,6 +122,42 @@ section{padding-block:36px;border-top:2px solid var(--ink)}
 .chip{font:600 14px var(--body);padding:6px 12px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 .chip .n{font-family:var(--mono);font-size:11px;opacity:.7;margin-left:4px}
+
+/* ---- 3D map + route planner ---- */
+.m3{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(300px,1fr);gap:0;border:1px solid var(--ink);background:var(--ink);margin:0 0 12px}
+@media (max-width:900px){.m3{grid-template-columns:1fr}}
+.m3view{position:relative;min-height:clamp(380px,62vh,620px);background:#0b1218;overflow:hidden}
+.m3view #m3map{position:absolute;inset:0}
+.m3hud{position:absolute;left:12px;top:12px;z-index:2;background:rgba(19,32,43,.85);color:#fff;padding:8px 12px;border-left:5px solid var(--sign);font-size:13px;max-width:70%}
+.m3hud b{display:block;font-family:var(--display);font-weight:900;font-size:26px;text-transform:uppercase;line-height:1;color:var(--sign)}
+.m3ctl{position:absolute;left:12px;bottom:30px;z-index:2;display:flex;gap:6px;flex-wrap:wrap}
+.m3ctl button{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:8px 10px;background:var(--sign);color:var(--sign-ink);border:0;cursor:pointer}
+.m3pin{cursor:pointer;display:flex;align-items:center;gap:6px;background:none;border:0;padding:0;margin:0;font:inherit;appearance:none;-webkit-appearance:none}
+.m3pin i{display:block;width:16px;height:16px;background:var(--sign);border:2px solid #151515;transform:rotate(45deg);flex:none}
+.m3pin.stn i{background:#151515;border-color:#fff;transform:none;width:13px;height:13px}
+.m3pin.loc i{background:#fff;border-radius:50%;transform:none;width:12px;height:12px}
+.m3pin span{font:600 12px var(--body);color:#fff;text-shadow:0 1px 3px #000,0 0 6px #000;white-space:nowrap}
+.m3pin.on i{background:#fff;outline:3px solid var(--sign)}
+.m3pin.on span{color:var(--sign)}
+.m3me{width:18px;height:18px;border-radius:50%;background:#2F80ED;border:3px solid #fff;box-shadow:0 0 0 6px rgba(47,128,237,.35)}
+.plan{background:var(--surface);color:var(--ink);padding:18px;display:flex;flex-direction:column;gap:10px;border-left:6px solid var(--sign)}
+.plan h3{font-family:var(--display);font-weight:900;font-size:34px;text-transform:uppercase;line-height:.95;margin:0}
+.plan label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.plan select,.plan input{width:100%;font:500 16px var(--body);padding:9px 10px;border:1px solid var(--ink);background:var(--surface);color:var(--ink);border-radius:0}
+.plan .row2{display:grid;grid-template-columns:1fr auto;gap:6px;align-items:end}
+.plan .mebtn{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:11px 10px;background:var(--ink);color:var(--sign);border:0;cursor:pointer;white-space:nowrap}
+.leave{background:var(--ink);color:var(--bg);padding:14px 16px;margin-top:4px}
+.leave .label{color:var(--sign)}
+.leave .big{font-family:var(--display);font-weight:900;font-size:clamp(46px,6vw,64px);line-height:.9;color:var(--sign);margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.leave p{margin:4px 0 0;font-size:14px}
+.leave .why{opacity:.8;font-size:13px}
+.plan .acts{display:flex;gap:6px;flex-wrap:wrap}
+.plan .acts a{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:10px 10px;border:1px solid var(--ink);text-decoration:none;color:var(--ink)}
+.plan .acts a.pri{background:var(--sign);border-color:var(--sign-ink);color:var(--sign-ink)}
+.plan .fine{font-size:12px;color:var(--muted);margin:0}
+.m3on .maprow{grid-template-columns:1fr}
+.m3on .maprow .mapbox{display:none}
+.m3on .maprow .list{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));max-height:none}
 .maprow{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:12px;align-items:start}
 @media (max-width:860px){.maprow{grid-template-columns:1fr}}
 .mapbox{background:var(--snow);border:1px solid var(--line);position:relative;overflow:hidden}
@@ -234,6 +272,11 @@ section{padding-block:36px;border-top:2px solid var(--ink)}
 .bsblk .slipwrap .sdek{margin:0 0 12px;max-width:60ch;color:var(--muted)}
 .slipin .small{font-size:13px;color:var(--muted);margin:4px 0 0}
 .slipfoot{font-size:14px;margin:8px 0 0;color:var(--muted)}
+.bsteaser{display:block;background:var(--ink);color:var(--bg);border-left:6px solid var(--sign);padding:22px;margin:56px 0 0;text-decoration:none}
+.bsteaser .label{color:var(--sign)}
+.bsteaser b{display:block;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(28px,4vw,44px);line-height:.95;margin:8px 0 10px;max-width:24ch}
+.bsteaser .go{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--sign)}
+.bsteaser:hover b{color:var(--sign)}
 .aboutblk{border-top:6px solid var(--sign)}
 .aboutblk h2{font-size:clamp(34px,5.5vw,60px);font-weight:900;margin:8px 0 14px;max-width:20ch}
 .aboutblk p{max-width:62ch}
@@ -260,6 +303,7 @@ footer p{margin:0 0 6px;max-width:56ch;color:var(--muted);font-size:13px}
       <a href="guide/index.html">Guide</a>
       <a href="ski/index.html">Ski</a>
       <a href="stories/index.html">Stories</a>
+      <a href="bullshit-never/index.html">Bullshit</a>
       <a href="contact/index.html">Intel</a>
     </nav>
   </div>
@@ -274,7 +318,8 @@ footer p{margin:0 0 6px;max-width:56ch;color:var(--muted);font-size:13px}
   </header>
 
   <!-- LIVE -->
-  <section id="live" aria-label="Live">
+  <section id="live" aria-labelledby="live-h">
+    <div class="sechead"><h2 id="live-h">What's new.</h2><p>Today in Davos. Updated live.</p></div>
 
     <div class="livegrid">
       <div class="panel span8">
@@ -341,17 +386,6 @@ footer p{margin:0 0 6px;max-width:56ch;color:var(--muted);font-size:13px}
     </div>
   </section>
 
-  <!-- LATEST STORIES: newest first, max 3 -->
-  <section id="latest" aria-labelledby="latest-h">
-    <div class="sechead"><h2 id="latest-h">Latest</h2><p>The newest stories. The rest live under Stories.</p></div>
-    <div class="latest">
-      <a class="lt" href="stories/davos-has-two-train-stations/index.html"><span class="label">Trains · read this before you board</span><b>Your train might split in half.</b><span class="hit">Wrong half: wrong valley.</span></a>
-      <a class="lt" href="stories/most-expensive-chf-5-90/index.html"><span class="label">Money / Local reality</span><b>The most expensive CHF 5.90 in Davos.</b><span class="hit">You paid for free trains. Use them.</span></a>
-      <a class="lt" href="stories/people-who-keep-davos-running/index.html"><span class="label">People</span><b>Who actually runs Davos during WEF?</b><span class="hit">No, not the CEOs.</span></a>
-    </div>
-    <p style="margin:14px 0 0"><a class="go" href="stories/index.html">All stories →</a></p>
-  </section>
-
   <!-- MAP -->
   <section id="map" aria-labelledby="map-h">
     <div class="sechead">
@@ -359,6 +393,31 @@ footer p{margin:0 0 6px;max-width:56ch;color:var(--muted);font-size:13px}
       <p>Where things actually are.</p>
     </div>
     <p class="chain" aria-label="How the map works"><span>Who</span><span>→</span><span>Where</span><span>→</span><span>How to get there</span><span>→</span><span>Official source</span></p>
+
+    <div class="m3" id="m3" hidden>
+      <div class="m3view">
+        <div id="m3map" role="img" aria-label="3D satellite view of Davos with the venues, stations and local picks."></div>
+        <div class="m3hud" aria-live="polite"><b id="m3name">Davos</b><span id="m3sub">Tap a pin. Or tell us where you're going.</span></div>
+        <div class="m3ctl"><button type="button" id="m3spin">Pause drone</button><button type="button" id="m3home">Whole town</button></div>
+      </div>
+      <form class="plan" id="plan" onsubmit="return false" aria-labelledby="plan-h">
+        <h3 id="plan-h">Get me there.</h3>
+        <div class="row2">
+          <div><label for="pf">I'm here</label><select id="pf"></select></div>
+          <button type="button" class="mebtn" id="pme">Use my location</button>
+        </div>
+        <div><label for="pt">I need to go to</label><select id="pt"></select></div>
+        <div><label for="pw">I need to be there at</label><input type="time" id="pw" value="18:00"></div>
+        <div class="leave" aria-live="polite">
+          <p class="label">Leave at</p>
+          <p class="big" id="pl">–</p>
+          <p id="pd"></p>
+          <p class="why" id="py"></p>
+        </div>
+        <div class="acts"><a class="pri" id="pgo" href="#" target="_blank" rel="noopener" data-track="map_walk_click">Walk there ↗</a><a id="psbb" href="https://www.sbb.ch/en" target="_blank" rel="noopener" data-track="map_sbb_click">Bus / train ↗</a></div>
+        <p class="fine">Our estimate, on foot: straight line plus detours, at snow-and-ice pace, plus a WEF buffer for checkpoints and closed paths. Your location stays on your phone.</p>
+      </form>
+    </div>
 
     <div class="maprow">
       <div class="mapbox">
@@ -428,51 +487,23 @@ footer p{margin:0 0 6px;max-width:56ch;color:var(--muted);font-size:13px}
 
   </section>
 
-  <!-- BULLSHIT NEVER -->
-  <section id="bullshit" aria-labelledby="bs-h" class="bsblk">
-    <div class="sechead"><h2 id="bs-h">Bullshit never.</h2><p>Things people say about Davos week. And what's actually true.</p></div>
-    <div class="slipwrap" id="slip">
-      <p class="label">Not science. Not even consulting.</p>
-      <h3>The Slip-o-Meter.</h3>
-      <p class="sdek">What are the odds you end up horizontal in the snow tonight? We built a framework. It has a matrix.</p>
-    <div class="slip">
-      <form class="slipin" id="slipform" onsubmit="return false">
-        <label for="s-drinks">Drinks so far <output id="o-drinks">2</output></label>
-        <input type="range" id="s-drinks" min="0" max="12" value="2">
-        <label for="s-shoes">Shoes</label>
-        <select id="s-shoes">
-          <option value="1">Winter boots with grip</option>
-          <option value="3">Moon Boots</option>
-          <option value="5" selected>Sneakers</option>
-          <option value="7">Smooth leather soles</option>
-          <option value="9">Heels</option>
-          <option value="10">Louboutins (why)</option>
-        </select>
-        <label for="s-time">Time</label>
-        <select id="s-time">
-          <option value="0">Before dinner</option>
-          <option value="1" selected>After dinner</option>
-          <option value="2">After the reception</option>
-          <option value="3">After the after-party</option>
-        </select>
-        <label class="chk"><input type="checkbox" id="s-down"> The way home is downhill</label>
-        <label class="chk"><input type="checkbox" id="s-champ"> Someone at a consultancy party said "one more glass"</label>
-        <p class="small" id="s-temp">Outside right now in Davos: checking…</p>
-      </form>
-      <div class="slipout" aria-live="polite">
-        <p class="label">Probability of meeting the snow</p>
-        <p class="pct" id="s-pct">–</p>
-        <div class="bar2"><i id="s-bar"></i></div>
-        <p class="verdict" id="s-verdict"></p>
-        <p class="quad" id="s-quad"></p>
-      </div>
+  <!-- LATEST STORIES: newest first, max 3 -->
+  <section id="latest" aria-labelledby="latest-h">
+    <div class="sechead"><h2 id="latest-h">Latest</h2><p>The newest stories. The rest live under Stories.</p></div>
+    <div class="latest">
+      <a class="lt" href="stories/davos-has-two-train-stations/index.html"><span class="label">Trains · read this before you board</span><b>Your train might split in half.</b><span class="hit">Wrong half: wrong valley.</span></a>
+      <a class="lt" href="stories/most-expensive-chf-5-90/index.html"><span class="label">Money / Local reality</span><b>The most expensive CHF 5.90 in Davos.</b><span class="hit">You paid for free trains. Use them.</span></a>
+      <a class="lt" href="stories/people-who-keep-davos-running/index.html"><span class="label">People</span><b>Who actually runs Davos during WEF?</b><span class="hit">No, not the CEOs.</span></a>
     </div>
-      <p class="slipfoot">Drinking makes you feel warm. It doesn't make you warm. Night bus: invia PickMeUp, 00:00–06:00. Someone down and not getting up? Call 144.</p>
-    </div>
-
-    <div class="wnh"><p class="label">What's normally here? · Saudi House, WEF 2026 · <span class="nyc">Not yet confirmed</span></p><p class="wnh-big">The Migros.</p><p class="wnh-line">Rest of the year: no alcohol. During WEF: still no alcohol. <b>Just more gold.</b></p><p class="wnh-small">The only building on the Promenade that didn't have to change its drinks policy.</p></div>
-    <div class="bsgrid"><article class="bsn"><p class="bsn-said">You heard</p><h3>“You need a badge to walk down the Promenade.”</h3><p class="bsn-true"><b>Actually:</b> No. You need shoes with grip. The badge is for the buildings. The ice doesn't check.</p></article><article class="bsn"><p class="bsn-said">You heard</p><h3>“Your guest card is a souvenir.”</h3><p class="bsn-true"><b>Actually:</b> It's a train ticket. Davos Laret to Davos Glaris, free, from your first night. You paid CHF 5.90 for it.</p></article><article class="bsn"><p class="bsn-said">You heard</p><h3>“Taxi is the fast option.”</h3><p class="bsn-true"><b>Actually:</b> During WEF, the taxi is how you spend time, not save it. Motorcade, checkpoint, traffic. Your feet win.</p></article><article class="bsn"><p class="bsn-said">You heard</p><h3>“A drink will keep you warm.”</h3><p class="bsn-true"><b>Actually:</b> It makes you feel warm. You lose heat faster. Physics doesn't attend receptions.</p></article><article class="bsn"><p class="bsn-said">You heard</p><h3>“The last bus has gone.”</h3><p class="bsn-true"><b>Actually:</b> There's an on-demand night bus. It doesn't take your guest card or cash. Download the app before 01:40.</p></article><article class="bsn"><p class="bsn-said">You heard</p><h3>“Someone important will notice your shoes.”</h3><p class="bsn-true"><b>Actually:</b> Nobody looks at shoes. Everybody looks at who just fell over.</p></article></div>
+    <p style="margin:14px 0 0"><a class="go" href="stories/index.html">All stories →</a></p>
   </section>
+
+  <!-- BULLSHIT NEVER: own chapter -->
+  <a class="bsteaser" href="bullshit-never/index.html">
+    <span class="label">Chapter · Bullshit never</span>
+    <b>The Slip-o-Meter. The Migros. And everything people say about Davos that isn't true.</b>
+    <span class="go">Open the chapter →</span>
+  </a>
 
   <!-- INTEL -->
   <section id="intel" aria-labelledby="intel-h" class="intelblk">
@@ -716,27 +747,115 @@ document.addEventListener("click",e=>{
   }catch(_){}
 });
 </script>
+
+
 <script>
-(function(){
-  var T=null;
+/* ---- 3D MAP + GET ME THERE ----
+   Coordinates: swisstopo (geo.admin.ch) search, 12 Oct 2026. "chk" = re-checked live in the browser
+   against the official Swiss address register; the pin moves to the official point if it differs. */
+window.addEventListener("load",function(){
+  var box=document.getElementById("m3"); if(!box) return;
+  var P=[
+    {id:"belv",n:"The Main Stage · Belvedere",k:"venue",c:[9.8262,46.7992],sub:"Global Conversations · Promenade 89",chk:"Promenade 89 7270 Davos Platz"},
+    {id:"ccd",n:"Congress Centre",k:"venue",c:[9.8295,46.8008],sub:"WEF venue · badge only",chk:"Talstrasse 49a 7270 Davos Platz"},
+    {id:"kirch",n:"Kirchner Museum",k:"loc",c:[9.8258,46.7994],sub:"Local pick · Promenade 82",chk:"Promenade 82 7270 Davos Platz"},
+    {id:"platz",n:"Davos Platz station",k:"stn",c:[9.82101,46.79177],sub:"Staffed · luggage · lockers"},
+    {id:"kong",n:"Kongress / Eisstadion stop",k:"stn",c:[9.8335,46.8012],sub:"WEF week only"},
+    {id:"dorf",n:"Davos Dorf station",k:"stn",c:[9.8424,46.8146],sub:"Lockers · Parsenn side"},
+    {id:"jak",n:"Jakobshorn cable car",k:"loc",c:[9.82296,46.79192],sub:"Ski · across from Platz station"},
+    {id:"post",n:"Postplatz",k:"loc",c:[9.82081,46.79340],sub:"Bus hub · Davos Platz"},
+    {id:"schatz",n:"Schatzalp funicular",k:"loc",c:[9.8204,46.7944],sub:"Up to the Magic Mountain"}
+  ];
+  var byId={};P.forEach(function(p){byId[p.id]=p;});
+  if(!window.maplibregl){return;}
+  try{var cv=document.createElement("canvas");if(!(cv.getContext("webgl2")||cv.getContext("webgl")))return;}catch(e){return;}
+  box.hidden=false; document.getElementById("map").classList.add("m3on");
+  var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var HOME={center:[9.8300,46.8030],zoom:14.1,pitch:62,bearing:35};
+  var map;
+  try{
+    map=new maplibregl.Map({container:"m3map",attributionControl:{compact:true},
+      style:{version:8,sources:{
+        sat:{type:"raster",tiles:["https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg"],tileSize:256,maxzoom:19,attribution:"© swisstopo"},
+        dem:{type:"raster-dem",tiles:["https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"],encoding:"terrarium",tileSize:256,maxzoom:14,attribution:"Terrain: Mapzen / AWS open data"}},
+        layers:[{id:"sat",type:"raster",source:"sat"}],
+        terrain:{source:"dem",exaggeration:1.25},
+        sky:{"sky-color":"#7fb2d9","horizon-color":"#dfe9f0","sky-horizon-blend":0.6}},
+      center:HOME.center,zoom:HOME.zoom,pitch:HOME.pitch,bearing:HOME.bearing,maxPitch:78});
+  }catch(e){box.hidden=true;document.getElementById("map").classList.remove("m3on");return;}
+  map.addControl(new maplibregl.NavigationControl({visualizePitch:true}),"top-right");
+  var mk={};
   function $(i){return document.getElementById(i);}
+  P.forEach(function(p){
+    var el=document.createElement("button");el.type="button";el.className="m3pin "+p.k;el.setAttribute("aria-label",p.n);
+    el.innerHTML="<i></i><span></span>";el.querySelector("span").textContent=p.n;
+    el.addEventListener("click",function(ev){ev.stopPropagation();$("pt").value=p.id;focus(p.id);calc();});
+    mk[p.id]=new maplibregl.Marker({element:el,anchor:"left"}).setLngLat(p.c).addTo(map);
+  });
+  /* route line */
+  map.on("load",function(){
+    map.addSource("route",{type:"geojson",data:{type:"FeatureCollection",features:[]}});
+    map.addLayer({id:"route-casing",type:"line",source:"route",paint:{"line-color":"#151515","line-width":8,"line-opacity":.6}});
+    map.addLayer({id:"route",type:"line",source:"route",paint:{"line-color":"#F5C400","line-width":4,"line-dasharray":[2,1.2]}});
+    calc();
+  });
+  /* drone */
+  var spinning=!reduce;
+  setInterval(function(){if(spinning&&!map.isMoving())map.rotateTo((map.getBearing()+0.05)%360,{duration:0});},40);
+  function stop(){spinning=false;$("m3spin").textContent="Start drone";}
+  map.on("mousedown",stop);map.on("touchstart",stop);
+  $("m3spin").addEventListener("click",function(){spinning=!spinning;this.textContent=spinning?"Pause drone":"Start drone";});
+  $("m3home").addEventListener("click",function(){map.flyTo(Object.assign({duration:reduce?0:3000},HOME));$("m3name").textContent="Davos";$("m3sub").textContent="Tap a pin. Or tell us where you're going.";});
+  function focus(id){var p=byId[id];if(!p)return;stop();
+    Object.keys(mk).forEach(function(k){mk[k].getElement().classList.toggle("on",k===id);});
+    $("m3name").textContent=p.n;$("m3sub").textContent=p.sub;
+    map.flyTo({center:p.c,zoom:16.2,pitch:65,bearing:map.getBearing(),duration:reduce?0:2500,essential:true});}
+  /* selects */
+  var me=null, meMk=null;
+  function opts(sel,withMe){var h=withMe?'<option value="me" disabled>My location (tap the button)</option>':"";
+    h+=P.map(function(p){return '<option value="'+p.id+'">'+p.n.replace(/&/g,"&amp;").replace(/</g,"&lt;")+'</option>';}).join("");sel.innerHTML=h;}
+  opts($("pf"),true);opts($("pt"),false);$("pf").value="platz";$("pt").value="belv";
+  function from(){return $("pf").value==="me"&&me?{n:"Your location",c:me}:byId[$("pf").value];}
+  function dist(a,b){var R=6371000,t=Math.PI/180,dl=(b[1]-a[1])*t,dg=(b[0]-a[0])*t;var x=Math.sin(dl/2)*Math.sin(dl/2)+Math.cos(a[1]*t)*Math.cos(b[1]*t)*Math.sin(dg/2)*Math.sin(dg/2);return 2*R*Math.asin(Math.sqrt(x));}
+  function wefWeek(){var d=new Date();var s=new Date("2027-01-18T00:00:00+01:00"),e=new Date("2027-01-23T00:00:00+01:00");return d>=s&&d<e;}
+  function pad(n){return(n<10?"0":"")+n;}
   function calc(){
-    var d=+$("s-drinks").value, sh=+$("s-shoes").value, t=+$("s-time").value, down=$("s-down").checked, ch=$("s-champ").checked;
-    $("o-drinks").textContent=d;
-    var temp=(T==null?-5:T);
-    var ice=temp<=0?1.25:(temp<=3?1.1:0.85);
-    var x=-3.2+0.42*d+0.28*sh+0.45*t+(down?0.7:0)+(ch?0.5:0);
-    var p=Math.round(100/(1+Math.exp(-x))*ice);p=Math.max(1,Math.min(99,p));
-    $("s-pct").textContent=p+"%";$("s-bar").style.width=p+"%";
-    var v=p<15?"You'll be fine. Probably.":p<35?"Walk like a penguin.":p<60?"Small steps. Hold the railing. Swallow your pride.":p<80?"Book the night bus now.":"You are the snow now.";
-    var q=p<15?"Quadrant: Low exposure, high traction. Synergies intact.":p<35?"Quadrant: Moderate risk. Recommend a phased walk-back.":p<60?"Quadrant: High conviction, low traction. Pivot to the bus.":p<80?"Quadrant: Strategic horizontal realignment likely.":"Quadrant: Disruption achieved. Please invoice the pavement.";
-    $("s-verdict").textContent=v;$("s-quad").textContent=q;
+    var a=from(), b=byId[$("pt").value]; if(!a||!b)return;
+    var m=dist(a.c,b.c)*1.2; /* streets are not straight lines */
+    var walk=Math.max(1,Math.round(m/1000/4*60)); /* 4 km/h: snow, ice, small steps */
+    var buf=Math.round(walk>3?Math.max(5,walk*0.3):3); /* checkpoints, closed shortcuts, motorcades */
+    var total=walk+buf;
+    var t=($("pw").value||"18:00").split(":");var mins=(+t[0])*60+(+t[1])-total;while(mins<0)mins+=1440;
+    $("pl").textContent=pad(Math.floor(mins/60))+":"+pad(mins%60);
+    if(a.n===b.n){$("pd").textContent="You're already there. Impressive.";$("py").textContent="";}
+    else{$("pd").textContent="About "+(m<1000?Math.round(m/10)*10+" m":(m/1000).toFixed(1)+" km")+" · "+walk+" min walking + "+buf+" min WEF buffer.";
+    $("py").textContent=total>25?"That's a long walk in the cold. The free bus is probably faster: check SBB.":(a.c[1]<b.c[1]?"Mostly uphill towards Dorf. Slightly.":"Downhill towards Platz. Watch the ice.");}
+    $("pgo").href="https://www.google.com/maps/dir/?api=1&origin="+a.c[1]+","+a.c[0]+"&destination="+b.c[1]+","+b.c[0]+"&travelmode=walking";
+    var src=map.getSource&&map.getSource("route");
+    if(src){src.setData({type:"Feature",geometry:{type:"LineString",coordinates:[a.c,b.c]}});
+      var bb=new maplibregl.LngLatBounds(a.c,a.c).extend(b.c);stop();map.fitBounds(bb,{padding:90,pitch:58,bearing:map.getBearing(),duration:reduce?0:2000,maxZoom:16.5});}
+    Object.keys(mk).forEach(function(k){mk[k].getElement().classList.toggle("on",k===b.id);});
+    $("m3name").textContent=b.n;$("m3sub").textContent=b.sub;
   }
-  ["s-drinks","s-shoes","s-time","s-down","s-champ"].forEach(function(i){$(i).addEventListener("input",calc);$(i).addEventListener("change",calc);});
-  calc();
-  fetch("https://api.open-meteo.com/v1/forecast?latitude=46.8027&longitude=9.8360&elevation=1560&current=temperature_2m&timezone=Europe%2FZurich")
-   .then(function(r){return r.json();}).then(function(d){T=d.current.temperature_2m;$("s-temp").textContent="Outside right now in Davos: "+Math.round(T)+" °C"+(T<=0?". Ice likely.":".");calc();})
-   .catch(function(){$("s-temp").textContent="Live temperature not reachable. We assume −5 °C, which is optimistic.";});
-})();
+  ["pf","pt","pw"].forEach(function(i){$(i).addEventListener("change",calc);$(i).addEventListener("input",calc);});
+  $("pme").addEventListener("click",function(){
+    var btn=this;if(!navigator.geolocation){btn.textContent="Not on this device";return;}
+    btn.textContent="Finding you…";
+    navigator.geolocation.getCurrentPosition(function(pos){
+      var c=[pos.coords.longitude,pos.coords.latitude];
+      if(dist(c,[9.83,46.80])>8000){btn.textContent="You're not in Davos";$("pd").textContent="You're not in Davos yet. Pick a station as your start: Davos Platz or Dorf.";return;}
+      me=c;var o=$("pf").querySelector('option[value="me"]');o.disabled=false;$("pf").value="me";btn.textContent="Found you";
+      if(!meMk){var el=document.createElement("div");el.className="m3me";el.setAttribute("aria-label","You are here");meMk=new maplibregl.Marker({element:el}).setLngLat(c).addTo(map);}else meMk.setLngLat(c);
+      calc();
+    },function(){btn.textContent="Location blocked";},{enableHighAccuracy:true,timeout:10000,maximumAge:60000});
+  });
+  /* re-check pins against the official address register (swisstopo) */
+  P.filter(function(p){return p.chk;}).forEach(function(p){
+    fetch("https://api3.geo.admin.ch/rest/services/ech/SearchServer?type=locations&sr=4326&limit=1&searchText="+encodeURIComponent(p.chk))
+    .then(function(r){return r.json();}).then(function(d){var f=d&&d.results&&d.results[0];if(!f||!f.attrs)return;
+      var c=[f.attrs.lon,f.attrs.lat];if(dist(c,p.c)<400){p.c=c;mk[p.id].setLngLat(c);calc();}}).catch(function(){});
+  });
+  if(wefWeek())$("py").textContent="WEF week: paths close at short notice. Check the official map.";
+});
 </script>
 </body></html>
