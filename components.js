@@ -46,7 +46,7 @@
         '<div><b>1414</b><span>Rega air rescue</span></div>' +
         '<div><b>112</b><span>European emergency</span></div>' +
         '</div><p style="margin-top:12px;"><a href="' + base + 'sos/index.html">SOS page →</a></p></div></div>' +
-        '<div class="footer-legal"><span><a href="' + base + 'about/index.html">About</a> · Independent. Not affiliated with or endorsed by the World Economic Forum.</span><span>© OFF DAVOS</span></div>' +
+        '<div class="footer-legal"><span><a href="' + base + 'contact/index.html#about">About</a> · Independent. Not affiliated with or endorsed by the World Economic Forum.</span><span>© OFF DAVOS</span></div>' +
         '</div></footer>';
     }
 
